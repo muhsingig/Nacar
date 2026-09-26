@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nácar Onda · The world, turned down.</title>
+<meta name="description" content="Nácar Onda wireless earbuds with adaptive noise cancellation, spatial audio and up to 40 hours of listening. ₹24,900.">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/onda-pair-cut.webp" as="image" media="(min-width: 735px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+/* ===================================================== onda.html only ==
+   Same contract as faro.html: every scroll-driven value reads a page
+   variable (--p) that mirrors the engine's --sc-p, so html.rm can pin it
+   to a still frame.                                                      */
+/* Two-tier chrome, as on faro.html: the global bar stays on top and the
+   product capsule sticks just under it, so both are visible from scroll 0
+   onward. --chrome is the height every stage keeps clear at its top. */
+:root { --chrome: 104px; }
+.gnav { position: sticky; top: 0; }
+.lnav { top: 52px; }
+section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
+
+/* ------------------------------------------------------------ 1 · HERO --
+   Staged like a product shot: the pair large and centred on black with
+   clear air under the capsule, and one copy row under it: a small label,
+   the statement at display size and a regular-weight subline on the left
+   content edge, the price and Buy on the same baseline at the right. The
+   hero is one viewport (minus the 44px bar), so later sections start on
+   viewport boundaries. Depth as it scrolls away (h: 0 at load, 1 gone):
+     glow   engine parallax -0.9 and a slow swell
+     pair   rises 6svh faster than the page and eases back to 0.94
+     copy   rides the page at 1x                                          */
+.hero {
+  --p: var(--sc-p, 0);
+  --h: clamp(0, calc((var(--p) - 0.49) / 0.51), 1);
+  --top: calc(var(--chrome) - 44px + 40px);   /* 40px of air under the chrome */
+  position: relative; height: calc(100svh - 44px); min-height: 640px; overflow: clip;
+  background: var(--obsidian);
+}
+.hero__glow-plane { position: absolute; inset: 0; pointer-events: none; }
+.hero__glow {
+  position: absolute; left: 50%; top: 38%;
+  width: min(100vmin, 900px); aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(255, 255, 255, 0.085) 0%, rgba(255, 255, 255, 0.034) 45%, rgba(255, 255, 255, 0.01) 72%, transparent 100%);
+  transform: scale(calc(1 + var(--h) * 0.25));
+}
+.hero__pair {
+  position: absolute; z-index: 1; left: 50%; top: var(--top);
+  height: calc(100svh - 44px - var(--top) - 212px); min-height: 380px; width: auto; max-width: none;
+  transform-origin: 50% 40%;
+  transform: translateX(-50%) translateY(calc(var(--h) * -6svh)) scale(calc(1 - var(--h) * 0.06));
+  /* the stems meet the floor at 72.5%; the reflection is only a glint,
+     gone by 81%, so the copy row below sits on clean black */
+  -webkit-mask-image: linear-gradient(to bottom, #000 72.5%, transparent 81%);
+          mask-image: linear-gradient(to bottom, #000 72.5%, transparent 81%);
+}
+.hero__copy {
+  position: absolute; z-index: 2; left: var(--edge); right: var(--edge); bottom: max(40px, 5.5svh);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+}
+.hero__text { display: flex; flex-direction: column; gap: 14px; }
+.hero__text .t-display { margin-top: 2px; }
+.hero__sub { font-size: 21px; line-height: 1.38; font-weight: 400; letter-spacing: 0.011em; color: var(--ash); }
+@media (max-width: 734px) {
+  .hero { --top: calc(var(--chrome) - 44px + 28px); }
+  .hero__glow { top: 34%; }
+  .hero__pair { width: 106vw; height: auto; min-height: 0; }
+  .hero__copy { flex-direction: column; align-items: flex-start; gap: 22px; bottom: max(32px, 5svh); }
+  .hero__text { gap: 10px; }
+  .hero__sub { font-size: 17px; line-height: 1.47; }
+}
+
+/* ----------------------------------------------------------- 2 · INTRO --
+   Exactly one viewport, content centred.                                 */
+.intro { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--chrome) + 24px) 72px; }
+.intro__lede { color: var(--ash); max-width: 34em; }
+.intro__lede strong { color: var(--porcelain); }
+.intro__stats { margin-top: 96px; max-width: 820px; }
+@media (max-width: 734px) {
+  .intro { padding-block: calc(var(--chrome) + 16px) 48px; }
+  .intro__stats { margin-top: 56px; }
+}
+
+/* ------------------------------------------------------------ 3 · PEAK --
+   The city fades. The song stays. The bud floats in a field of city noise
+   (a dozen jagged lines). Scroll turns the city down: line by line each one
+   flattens (k) and dims, until only the song (s) is left, one clean wave,
+   drawn in as the noise dies. A bubble of quiet stays open around the bud. */
+.peak {
+  --p: var(--sc-p, 0);
+  --k: clamp(0, calc((var(--p) - 0.08) / 0.62), 1);
+  --s: clamp(0, calc((var(--p) - 0.34) / 0.44), 1);
+  --plate-h: min(100svh, 730px);   /* 730 x 1.05 max scale stays within the 768px render */
+  --bud-x: 67vw;              /* where the bud sits */
+  --bud-y: 64svh;
+  --song-w: 1.4;
+}
+.peak__stage { background: var(--obsidian); }
+.peak__plate {
+  position: absolute; z-index: 1;
+  height: var(--plate-h); aspect-ratio: 1376 / 768;
+  left: calc(var(--bud-x) - var(--plate-h) * 1.2004);    /* 1.7917 x 0.67 */
+  top: calc(var(--bud-y) - var(--plate-h) * 0.495);
+}
+.peak__bud {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+  transform-origin: 67% 49.5%;
+  transform: scale(calc(1.05 - var(--k) * 0.05));
+  filter: brightness(calc(0.72 + var(--k) * 0.28));
+}
+.peak__field {
+  position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none;
+  /* the lines pass BEHIND the bud: a holdout of its silhouette (alpha 0 on
+     the bud, soft 5px edge), intersected with the fade on the left */
+  -webkit-mask-image: url("assets/onda-solo-holdout.png"), linear-gradient(to right, transparent 8%, #000 26%);
+  -webkit-mask-size: 100% 100%, 100% 100%; -webkit-mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in;
+          mask-image: url("assets/onda-solo-holdout.png"), linear-gradient(to right, transparent 8%, #000 26%);
+          mask-size: 100% 100%, 100% 100%; mask-repeat: no-repeat;
+          mask-composite: intersect;
+}
+.peak__city path {
+  fill: none; stroke: rgba(245, 245, 247, 0.3); stroke-width: 1; vector-effect: non-scaling-stroke;
+  transform-box: view-box; transform-origin: 50% 50%;
+  --q: clamp(0, calc((var(--k) - var(--i) * 0.04) / 0.52), 1);
+  transform: scaleY(calc(1 - var(--q) * 0.985));
+  opacity: calc(1 - var(--q) * 0.82);
+}
+.peak__song {
+  fill: none; stroke: var(--porcelain); stroke-width: var(--song-w); stroke-linecap: round;
+  stroke-dasharray: 1 1; stroke-dashoffset: calc(1 - var(--s));
+  opacity: clamp(0, calc(var(--s) * 8), 1);
+}
+.peak__copy {
+  position: absolute; z-index: 4; left: var(--edge); top: calc(var(--chrome) + 36px);
+  width: min(46rem, 54vw);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.peak__copy h2 > span { display: block; }
+/* The second line is there from the start as a faint ghost and comes up to
+   full strength as the city fades, so the block never has a hole in it. */
+.peak__l2 { opacity: calc(0.14 + clamp(0, calc((var(--p) - 0.46) / 0.16), 1) * 0.86); }
+.peak__sub { font-size: 21px; line-height: 1.38; font-weight: 400; letter-spacing: 0.011em; color: var(--ash); max-width: 36em; }
+@media (max-width: 734px) {
+  .peak { --plate-h: 104vw; --bud-x: 50vw; --bud-y: 65svh; --song-w: 2.8; }
+  .peak__field {
+    -webkit-mask-image: url("assets/onda-solo-holdout.png"); -webkit-mask-size: 100% 100%;
+            mask-image: url("assets/onda-solo-holdout.png");         mask-size: 100% 100%;
+  }
+  .peak__sub { font-size: 17px; line-height: 1.47; }
+  .peak__copy { right: var(--edge); width: auto; top: calc(var(--chrome) + 3svh); gap: 12px; }
+}
+
+/* ------------------------------------------------------------- 4 · ANC --
+   Pointer act: three modes, one tile. The waves redraw per mode.         */
+.anc { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--chrome) + 24px) 40px; }
+.anc > .wrap-wide { flex: none; }
+.anc__h { margin-bottom: 48px; }
+.anc__stage { padding: 44px clamp(24px, 5vw, 64px) 48px; }
+.anc__chips { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+.wrow { display: grid; grid-template-columns: 132px 1fr; align-items: center; gap: 24px; padding: 10px 0; border-top: 1px solid var(--steel); }
+.wrow:first-child { border-top: 0; }
+.wrow span { font-size: 14px; line-height: 1.43; color: var(--ash); }
+.wrow svg { width: 100%; height: 64px; display: block; overflow: visible; }
+.wrow .base { stroke: var(--steel); stroke-width: 1; stroke-dasharray: 2 7; vector-effect: non-scaling-stroke; }
+.wrow path { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+.wrow .w-noise { stroke: var(--ash); }
+.wrow .w-anti  { stroke: var(--slate); }
+.wrow .w-out   { stroke: var(--porcelain); stroke-width: 2.5; }
+.wrow.you span { color: var(--porcelain); }
+.anc__copy { color: var(--ash); max-width: 44ch; margin-top: 24px; min-height: 4.4em; transition: opacity var(--d-ui) var(--ease); }
+.anc__copy strong { color: var(--porcelain); }
+@media (max-width: 734px) {
+  .anc { padding-block: calc(var(--chrome) + 14px) 16px; }
+  .anc__h { margin-bottom: 24px; }
+  .anc__stage { padding: 24px 20px 28px; }
+  .anc__chips { gap: 8px; margin-bottom: 18px; }
+  .anc__chips .chip { padding: 10px 14px; font-size: 14px; }
+  .wrow { grid-template-columns: 1fr; gap: 2px; }
+  .wrow svg { height: 44px; }
+  .anc__copy { font-size: 14px; min-height: 6em; }
+}
+
+/* ----------------------------------------------------------- 5 · SOUND --
+   Pin + reveal. One composed frame: heading, the pair full bleed, the three
+   figures. Reveal: the pair opens from a soft studio spotlight (it already
+   holds both buds on arrival, so the frame is never empty) to the full
+   frame. A soft-edged iris driven from --p, because a clip-path circle
+   would slice the shells with a hard edge mid-reveal.                   */
+.snd { --p: var(--sc-p, 0); }
+.snd__stage { background: var(--obsidian); }
+.snd__frame {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  padding: calc(var(--chrome) + 96px) var(--edge) 40px;   /* 96px below the capsule */
+}
+.snd__h { margin-bottom: 20px; }
+.snd__fig { position: relative; flex: 1; min-height: 0; margin-inline: calc(var(--edge) * -1); overflow: hidden; }
+.snd__fig {
+  --r0: 30vw;
+  --r: calc(var(--r0) + var(--o) * 90vw);             /* spotlight radius */
+  --o: clamp(0, calc(var(--p) / 0.6), 1);
+  -webkit-mask-image: radial-gradient(ellipse var(--r) calc(var(--r) * 0.72) at 50% 44%, #000 52%, transparent 100%),
+                      linear-gradient(to bottom, #000 76%, transparent 97%);
+  -webkit-mask-composite: source-in;
+          mask-image: radial-gradient(ellipse var(--r) calc(var(--r) * 0.72) at 50% 44%, #000 52%, transparent 100%),
+                      linear-gradient(to bottom, #000 76%, transparent 97%);
+          mask-composite: intersect;
+}
+/* The render's height is set so the buds (23-78% of it) and a short piece of
+   floor reflection fill the frame: 21% to 87% of the render is in view.  */
+.snd__fig img {
+  position: absolute; left: 50%; top: 0; height: calc(100% / 0.66); width: auto; max-width: none;
+  transform: translate(-50%, -21%);
+}
+.snd__stats { margin-top: 20px; }
+@media (max-width: 734px) {
+  .snd__frame { padding: calc(var(--chrome) + 64px) var(--edge) 24px; }
+  .snd__h { margin-bottom: 12px; }
+  .snd__stats { grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+  .snd__stats .num { font-size: 32px; }
+  .snd__stats .cap { display: none; }                  /* the pair gets the height */
+  .snd__fig { --r0: 64vw; }
+  /* the buds span the middle half of the render: 184vw puts both, whole, in 92vw */
+  .snd__fig img { left: 50%; top: 50%; width: 184vw; height: auto; transform: translate(-50%, -54%); }
+}
+
+/* -------------------------------------------------------- 6 · CONTROLS --
+   Pan on carbon, like Faro's materials. The heading holds above the rail on
+   the content column, so it is on screen with the cards at every rest
+   point. Card width and gap are set so each end of the travel is a whole
+   frame: desktop shows two cards per column (gap = the page edge, so the
+   card leaving is fully out), mobile one. Cards settle in sequence.       */
+.ctl { --p: var(--sc-p, 0); }
+.ctl__stage { background: var(--carbon); display: flex; flex-direction: column; }
+.ctl__head { flex: none; padding: calc(var(--chrome) + 36px) var(--edge) 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.ctl__head .t-body { color: var(--ash); }
+.ctl__rail {
+  width: max-content; flex: 1; min-height: 0; margin-bottom: 44px;
+  gap: var(--edge); padding-inline: var(--edge); align-items: stretch;
+}
+.ctl__card { flex: 0 0 calc((100vw - 3 * var(--edge)) / 2); display: flex; flex-direction: column; }
+.ctl__media { position: relative; flex: 1; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent);
+          mask-image: linear-gradient(to bottom, #000 74%, transparent); }
+/* Each crop names its focus point (fx, fy in % of the render) and a zoom
+   (the render's height as % of the card), and the focus lands centre.   */
+.ctl__media img {
+  position: absolute; left: 50%; top: 50%; height: var(--h); width: auto; max-width: none;
+  transform: translate(calc(var(--fx) * -1%), calc(var(--fy) * -1%));
+}
+/* Zooms are capped so no crop is shown above its native pixels at 1440x900
+   (render height x zoom stays under the source height): studio bud 768px,
+   pair 1340px, card media about 520px tall.                               */
+.c-sq { --h: 132%; --fx: 67; --fy: 50; }      /* the whole bud, three-quarter */
+.c-sl { --h: 230%; --fx: 49.8; --fy: 63; }    /* both ridged stems, side by side */
+.c-ho { --h: 230%; --fx: 37; --fy: 37; }      /* the dome and its pearl (right bud kept out) */
+.ctl__cap { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 32px 28px; }
+.ctl__cap p { color: var(--ash); max-width: 30em; }
+.ctl__cap strong { color: var(--porcelain); }
+.glyph { flex: none; width: 56px; height: 56px; stroke: var(--ash); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+@media (prefers-reduced-motion: no-preference) {
+  .ctl__card {
+    --arr: clamp(0, calc((var(--p) - var(--a)) / 0.16 + 1), 1);
+    opacity: calc(0.55 + var(--arr) * 0.45);
+    transform: translateY(calc((1 - var(--arr)) * 28px));
+  }
+}
+.ctl__card:nth-of-type(1) { --a: 0; }
+.ctl__card:nth-of-type(2) { --a: 0; }
+.ctl__card:nth-of-type(3) { --a: 0.5; }
+@media (max-width: 734px) {
+  .ctl__head { gap: 10px; padding: calc(var(--chrome) + 20px) var(--edge) 22px; }
+  .ctl__rail { margin-bottom: 28px; }
+  .ctl__card { flex-basis: calc(100vw - 2 * var(--edge)); }
+  .c-ho { --fx: 41; }
+  .ctl__cap { padding: 0 22px 22px; gap: 14px; }
+  .glyph { width: 44px; height: 44px; }
+}
+
+/* --------------------------------------------------------- 7 · BATTERY -- */
+/* One viewport: the claim and the four figures on the left, a detail of the
+   open case (buds seated, the pearl seam) in a tile on the right.        */
+.bat { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--chrome) + 24px) 48px; }
+.bat__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: center; }
+.bat__head { margin-bottom: 56px; }
+.bat .stats { grid-template-columns: repeat(2, 1fr); gap: 40px 32px; }
+.bat__fig { height: min(calc(100svh - var(--chrome) - 140px), 640px); }
+/* The whole open case, drawn below native size (86% of the tile is 550px
+   of a 768px render at 1440x900), its centre on the tile's centre.      */
+.bat__fig img {
+  position: absolute; left: 50%; top: 50%; height: 86%; width: auto; max-width: none;
+  transform: translate(-50.65%, -54%);
+}
+@media (max-width: 734px) {
+  .bat__grid { grid-template-columns: 1fr; gap: 28px; }
+  .bat__fig { order: -1; height: 54vw; }
+  .bat__head { margin-bottom: 28px; }
+  .bat .stats { gap: 28px 20px; }
+}
+
+/* ------------------------------------------------------------- 8 · BUY --
+   The page stops. Copy holds; the case settles to rest.                  */
+.buy { --p: var(--sc-p, 0); }
+.buy__stage { background: var(--obsidian); }
+.buy__img {
+  position: absolute; z-index: 1; max-width: none;
+  --bh: min(92svh, 730px);          /* 730 x 1.05 stays within the 768px render */
+  height: var(--bh); width: auto; left: calc(30vw - var(--bh) * 0.9066); top: calc(52svh - var(--bh) / 2);
+  transform: scale(calc(1.05 - var(--p) * 0.05)); transform-origin: 50% 55%;
+  /* short reflection: the stage's bottom band stays black, so the last
+     screen (stage bottom + notes + footer) never shows a cut-off case */
+  -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 90%);
+          mask-image: linear-gradient(to bottom, #000 76%, transparent 90%);
+}
+.buy__copy {
+  position: absolute; z-index: 2; left: 55vw; right: var(--edge); top: 0; bottom: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 24px;
+}
+.buy__copy .t-body { color: var(--ash); }
+.buy__ctas { display: flex; align-items: center; gap: 28px; margin-top: 8px; flex-wrap: wrap; }
+
+/* ------------------------------------------------------------ FOOTNOTES --
+   Only as tall as the notes. Kept short so that on the last screen notes
+   and footer fit together below the sticky capsule, on mobile as well.   */
+.notes { background: var(--carbon); color: var(--ash); font-size: 12px; line-height: 1.5; padding: 64px 0 0; }
+.notes ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.notes li { max-width: 88ch; }
+/* Mobile: the band's top padding is sized so notes + footer fill the whole
+   last screen (the buy stage is fully gone, nothing peeks under the bars);
+   the notes text lands 120px down, clear of the chrome.                  */
+@media (max-width: 734px) { .notes { line-height: 1.4; padding-top: 124px; } .notes ol { gap: 4px; } }
+@media (max-width: 734px) {
+  .buy__img { width: 150vw; height: auto; left: 50%; top: calc(var(--chrome) - 24px); transform: translateX(-50%) scale(calc(1.05 - var(--p) * 0.05)); }
+  .buy__copy { left: var(--edge); top: auto; bottom: 6svh; gap: 18px; }
+}
+
+/* --------------------------------------------------- MOTION OFF (html.rm) --
+   site.js has already turned the pinned acts into flow. Draw each stage
+   as one still, complete frame.                                          */
+html.rm .hero { --h: 0; }
+html.rm .buy { --p: 0; }
+html.rm .snd { --p: 1; }
+html.rm .peak { --p: 1; }
+html.rm .ctl { --p: 1; }
+html.rm :is(.peak__stage, .snd__stage, .buy__stage) { position: relative; height: 100svh; overflow: clip; }
+html.rm .ctl__stage { display: block; padding: var(--pad-section) var(--edge); }
+html.rm .ctl__rail {
+  display: grid; width: auto; height: auto; padding: 0; margin: 0;
+  grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+html.rm .ctl__head { padding: 0 0 32px; }
+html.rm .ctl__card { height: 600px; }
+@media (max-width: 734px) {
+  html.rm .ctl__rail { grid-template-columns: 1fr; }
+  html.rm .ctl__card { height: 520px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="gnav" aria-label="Global"><div class="gnav__in">
+  <a class="gnav__logo" href="index.html"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
+  <div class="gnav__links">
+    <a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html" aria-current="page">Onda</a><a href="#">Soporte</a>
+  </div>
+  <a class="gnav__bag" href="#" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<nav class="lnav lnav--overlay" aria-label="Nácar Onda">
+  <span class="lnav__name">Nácar Onda</span>
+  <div class="lnav__right">
+    <a href="#noise">Noise</a><a class="lnav__opt" href="#sound">Sound</a><a class="lnav__opt" href="#battery">Battery</a>
+    <a class="pill pill-buy pill-sm" href="#buy">Buy</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- 1 · HERO · stillness. the product, staged; depth as it scrolls away -->
+  <section class="hero" id="top" data-sc-act="flow">
+    <div class="hero__glow-plane" data-sc-parallax="-0.9" aria-hidden="true"><div class="hero__glow"></div></div>
+    <picture>
+      <source media="(max-width: 734px)" srcset="assets/onda-pair-cut-m.webp">
+      <img class="hero__pair" src="assets/onda-pair-cut.webp" width="1320" height="1070"
+           alt="Two black Nácar Onda earbuds face to face, each with a mother-of-pearl disc above a finely ridged stem">
+    </picture>
+    <div class="hero__copy">
+      <div class="hero__text">
+        <h1 class="t-label">Nácar Onda</h1>
+        <p class="t-display">The world,<br> turned down.</p>
+        <p class="hero__sub">Cancels up to 3× more noise than our previous earbuds.</p>
+      </div>
+      <p class="price-capsule">₹24,900 <a class="pill pill-buy" href="#buy">Buy</a></p>
+    </div>
+  </section>
+
+  <!-- 2 · INTRO · curiosity. flow + entry counters -->
+  <section class="intro section band" id="overview">
+    <div class="wrap-wide">
+      <p class="t-subtitle intro__lede" data-sc-in>Meet Nácar Onda. <strong>Our most effective noise cancellation yet</strong>, run by a chip that answers every sound around you with its exact opposite. <strong>Softer, deeper-sealing tips</strong> close the gaps other earbuds leave open, and <strong>six beam-forming microphones</strong> keep your voice clear on the loudest street. On the outside, <strong>a disc of polished mother-of-pearl</strong> marks each bud. Nácar, after all, means pearl.</p>
+      <div class="stats stats--2 intro__stats" data-sc-in data-sc-stagger="80">
+        <div class="stat"><p class="eyebrow">Cancels up to</p><p class="num"><span data-sc-count="0 3">3</span>× more</p><p class="cap">low-frequency noise than our previous earbuds</p></div>
+        <div class="stat"><p class="eyebrow">Retunes itself</p><p class="num"><span data-sc-count="0 48,000">48,000</span></p><p class="cap">times a second as the world around you changes</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PEAK · relief. pin, the longest span. Scroll turns the city down. -->
+  <section class="peak" id="noise" data-sc-act="pin" data-sc-span="3">
+    <div data-sc-stage class="peak__stage">
+      <div class="peak__plate">
+        <picture>
+          <source media="(max-width: 734px)" srcset="assets/onda-solo-studio-m.webp">
+          <img class="peak__bud" src="assets/onda-solo-studio-sharp.webp" width="1376" height="768"
+               alt="A single Nácar Onda earbud floating in darkness, a soft white rim light along its edge and the pearl disc catching the light">
+        </picture>
+        <svg class="peak__field" viewBox="0 0 1376 768" preserveAspectRatio="none" aria-hidden="true">
+          <g class="peak__city"></g>
+          <path class="peak__song" pathLength="1"/>
+        </svg>
+      </div>
+      <div class="peak__copy">
+        <p class="t-label" data-sc-cue="0 1.1 0 0.02">Adaptive Noise Cancellation</p>
+        <h2 class="t-display"><span data-sc-cue="0 1.1 0 0.02">The city fades.</span> <span class="peak__l2">The song stays.</span></h2>
+        <p class="peak__sub" data-sc-cue="0 1.1 0 0.02">Onda listens 48,000 times a second and cancels what it hears.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · ANC MODES · understanding. pointer: the reader picks, the waves answer -->
+  <section class="anc section" id="modes">
+    <div class="wrap-wide">
+      <h2 class="t-display anc__h" data-sc-in>Every sound meets its opposite.</h2>
+      <div class="tile tile--graphite anc__stage" data-sc-in>
+        <div class="anc__chips" role="group" aria-label="Listening mode">
+          <button class="chip" type="button" aria-pressed="true" data-mode="anc" data-copy="Onda plays a precise mirror image of everything it hears. &lt;strong&gt;The two waves meet and cancel&lt;/strong&gt;, and what reaches your ear is close to silence.">Noise Cancellation</button>
+          <button class="chip" type="button" aria-pressed="false" data-mode="adp" data-copy="Onda answers only the steady drone of engines and air-conditioning, &lt;strong&gt;so voices, announcements and sirens still come through.&lt;/strong&gt;">Adaptive</button>
+          <button class="chip" type="button" aria-pressed="false" data-mode="trn" data-copy="Onda stays silent and the outer microphones pass the world through, so &lt;strong&gt;you can talk, order a coffee or cross the road&lt;/strong&gt; without taking it out.">Transparency</button>
+        </div>
+        <div class="wrow"><span>Outside</span><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><line class="base" x1="0" y1="50" x2="1000" y2="50"/><path class="w-noise" id="w-noise"/></svg></div>
+        <div class="wrow"><span>Onda answers</span><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><line class="base" x1="0" y1="50" x2="1000" y2="50"/><path class="w-anti" id="w-anti"/></svg></div>
+        <div class="wrow you"><span>You hear</span><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><line class="base" x1="0" y1="50" x2="1000" y2="50"/><path class="w-out" id="w-out"/></svg></div>
+        <p class="anc__copy t-body" id="anc-copy" aria-live="polite">Onda plays a precise mirror image of everything it hears. <strong>The two waves meet and cancel</strong>, and what reaches your ear is close to silence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · SOUND · immersion. pin + reveal (soft iris from --p) -->
+  <section class="snd" id="sound" data-sc-act="pin" data-sc-span="2">
+    <div data-sc-stage class="snd__stage">
+      <div class="snd__frame">
+        <h2 class="t-headline snd__h">Sound that stays put when you turn your head.</h2>
+        <figure class="snd__fig">
+          <picture>
+            <source media="(max-width: 734px)" srcset="assets/onda-pair-m.webp">
+            <img src="assets/onda-pair.webp" width="2400" height="1340"
+                 alt="The two Onda buds facing each other on a dark mirror floor, left and right, their pearl discs lit">
+          </picture>
+        </figure>
+        <div class="stats stats--3 snd__stats">
+          <div class="stat"><p class="eyebrow">Custom driver</p><p class="num">11<small>mm</small></p><p class="cap">with a low-distortion amplifier for deep, clean bass</p></div>
+          <div class="stat"><p class="eyebrow">Spatial audio</p><p class="num">360°</p><p class="cap">with head tracking that anchors a film to your screen</p></div>
+          <div class="stat"><p class="eyebrow">Lossless, up to</p><p class="num">96<small>kHz</small></p><p class="cap">24-bit from a paired Nácar Faro</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · CONTROLS · confidence. pan across three gestures -->
+  <section class="ctl" id="design" data-sc-act="pan" data-sc-span="2">
+    <div data-sc-stage class="ctl__stage">
+      <div class="ctl__head">
+        <h2 class="t-headline">The grooves are the remote.</h2>
+        <p class="t-body">Every control lives on the bud itself, so your phone can stay in your pocket.</p>
+      </div>
+      <div class="ctl__rail" data-sc-pan="0">
+        <article class="ctl__card tile">
+          <div class="ctl__media c-sq">
+            <picture><source media="(max-width: 734px)" srcset="assets/onda-solo-studio-m.webp">
+            <img src="assets/onda-solo-studio-sharp.webp" width="1376" height="768" alt="A single Onda bud, three-quarter view, stem angled down" loading="lazy"></picture>
+          </div>
+          <div class="ctl__cap">
+            <p><strong>Squeeze.</strong> Play, pause or answer a call. Twice to skip ahead.</p>
+            <svg class="glyph" viewBox="0 0 72 72" aria-hidden="true"><rect x="29" y="12" width="14" height="48" rx="7"/><path d="M8 36h13M17 32l4 4-4 4M64 36H51M55 32l-4 4 4 4"/></svg>
+          </div>
+        </article>
+        <article class="ctl__card tile">
+          <div class="ctl__media c-sl">
+            <img src="assets/onda-pair-detail.webp" width="2400" height="1340" alt="Close view of the two finely ridged Onda stems" loading="lazy">
+          </div>
+          <div class="ctl__cap">
+            <p><strong>Slide.</strong> Run a finger along the grooves to raise or lower the volume.</p>
+            <svg class="glyph" viewBox="0 0 72 72" aria-hidden="true"><rect x="22" y="12" width="14" height="48" rx="7"/><path d="M25 26c2-2 6-2 8 0M25 34c2-2 6-2 8 0M25 42c2-2 6-2 8 0M52 18v36M48 22l4-4 4 4M48 50l4 4 4-4"/></svg>
+          </div>
+        </article>
+        <article class="ctl__card tile">
+          <div class="ctl__media c-ho">
+            <img src="assets/onda-pair-detail.webp" width="2400" height="1340" alt="The polished mother-of-pearl disc on an Onda bud" loading="lazy">
+          </div>
+          <div class="ctl__cap">
+            <p><strong>Hold the pearl.</strong> Touch and hold the disc to move between Noise Cancellation, Adaptive and Transparency.</p>
+            <svg class="glyph" viewBox="0 0 72 72" aria-hidden="true"><rect x="29" y="12" width="14" height="48" rx="7"/><circle cx="36" cy="36" r="24" stroke-dasharray="3 5"/></svg>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · BATTERY · reassurance. entry counters -->
+  <section class="bat" id="battery">
+    <div class="wrap-wide bat__grid">
+      <div>
+      <h2 class="t-hero bat__head" data-sc-in>Forty hours.<br> One pocket.</h2>
+      <div class="stats" data-sc-in data-sc-stagger="80">
+        <div class="stat"><p class="eyebrow">Per charge</p><p class="num"><span data-sc-count="0 8">8</span><small>h</small></p><p class="cap">of listening with noise cancellation on</p></div>
+        <div class="stat"><p class="eyebrow">With the case</p><p class="num"><span data-sc-count="0 40">40</span><small>h</small></p><p class="cap">in total, topped up by USB‑C or wireless</p></div>
+        <div class="stat"><p class="eyebrow">Quick charge</p><p class="num"><span data-sc-count="0 5">5</span><small>min</small></p><p class="cap">in the case gives about an hour of play</p></div>
+        <div class="stat"><p class="eyebrow">Earbuds and case</p><p class="num">IP57</p><p class="cap">dust, sweat and water resistant</p></div>
+      </div>
+      </div>
+      <figure class="tile bat__fig" data-sc-in>
+        <picture><source media="(max-width: 734px)" srcset="assets/onda-case-m.webp">
+        <img src="assets/onda-case-sharp.webp" width="1376" height="768" loading="lazy"
+             alt="The open Onda case: both buds seated, a thin line of mother-of-pearl along the seam"></picture>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 8 · BUY · resolution. short pin, copy holds -->
+  <section class="buy" id="buy" data-sc-act="pin" data-sc-span="2">
+    <div data-sc-stage class="buy__stage">
+      <picture><source media="(max-width: 734px)" srcset="assets/onda-case-m.webp">
+      <img class="buy__img" src="assets/onda-case-sharp.webp" width="1376" height="768" loading="lazy"
+           alt="The open Nácar Onda charging case, both buds seated, a thin line of mother-of-pearl along the lid seam"></picture>
+      <div class="buy__copy">
+        <h2 class="t-display" data-sc-cue="0 1 0 0">Your quiet<br> is ready.</h2>
+        <p class="t-body" data-sc-cue="0 1 0 0">₹24,900 or ₹2,075/mo. with no-cost EMI.</p>
+        <div class="buy__ctas" data-sc-cue="0 1 0 0"><a class="pill pill-buy pill-lg" href="#">Buy</a><a class="link-more" href="#">Compare all models</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notes" aria-label="Footnotes">
+    <div class="wrap">
+      <ol>
+        <li>Noise cancellation compared with our previous earbuds, in low-frequency pink noise under lab conditions.</li>
+        <li>Battery life with noise cancellation on at 50% volume. Varies with use and settings.</li>
+        <li>Lossless at up to 24-bit/96 kHz needs a paired Nácar Faro.</li>
+        <li>IP57 under IEC 60529 in lab conditions. Not for swimming.</li>
+        <li>No-cost EMI on select cards. Terms apply.</li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__brand">
+      <img src="brand/nacar-logo-stacked.svg" alt="nácar" width="79" height="96">
+      <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
+    </div>
+    <div class="foot__cols">
+      <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
+      <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+    </div>
+    <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+  </div>
+</footer>
+
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+<script>
+/* Drawn waves. Deterministic, so every visit (and every screenshot) is the same. */
+(function () {
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  function path(x0, x1, step, y) {
+    var d = '';
+    for (var x = x0; x <= x1; x += step) d += (x === x0 ? 'M' : 'L') + x + ' ' + y(x).toFixed(1);
+    return d;
+  }
+
+  /* Peak: the city. A dozen jagged lines (drone + bursts of voices, horns),
+     each carrying its own --i so they quiet one after another. */
+  var city = document.querySelector('.peak__city');
+  if (city) {
+    var NS = 'http://www.w3.org/2000/svg', C = 384;
+    for (var i = 0; i < 12; i++) {
+      var A = 26 + rnd() * 60, f1 = 0.006 + rnd() * 0.014, f2 = 0.03 + rnd() * 0.05, ph = rnd() * 6.28;
+      var bx = 400 + rnd() * 900, bw = 40 + rnd() * 90, bf = 0.12 + rnd() * 0.16;
+      var p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', path(0, 1376, 4, function (x) {
+        var burst = Math.exp(-Math.pow((x - bx) / bw, 2)) * Math.sin(x * bf) * 0.6;
+        return C + A * (0.6 * Math.sin(x * f1 + ph) + 0.3 * Math.sin(x * f2 + ph * 1.7) + burst);
+      }));
+      p.style.setProperty('--i', i);
+      city.appendChild(p);
+    }
+    /* The song: one clean wave, long and even. */
+    var song = document.querySelector('.peak__song');
+    song.setAttribute('d', path(0, 1376, 4, function (x) {
+      return C + 26 * Math.sin(x * 0.024 + 0.8);
+    }));
+  }
+})();
+
+/* ANC modes: one pressed chip at a time; the three waves redraw. */
+(function () {
+  function drone(x) { return 0.52 * Math.sin(x * 0.011 + 0.4) + 0.22 * Math.sin(x * 0.027 + 1.3); }
+  function voice(x) { var e = Math.exp(-Math.pow((x - 290) / 70, 2)) + Math.exp(-Math.pow((x - 720) / 90, 2)); return e * 0.42 * Math.sin(x * 0.17); }
+  // Each mode is how much of the drone / the voices Onda answers with an inverted wave.
+  var MODES = { anc: [1, 1], adp: [1, 0], trn: [0, 0] };
+  function path(fn) { var d = ''; for (var x = 0; x <= 1000; x += 3) d += (x ? 'L' : 'M') + x + ' ' + (50 - fn(x) * 44).toFixed(2); return d; }
+  var pN = document.getElementById('w-noise'), pA = document.getElementById('w-anti'), pO = document.getElementById('w-out');
+  if (!pN) return;
+  pN.setAttribute('d', path(function (x) { return drone(x) + voice(x); }));
+  var cur = [1, 1];
+  function draw(c) {
+    var r = 0.03; // a sliver of residue keeps "near silence" honest
+    pA.setAttribute('d', path(function (x) { return -(c[0] * drone(x) + c[1] * voice(x)) * (1 - r * c[0]); }));
+    pO.setAttribute('d', path(function (x) { var a = c[0] * (1 - r), b = c[1] * (1 - r); return (1 - a) * drone(x) + (1 - b) * voice(x); }));
+  }
+  draw(cur);
+  var reduce = window.Nacar && Nacar.reduce, raf, tm;
+  function tween(to) {
+    cancelAnimationFrame(raf);
+    if (reduce) { cur = to.slice(); draw(cur); return; }
+    var from = cur.slice(), t0 = performance.now(), dur = 700;
+    (function step(t) {
+      var p = Math.min(1, Math.max(0, (t - t0) / dur)), e = 1 - Math.pow(1 - p, 3);
+      cur = [from[0] + (to[0] - from[0]) * e, from[1] + (to[1] - from[1]) * e];
+      draw(cur);
+      if (p < 1) raf = requestAnimationFrame(step);
+    })(t0);
+  }
+  var chips = [].slice.call(document.querySelectorAll('.anc__chips .chip')), copy = document.getElementById('anc-copy');
+  function select(b) {
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+    clearTimeout(tm);
+    if (reduce) copy.innerHTML = b.dataset.copy;
+    else { copy.style.opacity = 0; tm = setTimeout(function () { copy.innerHTML = b.dataset.copy; copy.style.opacity = 1; }, 300); }
+    tween(MODES[b.dataset.mode]);
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { select(c); }); });
+})();
+</script>
+</body>
+</html>

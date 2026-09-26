@@ -1,0 +1,96 @@
+/* Nácar base — shared tokens, nav, pills, footer. Page-specific CSS lives in each page. */
+@font-face{font-family:"Inter";src:url("fonts/inter.woff2") format("woff2");font-weight:100 900;font-display:swap}
+:root{
+  --obsidian:#000;--carbon:#111;--graphite:#1d1d1f;--steel:#333336;--slate:#6e6e73;--ash:#86868b;--porcelain:#f5f5f7;
+  --pearl:#6c5ce7;--pearl-link:#a99cff;--signal:#00d959;--new:#ff8a3d;
+  --r-tile:28px;--r-nav:20px;--r-pill:980px;--r-chip:36px;
+  --pad-section:144px;--w-text:980px;--w-media:1260px;
+  --font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--obsidian);color-scheme:dark}
+body{background:var(--obsidian);color:var(--porcelain);font:400 17px/1.47 var(--font);letter-spacing:-.022em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:var(--pearl-link);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* type */
+.t-display-xl{font-size:96px;line-height:1.04;font-weight:600;letter-spacing:-.015em}
+.t-display{font-size:80px;line-height:1.05;font-weight:600;letter-spacing:-.015em}
+.t-hero{font-size:64px;line-height:1.06;font-weight:600;letter-spacing:-.009em}
+.t-headline{font-size:48px;line-height:1.08;font-weight:600;letter-spacing:-.003em}
+.t-title{font-size:32px;line-height:1.13;font-weight:600;letter-spacing:.004em}
+.t-subtitle{font-size:28px;line-height:1.14;font-weight:600;letter-spacing:.007em}
+.t-label{font-size:21px;line-height:1.2;font-weight:600;letter-spacing:.011em}
+.t-body{font-size:17px;line-height:1.47}
+.t-small{font-size:14px;line-height:1.43;letter-spacing:-.016em}
+.muted{color:var(--ash)}
+.new{color:var(--new);font-size:12px;font-weight:600;letter-spacing:-.01em}
+@media (max-width:734px){
+  .t-display-xl,.t-display{font-size:48px}
+  .t-hero{font-size:40px}
+  .t-headline{font-size:32px}
+  .t-title{font-size:24px}
+  .t-subtitle{font-size:21px}
+}
+
+/* layout */
+.wrap{width:min(var(--w-text),100% - 44px);margin-inline:auto}
+.wrap-wide{width:min(var(--w-media),100% - 44px);margin-inline:auto}
+.section{padding-block:var(--pad-section)}
+.band{background:var(--carbon)}
+.fade-band{background:linear-gradient(#1d1d1f,#000 288px)}
+@media (max-width:734px){.section{padding-block:90px}}
+
+/* pills */
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-pill);font:400 14px/1.2 var(--font);letter-spacing:-.016em;padding:9px 18px;white-space:nowrap;text-decoration:none!important;transition:filter .4s,background-color .4s}
+.pill-buy{background:var(--pearl);color:var(--porcelain)}
+.pill-buy:hover{filter:brightness(1.12)}
+.pill-ghost{border:1px solid var(--slate);color:var(--porcelain)}
+.pill-ghost-accent{border:1px solid var(--pearl-link);color:var(--pearl-link)}
+.pill-sm{font-size:12px;padding:5px 12px}
+.pill-lg{font-size:17px;padding:12px 24px}
+.price-capsule{display:inline-flex;align-items:center;gap:16px;background:rgba(66,66,69,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:var(--r-chip);padding:6px 6px 6px 22px;color:rgba(255,255,255,.8);font-size:14px}
+
+/* tiles */
+.tile{background:var(--obsidian);border-radius:var(--r-tile);overflow:hidden;position:relative}
+.tile-graphite{background:var(--graphite);border-radius:var(--r-tile);overflow:hidden;position:relative}
+
+/* global nav */
+.gnav{position:relative;z-index:50;height:44px;background:rgba(17,17,17,.8);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.gnav .in{height:100%;width:min(1024px,100% - 44px);margin-inline:auto;display:flex;align-items:center;justify-content:space-between}
+.gnav a{color:rgba(255,255,255,.8);font-size:12px;letter-spacing:-.01em}
+.gnav a:hover{color:var(--porcelain);text-decoration:none}
+.gnav .mark{font-size:17px;font-weight:600;letter-spacing:-.02em;color:var(--porcelain)}
+.gnav .links{display:flex;gap:40px}
+.gnav .links a[aria-current]{color:var(--porcelain)}
+.gnav svg{width:15px;height:15px;stroke:#ccc;fill:none;stroke-width:1.3}
+@media (max-width:734px){.gnav .links{gap:18px}}
+
+/* local nav */
+.lnav{position:sticky;top:8px;z-index:40;width:min(1024px,100% - 24px);margin:8px auto 0;height:52px;border-radius:var(--r-nav);background:rgba(29,29,31,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 0 0 1px var(--steel);display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 20px}
+.lnav .name{font-size:19px;font-weight:600;letter-spacing:.011em}
+.lnav .right{display:flex;align-items:center;gap:20px}
+.lnav .right a:not(.pill){color:rgba(255,255,255,.8);font-size:12px}
+@media (max-width:734px){.lnav{padding:0 8px 0 14px}.lnav .name{font-size:17px}.lnav .right{gap:12px}.lnav .right a:not(.pill){font-size:12px}}
+
+/* stat blocks */
+.stats{display:grid;gap:40px 32px}
+.stat{border-top:1px solid var(--steel);padding-top:20px}
+.stat .eyebrow{font-size:14px;color:var(--ash);margin-bottom:4px}
+.stat .num{font-size:56px;line-height:1;font-weight:600;letter-spacing:-.005em;font-variant-numeric:tabular-nums}
+.stat .cap{font-size:14px;line-height:1.43;color:var(--ash);margin-top:8px;max-width:22ch}
+
+/* footer */
+.foot{background:var(--carbon);color:var(--ash);font-size:12px;line-height:1.33;padding:28px 0 36px}
+.foot .in{width:min(980px,100% - 44px);margin-inline:auto}
+.foot .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:20px 0;border-block:1px solid var(--steel);margin:16px 0}
+.foot h4{color:var(--porcelain);font-weight:600;font-size:12px;margin-bottom:8px}
+.foot a{color:var(--ash);display:block;margin-bottom:6px}
+.foot a:hover{color:var(--porcelain);text-decoration:none}
+@media (max-width:734px){.foot .cols{grid-template-columns:repeat(2,1fr)}}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease-out,transform .8s ease-out}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}

@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nácar Faro</title>
+<meta name="description" content="Nácar Faro. A titanium phone with a 6.7-inch display, a 50MP variable-aperture camera, a 5× telephoto and two days of battery. From ₹1,19,900.">
+<link rel="stylesheet" href="base.css">
+<style>
+  section[id]{scroll-margin-top:72px}
+  .br-d{display:inline}
+  @media (max-width:734px){.br-d{display:none}}
+  .ph{position:absolute;max-width:none;display:block}
+
+  /* ---------- HERO ---------- */
+  .hero{background:var(--obsidian);padding:28px 0 80px;overflow:hidden}
+  .hero-dev{position:relative;display:flex;justify-content:center}
+  .hero-dev img{width:min(92vw,1240px,calc((100svh - 360px) * 2.013));height:auto}
+  .hero-copy{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-top:44px}
+  .hero-copy h1{margin-bottom:8px}
+  .hero-copy .price-capsule{flex:none;margin-bottom:10px}
+  @media (max-width:734px){
+    .hero{padding:12px 0 64px}
+    .hero-dev img{width:240px}
+    .hero-copy{flex-direction:column;align-items:flex-start;gap:28px;margin-top:20px}
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  .head{margin-bottom:64px}
+  .head .t-label{margin-bottom:12px}
+  @media (max-width:734px){.head{margin-bottom:40px}}
+
+  /* ---------- DESIGN ---------- */
+  .design-tile{height:680px;display:flex;align-items:center}
+  .dt-media{position:absolute;inset:0 0 0 36%;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 12%);mask-image:linear-gradient(to right,transparent 0,#000 12%)}
+  .dt-view{position:absolute;inset:0;opacity:0;transition:opacity .7s ease-out}
+  .dt-view.is-on{opacity:1}
+  .v-finish .silver{left:6%;top:50%;height:90%;transform:translateY(-50%);z-index:1;-webkit-mask-image:linear-gradient(to right,#000 88%,transparent);mask-image:linear-gradient(to right,#000 88%,transparent)}
+  .v-finish .grafito{right:-2%;bottom:-22%;height:122%}
+  .v-glass img{width:96%;left:2%;top:-52%}
+  .v-plateau img{width:200%;left:-108%;top:4%}
+  .dt-chips{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:48px;width:min(470px,100%)}
+  .chip{appearance:none;border:0;cursor:pointer;text-align:left;color:var(--porcelain);background:rgba(66,66,69,.72);
+    -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-radius:var(--r-chip);padding:14px 22px 14px 16px;
+    font:600 17px/1.3 var(--font);letter-spacing:-.022em;transition:background-color .4s}
+  .chip:hover{background:rgba(66,66,69,.9)}
+  .chip:focus-visible{outline:2px solid var(--pearl-link);outline-offset:3px}
+  .chip-h{display:flex;align-items:center;gap:12px}
+  .chip-h svg{flex:none;width:24px;height:24px;border-radius:50%;box-sizing:border-box;border:1.5px solid var(--porcelain)}
+  .chip-h svg path{stroke:var(--porcelain);stroke-width:1.6;fill:none;stroke-linecap:round}
+  .chip-b{display:none;font-weight:400;color:var(--ash)}
+  .chip-b b{color:var(--porcelain);font-weight:600}
+  .chip[aria-expanded="true"]{border-radius:var(--r-tile);padding:22px 28px 26px;cursor:default}
+  .chip[aria-expanded="true"] .chip-h{display:none}
+  .chip[aria-expanded="true"] .chip-b{display:block;animation:chipin .6s ease-out}
+  @keyframes chipin{from{opacity:0}to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.chip[aria-expanded="true"] .chip-b{animation:none}.dt-view{transition:none}}
+  @media (max-width:734px){
+    .design-tile{height:auto;flex-direction:column;align-items:stretch}
+    .dt-media{position:relative;inset:auto;height:400px;overflow:hidden;
+      -webkit-mask-image:linear-gradient(to top,transparent 0,#000 22%);mask-image:linear-gradient(to top,transparent 0,#000 22%)}
+    .v-finish .silver{left:4%;height:84%}
+    .v-finish .grafito{right:-12%;bottom:-18%;height:112%}
+    .v-glass img{width:160%;left:-30%;top:-62%}
+    .v-plateau img{width:300%;left:-196%;top:0}
+    .dt-chips{padding:0 20px 24px;margin-top:-24px}
+  }
+
+  /* ---------- CAMERA ---------- */
+  .cam-stage{position:relative;overflow:hidden;aspect-ratio:2.05;min-height:360px;
+    -webkit-mask-image:radial-gradient(closest-side,#000 55%,transparent 100%);mask-image:radial-gradient(closest-side,#000 55%,transparent 100%)}
+  .cam-stage img{width:92%;left:12%;top:-74%}
+  .cam-copy{max-width:680px;margin:48px auto 0;text-align:center;font-size:21px;line-height:1.38;letter-spacing:.004em;color:var(--ash)}
+  .cam-copy strong{color:var(--porcelain);font-weight:600}
+  .cam-stats{grid-template-columns:repeat(4,1fr);margin-top:96px}
+  @media (max-width:734px){
+    .cam-stage img{width:290%;left:-74%;top:-128%}
+    .cam-copy{font-size:17px;text-align:left;margin-top:32px}
+    .cam-stats{grid-template-columns:repeat(2,1fr);margin-top:56px}
+    .cam-stats .num{font-size:40px}
+  }
+
+  /* ---------- HIGHLIGHTS ---------- */
+  .hl-row{--edge:calc((100% - min(var(--w-media),100% - 44px)) / 2);display:flex;gap:24px;list-style:none;overflow-x:auto;
+    scroll-snap-type:x mandatory;scroll-padding-inline:var(--edge);padding-inline:var(--edge);scrollbar-width:none;scroll-behavior:smooth}
+  .hl-row::-webkit-scrollbar{display:none}
+  .hl-row::after{content:"";flex:0 0 1px}
+  .hl{flex:0 0 clamp(290px,27vw,392px);aspect-ratio:392/580;scroll-snap-align:start}
+  .hl::before{content:"";position:absolute;inset:0 0 auto;height:34%;z-index:1;background:linear-gradient(rgba(0,0,0,.8),transparent)}
+  .hl p{position:absolute;z-index:2;inset:32px 32px auto;font-size:21px;line-height:1.24;font-weight:600;letter-spacing:.011em;color:var(--ash)}
+  .hl p span{color:var(--porcelain)}
+  .hl-sos img{left:50%;bottom:5%;height:64%;transform:translateX(-50%)}
+  .hl-key img{width:160%;left:-62%;top:22%}
+  .hl-ring img{width:180%;left:-40%;top:48%}
+  .hl-ip img{width:142%;left:-34%;top:-26%}
+  .hl-nav{display:flex;justify-content:flex-end;gap:16px;margin-top:28px}
+  .paddle{appearance:none;border:0;cursor:pointer;width:40px;height:40px;border-radius:50%;background:rgba(66,66,69,.72);display:grid;place-items:center;transition:opacity .4s,background-color .4s}
+  .paddle:hover{background:rgba(66,66,69,.95)}
+  .paddle:disabled{opacity:.36;cursor:default}
+  .paddle:focus-visible{outline:2px solid var(--pearl-link);outline-offset:3px}
+  .paddle svg{width:14px;height:14px;fill:none;stroke:var(--porcelain);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  @media (max-width:734px){.hl{flex-basis:78vw}.hl p{inset:24px 24px auto}}
+
+  /* ---------- PERFORMANCE ---------- */
+  .perf{display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:center}
+  .perf-media{position:relative;height:680px;overflow:hidden;
+    -webkit-mask-image:radial-gradient(closest-side,#000 62%,transparent 100%);mask-image:radial-gradient(closest-side,#000 62%,transparent 100%)}
+  .perf-media img{height:124%;left:50%;top:-24%;transform:translateX(-50%)}
+  .perf-stats{grid-template-columns:repeat(2,1fr);gap:48px 40px}
+  .perf-note{grid-column:1/-1;font-size:14px;color:var(--ash);letter-spacing:-.016em;max-width:52ch}
+  @media (max-width:900px){.perf{grid-template-columns:1fr;gap:24px}.perf-media{height:460px}}
+  @media (max-width:734px){.perf-stats{gap:36px 24px}.perf-stats .num{font-size:40px;white-space:nowrap}}
+
+  /* ---------- BUY ---------- */
+  .buy-tile{display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:700px}
+  .buy-media{position:relative;height:100%;min-height:700px;overflow:hidden}
+  .buy-media img{left:50%;top:9%;height:124%;transform:translateX(-50%)}
+  .buy-copy{padding:64px 64px 64px 16px}
+  .buy-copy .t-label{margin-bottom:12px}
+  .buy-copy .t-body{color:var(--ash);margin-top:20px;max-width:34ch}
+  .buy-copy .opts{margin-top:4px}
+  .buy-copy .ctas{display:flex;flex-wrap:wrap;gap:16px;margin-top:36px}
+  @media (max-width:900px){
+    .buy-tile{grid-template-columns:1fr;min-height:0}
+    .buy-media{min-height:0;height:440px}
+    .buy-media img{height:130%;top:6%}
+    .buy-copy{padding:8px 24px 40px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="gnav" aria-label="Global"><div class="in">
+  <a class="mark" href="index.html">nácar</a>
+  <div class="links"><a href="faro.html" aria-current="page">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a></div>
+  <a href="#" aria-label="Bag"><svg viewBox="0 0 16 16"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<nav class="lnav" aria-label="Nácar Faro">
+  <span class="name">Nácar Faro</span>
+  <div class="right"><a href="#design">Design</a><a href="#camera">Camera</a><a href="#battery">Battery</a><a class="pill pill-buy pill-sm" href="#buy">Buy</a></div>
+</nav>
+
+<main>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-dev">
+    <picture>
+      <source media="(max-width:734px)" srcset="img/faro-silver.jpg">
+      <img src="img/faro-silver-h.jpg" alt="Nácar Faro in the Nácar finish, lying on its side, its triple camera and pearl glass back lit against black" fetchpriority="high">
+    </picture>
+  </div>
+  <div class="wrap-wide hero-copy reveal">
+    <div>
+      <h1 class="t-label">Nácar Faro</h1>
+      <p class="t-display">The light that stays on.</p>
+    </div>
+    <div class="price-capsule">From ₹1,19,900 <a class="pill pill-buy" href="#buy">Buy</a></div>
+  </div>
+</header>
+
+<!-- DESIGN -->
+<section id="design" class="section band" aria-labelledby="design-h">
+  <div class="wrap-wide head reveal">
+    <p class="t-label muted">Design</p>
+    <h2 id="design-h" class="t-hero">One bar of titanium,<br class="br-d"> finished like pearl.</h2>
+  </div>
+  <div class="wrap-wide reveal">
+    <div class="tile design-tile">
+      <div class="dt-media">
+        <div class="dt-view v-finish is-on" data-k="finish">
+          <img class="ph silver" src="img/faro-silver.jpg" alt="Faro in Nácar, pearl-white back" loading="lazy">
+          <img class="ph grafito" src="img/faro-grafito.jpg" alt="Faro in Grafito, satin graphite back" loading="lazy">
+        </div>
+        <div class="dt-view v-glass" data-k="glass"><img class="ph" src="img/faro-silver.jpg" alt="Close view of the frosted pearl glass back and its titanium edge" loading="lazy"></div>
+        <div class="dt-view v-plateau" data-k="plateau"><img class="ph" src="img/faro-silver-h.jpg" alt="Close view of the raised camera plateau with three lenses" loading="lazy"></div>
+      </div>
+      <div class="dt-chips">
+        <button class="chip" type="button" data-k="finish" aria-expanded="true">
+          <span class="chip-h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v10M7 12h10"/></svg>Two finishes</span>
+          <span class="chip-b"><b>Nácar and Grafito.</b> Pearl-white glass or satin graphite, each held in a frame milled from a single billet of grade 5 titanium. 199 grams either way, the lightest Faro yet.</span>
+        </button>
+        <button class="chip" type="button" data-k="glass" aria-expanded="false">
+          <span class="chip-h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v10M7 12h10"/></svg>Pearl glass back</span>
+          <span class="chip-b"><b>Pearl glass back.</b> Two layers of toughened glass fused around a mineral interlayer, so the back reads soft at the centre and brightens toward the edges, the way shell does.</span>
+        </button>
+        <button class="chip" type="button" data-k="plateau" aria-expanded="false">
+          <span class="chip-h"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v10M7 12h10"/></svg>Camera plateau</span>
+          <span class="chip-b"><b>Camera plateau.</b> All three lenses sit on one raised step of titanium, milled from the frame itself, so Faro lies flat and steady on a table instead of rocking.</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMERA -->
+<section id="camera" class="section" aria-labelledby="camera-h">
+  <div class="wrap-wide head reveal">
+    <p class="t-label muted">Camera</p>
+    <h2 id="camera-h" class="t-hero">Made for the hours<br class="br-d"> after dark.</h2>
+  </div>
+  <div class="wrap-wide cam-stage reveal">
+    <img class="ph" src="img/faro-grafito.jpg" alt="The Faro triple camera in Grafito, lenses catching a single light" loading="lazy">
+  </div>
+  <div class="wrap">
+    <p class="cam-copy reveal">The 50MP main camera has <strong>an aperture that opens and closes with the light</strong>, wide at ƒ/1.4 when the street goes dim, tight at ƒ/4 when the whole valley needs to be sharp. A 5× telephoto and a 48MP ultra wide fill in the rest of the scene.</p>
+    <div class="stats cam-stats reveal">
+      <div class="stat"><p class="eyebrow">Main camera</p><p class="num">50MP</p><p class="cap">Variable aperture sensor, larger than any Faro before</p></div>
+      <div class="stat"><p class="eyebrow">Widest aperture</p><p class="num">ƒ/1.4</p><p class="cap">For light the eye can barely find</p></div>
+      <div class="stat"><p class="eyebrow">Telephoto</p><p class="num">5×</p><p class="cap">Optical zoom at 120 mm, sharp at night</p></div>
+      <div class="stat"><p class="eyebrow">Night video</p><p class="num">4K60</p><p class="cap">Night mode, now in every frame of video</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="section band" aria-labelledby="hl-h">
+  <div class="wrap-wide head reveal">
+    <h2 id="hl-h" class="t-hero">Small things, well lit.</h2>
+  </div>
+  <ul class="hl-row reveal" id="hlRow">
+    <li class="tile hl hl-sos"><img class="ph" src="img/faro-silver.jpg" alt="Faro alone in the dark" loading="lazy"><p><span>Beacon SOS.</span> No signal, no problem. Faro finds a satellite and sends where you are.</p></li>
+    <li class="tile hl hl-key"><img class="ph" src="img/faro-silver.jpg" alt="The Faro side frame and keys" loading="lazy"><p><span>Beacon key.</span> Press once and the torch comes on. Hold it to open the camera.</p></li>
+    <li class="tile hl hl-ring"><img class="ph" src="img/faro-silver.jpg" alt="The lower corner of the Faro glass back" loading="lazy"><p><span>Ring charging.</span> Magnets snap it into place, and 25W wireless does the rest.</p></li>
+    <li class="tile hl hl-ip"><img class="ph" src="img/faro-grafito.jpg" alt="Faro in Grafito standing in the dark" loading="lazy"><p><span>IP68.</span> Six metres of water for 30 minutes. Monsoon, handled.</p></li>
+  </ul>
+  <div class="wrap-wide hl-nav">
+    <button class="paddle" type="button" id="hlPrev" aria-label="Previous highlights"><svg viewBox="0 0 14 14"><path d="M9 2 4 7l5 5"/></svg></button>
+    <button class="paddle" type="button" id="hlNext" aria-label="Next highlights"><svg viewBox="0 0 14 14"><path d="m5 2 5 5-5 5"/></svg></button>
+  </div>
+</section>
+
+<!-- PERFORMANCE / BATTERY -->
+<section id="battery" class="section" aria-labelledby="perf-h">
+  <div class="wrap-wide head reveal">
+    <h2 id="perf-h" class="t-hero">Stays lit for two days.</h2>
+  </div>
+  <div class="wrap-wide perf reveal">
+    <div class="perf-media"><img class="ph" src="img/faro-grafito.jpg" alt="Faro in Grafito, standing upright" loading="lazy"></div>
+    <div class="stats perf-stats">
+      <div class="stat"><p class="eyebrow">Battery</p><p class="num">48 hrs</p><p class="cap">Of mixed use from one charge of the 5,100 mAh cell</p></div>
+      <div class="stat"><p class="eyebrow">Fast charge</p><p class="num">60%</p><p class="cap">In 25 minutes on a 45W adapter</p></div>
+      <div class="stat"><p class="eyebrow">F3 chip</p><p class="num">4.2GHz</p><p class="cap">Peak clock across six CPU cores, built on 3 nm</p></div>
+      <div class="stat"><p class="eyebrow">Peak brightness</p><p class="num">3,000</p><p class="cap">Nits on the 6.7-inch display, readable in midday sun</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUY -->
+<section id="buy" class="section band" aria-labelledby="buy-h">
+  <div class="wrap-wide reveal">
+    <div class="tile buy-tile">
+      <div class="buy-media"><img class="ph" src="img/faro-silver.jpg" alt="Nácar Faro, full back view" loading="lazy"></div>
+      <div class="buy-copy">
+        <h2 id="buy-h" class="t-hero">Take the light home.</h2>
+        <p class="t-body">Nácar Faro from ₹1,19,900, or ₹9,992 a month for 12 months with no-cost EMI.</p>
+        <p class="t-body opts">In Nácar or Grafito, with 256GB, 512GB or 1TB.</p>
+        <div class="ctas"><a class="pill pill-buy pill-lg" href="#">Buy</a><a class="pill pill-ghost pill-lg" href="#">Find a store</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="in">
+  <p>Nácar is a fictional brand created as a design study. Product photography: Unsplash contributors (free licence).</p>
+  <div class="cols">
+    <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+    <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+    <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
+    <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+  </div>
+  <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+</div></footer>
+
+<script src="site.js"></script>
+<script>
+(function(){
+  // Design feature chips: one open at a time, swaps the view.
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  var views=[].slice.call(document.querySelectorAll('.dt-view'));
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){
+      if(c.getAttribute('aria-expanded')==='true')return;
+      chips.forEach(function(o){o.setAttribute('aria-expanded',o===c?'true':'false')});
+      views.forEach(function(v){v.classList.toggle('is-on',v.dataset.k===c.dataset.k)});
+    });
+  });
+  // Highlights paddles
+  var row=document.getElementById('hlRow'),prev=document.getElementById('hlPrev'),next=document.getElementById('hlNext');
+  function step(){var t=row.querySelector('.hl');return t?t.getBoundingClientRect().width+24:300}
+  function sync(){prev.disabled=row.scrollLeft<4;next.disabled=row.scrollLeft+row.clientWidth>=row.scrollWidth-4}
+  prev.addEventListener('click',function(){row.scrollBy({left:-step()})});
+  next.addEventListener('click',function(){row.scrollBy({left:step()})});
+  row.addEventListener('scroll',sync,{passive:true});addEventListener('resize',sync);sync();
+})();
+</script>
+</body>
+</html>

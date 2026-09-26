@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nácar Faro · The light that stays on.</title>
+<meta name="description" content="Nácar Faro. A titanium phone with a disc of real mother-of-pearl on its back, a 50MP variable-aperture camera and a 3,000-nit display. From ₹1,19,900.">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/faro-back-cut.webp" as="image" media="(min-width: 735px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+/* ===================================================== faro.html only ==
+   Every scroll-driven value reads a page variable (--p) that mirrors the
+   engine's --sc-p, so html.rm can pin it to a still frame.               */
+/* Two-tier chrome on this page: the global bar stays on top and the product
+   capsule sticks just under it, so both are visible from scroll 0 onward.
+   --chrome is the height every stage keeps clear at its top. */
+:root { --chrome: 104px; }
+.gnav { position: sticky; top: 0; }
+.lnav { top: 52px; }
+section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
+.br-m { display: none; }
+@media (max-width: 734px) { .br-m { display: inline; } }
+
+/* ------------------------------------------------------------ 1 · HERO --
+   Four planes, back to front, at visibly different rates:
+     glow   (engine parallax -0.9  : ~90px, plus a slow swell)
+     word   (recedes in place: shrinks 6% from its top edge, dims a touch;
+             never moves toward the bars, always fully readable)
+     phone  (approaches: grows 0.94 -> 1.05 from its top edge, always
+             below the tagline block, bleeding off the bottom)
+     beam   (engine parallax -2.6 : ~260px, and sweeps 22deg)            */
+.hero { --p: var(--sc-p, 0); }
+.hero__stage { background: var(--obsidian); }
+.hero__glow-plane, .hero__beam-plane { position: absolute; inset: 0; pointer-events: none; }
+.hero__glow-plane { z-index: 1; }
+.hero__glow {
+  position: absolute; left: 50%; top: 58%;
+  width: min(118vmin, 1100px); aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(232, 228, 244, 0.20) 0%, rgba(226, 222, 240, 0.085) 42%, rgba(220, 216, 236, 0.025) 72%, transparent 100%);
+  transform: scale(calc(0.78 + var(--p) * 0.4));
+  opacity: calc(0.55 + var(--p) * 0.45);
+}
+.hero {
+  --word-top: calc(var(--chrome) + 5svh);
+  --word-size: min(12vw, 17svh, 11rem);
+  --copy-top: calc(var(--word-top) + var(--word-size) * 0.95);
+  --phone-top: calc(var(--copy-top) + 76px);
+}
+.hero__word {
+  position: absolute; z-index: 2; left: 0; right: 0; top: var(--word-top);
+  text-align: center; color: var(--porcelain);
+  font-size: var(--word-size); line-height: 0.92; font-weight: 600; letter-spacing: -0.035em;
+  transform-origin: 50% 0;
+  transform: scale(calc(1 - var(--p) * 0.06));
+  opacity: calc(1 - var(--p) * 0.15);
+}
+/* The image is 640x1260; the device silhouette starts 3.1% down it. */
+.hero__phone {
+  position: absolute; z-index: 3; left: 50%; top: 0;
+  height: 92svh; width: auto; max-width: none;
+  transform-origin: 50% 0;
+  transform: translate(-50%, calc(var(--phone-top) - 1svh)) scale(calc(0.94 + var(--p) * 0.11));
+}
+.hero__beam-plane { z-index: 4; mix-blend-mode: screen; }
+.hero__beam {
+  position: absolute; left: -24vw; top: 26%;
+  width: 150vw; height: 34svh;
+  transform-origin: 0% 50%;
+  transform: rotate(calc(-9deg + var(--p) * 22deg));
+  clip-path: polygon(0 49.2%, 100% 0, 100% 100%, 0 50.8%);
+  background: linear-gradient(to bottom,
+    transparent 0%, rgba(255, 255, 255, 0.018) 28%, rgba(255, 255, 255, 0.07) 46%,
+    rgba(255, 255, 255, 0.13) 50%, rgba(255, 255, 255, 0.07) 54%, rgba(255, 255, 255, 0.018) 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%, #000 48%, transparent 92%);
+          mask-image: linear-gradient(to right, transparent 0%, #000 22%, #000 48%, transparent 92%);
+}
+.hero__floor {
+  position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; height: 12svh; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85));
+}
+/* Tagline and price/Buy are one block, centred under the word. */
+.hero__copy {
+  position: absolute; z-index: 6; left: var(--edge); right: var(--edge); top: var(--copy-top);
+  display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap;
+}
+@media (max-width: 734px) {
+  /* Phone portrait: word, then line + price, then the phone bleeding off the bottom. */
+  .hero { --word-top: calc(var(--chrome) + 2.5svh); --word-size: 28vw; --copy-top: calc(var(--word-top) + 28vw * 0.97); --phone-top: calc(var(--copy-top) + 118px); }
+  .hero__copy { flex-direction: column; gap: 12px; text-align: center; }
+  .hero__phone { height: 70svh; }
+  .hero__glow { top: 66%; }
+  .hero__beam { top: 40%; height: 26svh; }
+  .hero__floor { height: 10svh; }
+}
+
+/* ------------------------------------------------------------ 2 · TURN --
+   Quiet. A flow act that wipes the back of the phone into its front.     */
+.turn-head { padding-top: var(--pad-section); padding-bottom: 32px; }
+.turn-head .t-lede { max-width: 44em; margin-top: 20px; }
+.turn { position: relative; }
+.turn__fig { position: relative; height: min(calc(100svh - var(--chrome) - 230px), 58vw); min-height: 420px; overflow: hidden; }
+.turn { --in: 39; }          /* the wipe window: the phone's own column, in % of the figure */
+.turn__fig img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: 50% 50%; }
+.turn__front { position: absolute; top: 0; bottom: 0; left: calc(var(--in) * 1%); right: calc(var(--in) * 1%); overflow: hidden; }
+.turn__front img {
+  left: calc(-100% * var(--in) / (100 - 2 * var(--in)));
+  width: calc(100% * 100 / (100 - 2 * var(--in)));
+}
+/* A seam of light rides the wipe edge (same smoothstep the engine uses). */
+.turn {
+  --p: var(--sc-p, 0);
+  --t: clamp(0, calc((var(--p) - 0.17) / 0.22), 1);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+}
+.turn__edge {
+  position: absolute; top: 6%; bottom: 10%; left: calc((var(--in) + var(--e) * (100 - 2 * var(--in))) * 1%); width: 2px; margin-left: -1px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.75) 30%, rgba(255,255,255,0.75) 70%, transparent);
+  opacity: clamp(0, calc(min(var(--t), 1 - var(--t)) * 10), 1);
+  pointer-events: none;
+}
+.turn__edge::after {
+  content: ""; position: absolute; inset: 0 -40px; 
+  background: radial-gradient(closest-side, rgba(235,232,246,0.16), transparent);
+}
+html.rm .turn__edge { display: none; }
+.turn__cap {
+  position: absolute; z-index: 2; left: var(--edge); bottom: 28px; color: var(--ash);
+}
+@media (max-width: 734px) {
+  .turn-head { padding-bottom: 24px; }
+  .turn { --in: 24; }
+  .turn__fig { height: 118vw; }
+  .turn__fig img { object-fit: cover; }
+}
+
+/* ------------------------------------------------------------ 3 · PEAK --
+   The pearl lights up. Unlit plate underneath, lit plate on top, revealed
+   through a soft elliptical window whose centre travels with scroll (k),
+   then floods to full (f). A specular sheen crosses with it (s).         */
+.peak {
+  --p: var(--sc-p, 0);
+  --k: clamp(0, calc((var(--p) - 0.06) / 0.6), 1);
+  --f: clamp(0, calc((var(--p) - 0.58) / 0.3), 1);
+  --s: clamp(0, calc((var(--p) - 0.04) / 0.72), 1);
+  --plate-h: 88svh;
+  --plate-x: 64vw;           /* where the ring's centre sits, horizontally */
+}
+.peak__stage { background: var(--obsidian); }
+.peak__plate {
+  position: absolute; z-index: 1;
+  height: var(--plate-h); aspect-ratio: 2400 / 1340;
+  left: calc(var(--plate-x) - var(--plate-h) * 0.8866);   /* 1.791 x 0.495 */
+  top: calc(50svh - var(--plate-h) * 0.513);
+  transform-origin: 49.5% 51.3%;
+  transform: scale(calc(1.06 - var(--p) * 0.06));
+}
+.peak__plate img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+/* The dark state is still nacre: the unlit plate is pulled down a stop and
+   17% of the lit plate always glows through it, so a little iridescence is
+   visible before the light arrives ("off", not "grey"). */
+.peak__unlit { filter: brightness(0.72) contrast(1.08); }
+.peak__lit {
+  --lx: calc(20% + var(--k) * 58%);
+  --ly: calc(26% + var(--k) * 36%);
+  --rx: calc(12.5% + var(--f) * 62%);
+  --ry: calc(22.4% + var(--f) * 111%);
+  -webkit-mask-image:
+    radial-gradient(ellipse var(--rx) var(--ry) at var(--lx) var(--ly),
+      #000 0%, rgba(0,0,0,0.9) 34%, rgba(0,0,0,0.42) 64%, transparent 100%),
+    linear-gradient(100deg, rgba(0,0,0,calc(var(--k) * 0.34)) 0%, rgba(0,0,0,calc(var(--k) * 0.34)) calc(var(--lx) - 16%), transparent calc(var(--lx) + 4%)),
+    linear-gradient(rgba(0,0,0,calc(0.17 + var(--f) * 0.83)), rgba(0,0,0,calc(0.17 + var(--f) * 0.83)));
+          mask-image:
+    radial-gradient(ellipse var(--rx) var(--ry) at var(--lx) var(--ly),
+      #000 0%, rgba(0,0,0,0.9) 34%, rgba(0,0,0,0.42) 64%, transparent 100%),
+    linear-gradient(100deg, rgba(0,0,0,calc(var(--k) * 0.34)) 0%, rgba(0,0,0,calc(var(--k) * 0.34)) calc(var(--lx) - 16%), transparent calc(var(--lx) + 4%)),
+    linear-gradient(rgba(0,0,0,calc(0.17 + var(--f) * 0.83)), rgba(0,0,0,calc(0.17 + var(--f) * 0.83)));
+}
+/* Specular: a bright diagonal band, screened over the nacre and masked by
+   the nacre's own luminance, so it only catches on shell, never on air. */
+.peak__sheen {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: calc(0.25 + var(--k) * 0.75 - var(--f) * 0.6);
+  -webkit-mask-image: url("assets/faro-pearl-lit.webp");
+          mask-image: url("assets/faro-pearl-lit.webp");
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  mask-mode: luminance;
+}
+.peak__sheen::before {
+  content: ""; position: absolute; top: -12%; bottom: -12%; left: 4%; width: 26%;
+  transform: translateX(calc(var(--s) * 255%)) skewX(-16deg);
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(255, 255, 255, 0.05) 30%, rgba(255, 252, 255, 0.5) 47%,
+    rgba(255, 255, 255, 0.72) 50%, rgba(255, 252, 255, 0.5) 53%, rgba(255, 255, 255, 0.05) 70%, transparent 100%);
+}
+.peak__copy {
+  position: absolute; z-index: 4; left: var(--edge); top: 0; bottom: 0;
+  width: min(31rem, calc(var(--plate-x) - var(--plate-h) * 0.43 - var(--edge) - 24px));
+  display: flex; flex-direction: column; justify-content: center; gap: 28px;
+}
+.peak__copy .t-lede { max-width: 22em; }
+@media (max-width: 734px) {
+  .peak { --plate-h: 104vw; --plate-x: 50vw; }
+  .peak__plate { top: calc(52svh - var(--plate-h) * 0.513); }
+  .peak__sheen { -webkit-mask-image: url("assets/faro-pearl-lit-m.webp"); mask-image: url("assets/faro-pearl-lit-m.webp"); }
+  .peak__copy { right: var(--edge); width: auto; top: calc(var(--chrome) + 3svh); bottom: 4.5svh; justify-content: space-between; }
+}
+
+/* -------------------------------------------------------- 4 · MATERIAL --
+   A lateral travel on carbon. The heading holds still at the top of the
+   stage; only the three cards travel. Cards are sized so that at rest two
+   (desktop) or one (phone) sit whole in frame with the caption inside.   */
+.mat { --p: var(--sc-p, 0); }
+.mat__stage { background: var(--carbon); display: flex; flex-direction: column; }
+.mat__head { padding: calc(var(--chrome) + 4svh) var(--edge) 0; flex: none; }
+.mat__head .t-label { margin-bottom: 10px; }
+.mat__head .t-headline { max-width: 16em; }
+.mat__track { flex: 1; min-height: 0; display: flex; }
+/* extra travel on wide screens so the first card fully leaves as the last lands */
+.mat__tail { flex: 0 0 96px; }
+.mat__rail {
+  width: max-content;
+  gap: 24px; padding: 40px var(--edge) 7svh; align-items: stretch;
+}
+.mat__card { flex: 0 0 clamp(320px, 41vw, 560px); display: flex; flex-direction: column; }
+.mat__media { position: relative; flex: 1; min-height: 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent);
+          mask-image: linear-gradient(to bottom, #000 78%, transparent); }
+.mat__media img { position: absolute; max-width: none; }
+.mat__cap { flex: none; padding: 4px 32px 30px; color: var(--ash); text-wrap: pretty; }
+.mat__cap strong { color: var(--porcelain); }
+/* Titanium: the edge-on side view, zoomed onto the buttons */
+.m-ti img  { height: 205%; left: 50%; top: -18%; transform: translateX(-50.8%); }
+/* Ceramic: the camera tower and the black back around it */
+.m-ce img  { height: 250%; left: 50%; top: -22%; transform: translateX(-47%); }
+/* Nácar: the lit disc */
+.m-na img  { height: 125%; left: 50%; top: -12%; transform: translateX(-51.5%); }
+/* Page JS writes --vis (0..1) per card from its live position: a card that
+   is leaving past the content column's left edge fades out whole, and a
+   caption only shows while its card sits entirely inside the column, so no
+   frame shows a sliced card with a clipped caption. */
+.mat__card { opacity: var(--vis, 1); }
+.mat__cap { opacity: var(--capvis, 1); transition: opacity 240ms var(--ease); }
+@media (max-width: 734px) {
+  .mat__head { padding-top: calc(var(--chrome) + 2.5svh); }
+  .mat__rail { gap: 14px; padding-top: 24px; padding-bottom: 5svh; }
+  .mat__card { flex-basis: calc(100vw - 44px); }
+  .mat__cap { padding: 4px 22px 22px; }
+  .mat__tail { display: none; }
+}
+
+/* ---------------------------------------------------------- 5 · CAMERA --
+   One heading, one big lens image, one row of hairline stat blocks.     */
+.cam { padding-block: var(--pad-section); }
+.cam__head .t-label { margin-bottom: 10px; }
+.cam__head .t-lede { max-width: 46em; margin-top: 18px; }
+.cam__visual {
+  position: relative; margin-top: 28px; height: clamp(300px, calc(100svh - var(--chrome) - 450px), 520px); overflow: hidden;
+  -webkit-mask-image: radial-gradient(closest-side, #000 66%, transparent 100%);
+          mask-image: radial-gradient(closest-side, #000 66%, transparent 100%);
+}
+.cam__visual img {
+  position: absolute; max-width: none;
+  height: 540%; left: 50%; top: 50%;
+  transform: translate(-45.6%, -24.4%);
+}
+.cam__stats { margin-top: 36px; }
+.cam__stats .num small { font-size: 0.42em; letter-spacing: 0; }
+@media (max-width: 734px) {
+  .cam__visual { height: 96vw; margin-top: 32px; }
+  .cam__visual img { height: 420%; }
+  .cam__stats { margin-top: 44px; }
+}
+
+/* -------------------------------------------------------- 6 · FINISHES -- */
+.fin__h { margin-bottom: 36px; }
+.fin__tile { height: min(calc(100vw * 0.56), calc(100svh - var(--chrome) - 210px)); min-height: 420px; }
+.fin__img {
+  position: absolute; top: 0; left: 50%; height: 100%; width: auto; max-width: none;
+  translate: -50% 0;
+  transform: scale(var(--z, 1)) translateX(var(--tx, 0%));
+  transition: transform 1000ms var(--ease);
+}
+.fin__spot {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 24% 62% at 50% 52%, transparent 55%, rgba(0, 0, 0, 0.62) 100%);
+  opacity: var(--spot, 0); transition: opacity 800ms var(--ease);
+}
+.fin__bar { display: flex; align-items: center; justify-content: space-between; gap: 32px; margin-top: 24px; }
+.fin__chips { display: flex; gap: 12px; flex-wrap: wrap; }
+.fin__cap { max-width: 30em; color: var(--ash); min-height: 3em; }
+.fin__cap strong { color: var(--porcelain); }
+@media (max-width: 734px) {
+  .fin__h { margin-bottom: 32px; }
+  .fin__tile { aspect-ratio: auto; height: 112vw; }
+  .fin__bar { flex-direction: column; align-items: flex-start; gap: 20px; margin-top: 24px; }
+  .chip { padding: 12px 18px 12px 14px; font-size: 15px; }
+}
+
+/* ---------------------------------------------------------- 7 · FAMILY --
+   Heading and the whole line-up in one frame, on a studio ground: the
+   line-up stands at 81% of the render's height. A soft floor light sits on
+   that line, and a flipped copy (screen, 16%) mirrors the products below
+   it, fading out over a short distance.                                  */
+.fam { padding-block: var(--pad-section) calc(var(--pad-section) * 0.5); overflow-x: clip; }
+.fam__head { text-align: center; }
+.fam__links { display: flex; justify-content: center; gap: 36px; margin-top: 20px; }
+.fam__media { position: relative; margin-top: 16px; }
+.fam__stage { position: relative; width: min(1120px, 100%, 118svh); margin-inline: auto; margin-bottom: 9%; }
+.fam__img {
+  position: relative; z-index: 0; width: 100%; height: auto;
+  /* the render's ground is a near-black vignette, not #000: dissolve its edges */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 9%, #000 91%, transparent);
+          mask-composite: intersect;
+}
+.fam__floor {
+  position: absolute; left: 0; right: 0; top: 71%; height: 22%; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse 44% 50% at 50% 46%, rgba(236, 233, 246, 0.08), rgba(236, 233, 246, 0.02) 55%, transparent 80%);
+  mix-blend-mode: screen;
+}
+.fam__reflect {
+  position: absolute; z-index: 2; left: 0; width: 100%; top: 62%; aspect-ratio: 2400 / 1340;
+  pointer-events: none; opacity: 0.16; mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent 18.6%, #000 19.4%, transparent 45%);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to right, transparent, #000 14%, #000 86%, transparent), linear-gradient(to bottom, transparent 18.6%, #000 19.4%, transparent 45%);
+          mask-composite: intersect;
+}
+.fam__reflect img { width: 100%; height: 100%; max-width: none; transform: scaleY(-1); }
+@media (max-width: 734px) {
+  .fam__stage { width: 118%; margin-left: -9%; }
+}
+
+/* ------------------------------------------------------------- 8 · BUY --
+   The page stops. Copy holds; the phone settles to rest.                 */
+.buy { --p: var(--sc-p, 0); }
+.buy__stage { background: var(--obsidian); }
+.buy__img {
+  position: absolute; z-index: 1; max-width: none;
+  height: 100svh; width: auto; left: calc(34vw - 100svh * 0.895); top: 2svh;
+  transform: scale(calc(1.05 - var(--p) * 0.05)); transform-origin: 50% 55%;
+}
+.buy__copy {
+  position: absolute; z-index: 2; left: 52vw; right: var(--edge); top: 0; bottom: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 24px;
+}
+.buy__copy .t-body { color: var(--ash); max-width: 30em; }
+.buy__ctas { display: flex; gap: 16px; margin-top: 8px; }
+@media (max-width: 734px) {
+  .buy__img { width: 170vw; height: auto; left: 50%; top: calc(var(--chrome) + 1svh); transform: translateX(-50%) scale(calc(1.05 - var(--p) * 0.05)); }
+  .buy__copy { left: var(--edge); top: auto; bottom: 6svh; gap: 18px; }
+}
+
+/* --------------------------------------------------- MOTION OFF (html.rm) --
+   site.js has already turned the pinned acts into flow. Draw each stage
+   as one still, complete frame.                                          */
+html.rm .hero, html.rm .buy { --p: 0; }
+html.rm .peak { --p: 1; }
+html.rm .mat { --p: 1; }
+html.rm :is(.hero__stage, .peak__stage, .buy__stage) { position: relative; height: 100svh; overflow: clip; }
+html.rm .mat__stage { display: block; padding-block: var(--pad-section); }
+html.rm .mat__head { padding-top: 0; }
+html.rm .mat__rail {
+  display: grid; width: auto; height: auto;
+  grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+html.rm .mat__card { height: 600px; }
+html.rm .mat__tail { display: none; }
+html.rm .mat__card, html.rm .mat__cap { opacity: 1; }
+@media (max-width: 734px) {
+  html.rm .mat__rail { grid-template-columns: 1fr; }
+  html.rm .mat__card { height: 540px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="gnav" aria-label="Global"><div class="gnav__in">
+  <a class="gnav__logo" href="index.html"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
+  <div class="gnav__links">
+    <a href="faro.html" aria-current="page">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a>
+  </div>
+  <a class="gnav__bag" href="#" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<nav class="lnav lnav--overlay" aria-label="Nácar Faro">
+  <span class="lnav__name">Nácar Faro</span>
+  <div class="lnav__right">
+    <a href="#design">Design</a><a class="lnav__opt" href="#camera">Camera</a><a class="lnav__opt" href="#finishes">Finishes</a>
+    <a class="pill pill-buy pill-sm" href="#buy">Buy</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- 1 · HERO · stillness. pin + layered parallax planes -->
+  <section class="hero" id="top" data-sc-act="pin" data-sc-span="1.9">
+    <div data-sc-stage class="hero__stage">
+      <div class="hero__glow-plane" data-sc-parallax="-0.9" aria-hidden="true"><div class="hero__glow"></div></div>
+      <h1 class="hero__word"><span class="sr-only">Nácar </span>Faro</h1>
+      <picture>
+        <source media="(max-width: 734px)" srcset="assets/faro-back-cut-m.webp">
+        <img class="hero__phone" src="assets/faro-back-cut.webp" width="640" height="1260"
+             alt="Nácar Faro from the back: a round titanium camera tower and a mother-of-pearl disc set into black ceramic">
+      </picture>
+      <div class="hero__beam-plane" data-sc-parallax="-2.6" aria-hidden="true"><div class="hero__beam"></div></div>
+      <div class="hero__floor" aria-hidden="true"></div>
+      <div class="hero__copy">
+        <p class="t-subtitle">The light that stays on.</p>
+        <p class="price-capsule">From ₹1,19,900 <a class="pill pill-buy" href="#buy">Buy</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · TURN · anticipation. flow + reveal wipe, back into front -->
+  <div class="wrap-wide turn-head" data-sc-in data-sc-stagger="70">
+    <h2 class="t-hero">Brilliant at noon. Quiet at midnight.</h2>
+    <p class="t-lede">The 6.7-inch display reaches <strong>3,000 nits in midday sun</strong>, then settles to a soft glow after dark, so the screen never outshines the room.</p>
+  </div>
+  <section class="turn" id="display" data-sc-act="flow">
+    <figure class="turn__fig">
+      <picture>
+        <source media="(max-width: 734px)" srcset="assets/faro-back-m.webp">
+        <img src="assets/faro-back.webp" width="2400" height="1340" alt="" loading="lazy">
+      </picture>
+      <div class="turn__front" data-sc-reveal="left" data-sc-reveal-at="0.17 0.39">
+        <picture>
+          <source media="(max-width: 734px)" srcset="assets/faro-front-m.webp">
+          <img src="assets/faro-front.webp" width="2400" height="1340" loading="lazy"
+               alt="Faro from the front, its display showing a mother-of-pearl wallpaper and the time, 9:41">
+        </picture>
+      </div>
+      <div class="turn__edge" aria-hidden="true"></div>
+    </figure>
+  </section>
+
+  <!-- 3 · PEAK · awe. pin, the longest span on the page. Scroll is the light. -->
+  <section class="peak" id="pearl" data-sc-act="pin" data-sc-span="3">
+    <div data-sc-stage class="peak__stage">
+      <div class="peak__plate">
+        <picture>
+          <source media="(max-width: 734px)" srcset="assets/faro-pearl-unlit-m.webp">
+          <img class="peak__unlit" src="assets/faro-pearl-unlit.webp" width="2400" height="1340" alt="">
+        </picture>
+        <picture>
+          <source media="(max-width: 734px)" srcset="assets/faro-pearl-lit-m.webp">
+          <img class="peak__lit" src="assets/faro-pearl-lit.webp" width="2400" height="1340"
+               alt="Close up of the mother-of-pearl disc on the back of Faro, lit and shifting from rose to green to violet">
+        </picture>
+        <div class="peak__sheen" aria-hidden="true"></div>
+      </div>
+      <div class="peak__copy">
+        <h2 class="t-display" data-sc-cue="0 1 0 0.025">The pearl<br> lights up.</h2>
+        <p class="t-lede" data-sc-cue="0.56 1 0.28 0.05">A disc of <strong>real mother-of-pearl</strong>, cut from shell and set flush into the back. No two are alike, and each one answers the light in its own colours.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · MATERIAL · calm admiration. pan across three materials -->
+  <section class="mat" id="design" data-sc-act="pan" data-sc-span="2.2">
+    <div data-sc-stage class="mat__stage">
+      <div class="mat__head">
+        <p class="t-label muted">Design</p>
+        <h2 class="t-headline">One bar of titanium, finished like pearl.</h2>
+      </div>
+      <div class="mat__track">
+      <div class="mat__rail" data-sc-pan="0">
+        <article class="mat__card tile">
+          <div class="mat__media m-ti">
+            <picture><source media="(max-width: 734px)" srcset="assets/faro-side-m.webp">
+            <img src="assets/faro-side.webp" width="2400" height="1340" alt="Faro edge on, its brushed titanium frame and side buttons" loading="lazy"></picture>
+          </div>
+          <p class="mat__cap"><strong>Titanium frame.</strong> Milled from one billet of grade 5 titanium. At 199 grams, the lightest Faro yet.</p>
+        </article>
+        <article class="mat__card tile">
+          <div class="mat__media m-ce">
+            <img src="assets/faro-back.webp" width="2400" height="1340" alt="The camera tower rising from Faro's black ceramic back" loading="lazy">
+          </div>
+          <p class="mat__cap"><strong>Ceramic back.</strong> Polished to a soft satin, harder than steel and cool in the hand.</p>
+        </article>
+        <article class="mat__card tile">
+          <div class="mat__media m-na">
+            <picture><source media="(max-width: 734px)" srcset="assets/faro-pearl-lit-m.webp">
+            <img src="assets/faro-pearl-lit.webp" width="2400" height="1340" alt="The mother-of-pearl disc, lit" loading="lazy"></picture>
+          </div>
+          <p class="mat__cap"><strong>Nácar disc.</strong> Real mother-of-pearl under sapphire crystal, never quite the same colour twice.</p>
+        </article>
+        <div class="mat__tail" aria-hidden="true"></div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CAMERA · capability. heading, one lens image, hairline stat row (entry counters) -->
+  <section class="cam fade-band" id="camera">
+    <div class="wrap-wide cam__head" data-sc-in data-sc-stagger="70">
+      <p class="t-label muted">Camera</p>
+      <h2 class="t-hero">A camera worth the tower.</h2>
+      <p class="t-lede">Three lenses in one titanium tower. The main camera has <strong>an aperture that opens and closes with the light</strong>, from ƒ/1.4 at night to ƒ/4.0 for a valley in focus.</p>
+    </div>
+    <figure class="wrap-wide cam__visual">
+      <img src="assets/faro-back.webp" width="2400" height="1340" loading="lazy"
+           alt="Close up of Faro's round titanium camera tower: three lenses, a flash and a sensor ringed by machined grooves">
+    </figure>
+    <div class="wrap-wide stats stats--4 cam__stats" data-sc-in data-sc-stagger="80">
+      <div class="stat"><p class="eyebrow">Main camera</p><p class="num"><span data-sc-count="0 50" data-sc-count-ms="1200">50</span><small>MP</small></p><p class="cap">Variable aperture from ƒ/1.4 to ƒ/4.0</p></div>
+      <div class="stat"><p class="eyebrow">Telephoto</p><p class="num"><span data-sc-count="0 5" data-sc-count-ms="1200">5</span><small>×</small></p><p class="cap">Optical zoom at 120 mm, sharp at night</p></div>
+      <div class="stat"><p class="eyebrow">Ultra wide</p><p class="num"><span data-sc-count="0 48" data-sc-count-ms="1200">48</span><small>MP</small></p><p class="cap">Wider than the room, sharp to the corners</p></div>
+      <div class="stat"><p class="eyebrow">Video</p><p class="num">4K<small>&nbsp;</small><span data-sc-count="0 120" data-sc-count-ms="1200">120</span><small>fps</small></p><p class="cap">Night mode in every frame</p></div>
+    </div>
+  </section>
+
+  <!-- 6 · FINISHES · choice. tabs: the reader picks, the light follows -->
+  <section class="fin section band" id="finishes">
+    <div class="wrap-wide">
+      <h2 class="t-headline fin__h" data-sc-in>Three finishes. Every one wears the pearl.</h2>
+      <div class="tile fin__tile" data-fin>
+        <picture><source media="(max-width: 734px)" srcset="assets/faro-finishes-m.webp">
+        <img class="fin__img" src="assets/faro-finishes.webp" width="2400" height="1340" loading="lazy"
+             alt="Faro in three finishes side by side: Titanium with a black back, Nácar with a pearl-white back, and Grafito"></picture>
+        <div class="fin__spot" aria-hidden="true"></div>
+      </div>
+      <div class="fin__bar">
+        <div class="fin__chips" role="group" aria-label="Choose a finish">
+          <button class="chip" type="button" aria-pressed="false" data-f="0"><span class="chip__dot" style="background:#18181a"></span>Titanium</button>
+          <button class="chip" type="button" aria-pressed="false" data-f="1"><span class="chip__dot" style="background:#ece8ef"></span>Nácar</button>
+          <button class="chip" type="button" aria-pressed="false" data-f="2"><span class="chip__dot" style="background:#4a4a4f"></span>Grafito</button>
+        </div>
+        <p class="fin__cap t-body" aria-live="polite"><strong>Titanium, Nácar or Grafito.</strong> Each finish frames the same pearl. Choose one to bring it forward.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · FAMILY · belonging -->
+  <section class="fam" id="family" data-sc-act="flow">
+    <div class="wrap-wide fam__head" data-sc-in data-sc-stagger="70">
+      <h2 class="t-hero">One pearl.<br class="br-m"> Three ways to carry it.</h2>
+      <p class="fam__links"><a class="link-more" href="pulso.html">Meet Pulso</a><a class="link-more" href="onda.html">Meet Onda</a></p>
+    </div>
+    <div class="fam__media">
+      <div data-sc-parallax="-0.5">
+        <div class="fam__stage">
+          <picture><source media="(max-width: 734px)" srcset="assets/family-m.webp">
+          <img class="fam__img" src="assets/family.webp" width="2400" height="1340" loading="lazy"
+               alt="Faro standing between the Pulso watch and the Onda earbuds, each carrying a pearl"></picture>
+          <div class="fam__floor" aria-hidden="true"></div>
+          <div class="fam__reflect" aria-hidden="true">
+            <picture><source media="(max-width: 734px)" srcset="assets/family-m.webp">
+            <img src="assets/family.webp" width="2400" height="1340" alt="" loading="lazy"></picture>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · BUY · resolution. short pin, copy holds -->
+  <section class="buy" id="buy" data-sc-act="pin" data-sc-span="1.35">
+    <div data-sc-stage class="buy__stage">
+      <picture><source media="(max-width: 734px)" srcset="assets/faro-front-m.webp">
+      <img class="buy__img" src="assets/faro-front.webp" width="2400" height="1340" alt="" loading="lazy"></picture>
+      <div class="buy__copy">
+        <h2 class="t-display" data-sc-cue="0 1 0 0">Take the light home.</h2>
+        <p class="t-body" data-sc-cue="0 1 0 0">Nácar Faro from ₹1,19,900, or ₹9,992 a month for 12 months with no-cost EMI. In Titanium, Nácar or Grafito, with 256GB, 512GB or 1TB.</p>
+        <div class="buy__ctas" data-sc-cue="0 1 0 0"><a class="pill pill-buy pill-lg" href="#">Buy</a><a class="pill pill-ghost pill-lg" href="#">Compare</a></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__brand">
+      <img src="brand/nacar-logo-stacked.svg" alt="nácar" width="79" height="96">
+      <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
+    </div>
+    <div class="foot__cols">
+      <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
+      <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+    </div>
+    <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+  </div>
+</footer>
+
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+<script>
+/* Motion off: counters show their final value from the first paint (the
+   engine only writes it once a stat is half on screen). */
+if (window.Nacar && Nacar.reduce) {
+  [].forEach.call(document.querySelectorAll('[data-sc-count]'), function (c) {
+    c.textContent = (c.getAttribute('data-sc-count') || '').trim().split(/\s+/)[1] || c.textContent;
+  });
+}
+
+/* Material rail: per-card visibility from live geometry (see CSS note). */
+(function () {
+  if (window.Nacar && Nacar.reduce) return;
+  var sec = document.querySelector('.mat');
+  if (!sec) return;
+  var cards = [].slice.call(sec.querySelectorAll('.mat__card'));
+  var live = false;
+  function frame() {
+    var vw = innerWidth;
+    var edge = Math.max(22, (vw - 1260) / 2);
+    cards.forEach(function (c) {
+      var r = c.getBoundingClientRect();
+      var w = r.width;
+      // leaving left: fades as it crosses the column edge (its caption is already hidden)
+      var out = (edge - r.left) / (w * 0.85);
+      var vis = 1 - Math.min(Math.max(out, 0), 1);
+      // caption shows only while the whole card is on screen, so it is never clipped
+      var inside = r.left >= 8 && r.right <= vw - 8;
+      c.style.setProperty('--vis', vis.toFixed(3));
+      c.style.setProperty('--capvis', inside ? 1 : 0);
+    });
+    if (live) requestAnimationFrame(frame);
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) {
+      var was = live; live = e[0].isIntersecting;
+      if (live && !was) requestAnimationFrame(frame);
+    }).observe(sec);
+  }
+  frame();
+})();
+
+/* Finishes: one pressed chip at a time; the tile zooms to that phone and a
+   spotlight dims the other two. Phone centres measured on the render. */
+(function () {
+  var tile = document.querySelector('[data-fin]');
+  if (!tile) return;
+  var img = tile.querySelector('.fin__img');
+  var chips = [].slice.call(document.querySelectorAll('.fin__chips .chip'));
+  var cap = document.querySelector('.fin__cap');
+  var CX = [22.3, 50.1, 77.4];
+  var TEXT = [
+    '<strong>Titanium.</strong> Black ceramic in a raw titanium frame. The pearl sits on it like a lamp in the dark.',
+    '<strong>Nácar.</strong> A pearl-white back that brightens toward its edges, the way the inside of a shell does.',
+    '<strong>Grafito.</strong> Satin graphite and a darkened frame, for the quietest Faro.'
+  ];
+  var small = matchMedia('(max-width: 734px)');
+  function select(i) {
+    chips.forEach(function (c, k) { c.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    var z = small.matches ? 1 : 1.28;
+    img.style.setProperty('--z', z);
+    img.style.setProperty('--tx', (50 - CX[i]).toFixed(2) + '%');
+    tile.style.setProperty('--spot', small.matches ? 0.7 : 1);
+    cap.innerHTML = TEXT[i];
+  }
+  chips.forEach(function (c, k) { c.addEventListener('click', function () { select(k); }); });
+})();
+</script>
+</body>
+</html>

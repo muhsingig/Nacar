@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nácar · One pearl. Three ways to carry it.</title>
+<meta name="description" content="Nácar makes a phone, a watch and a pair of earbuds, each set with a disc of real mother-of-pearl. Faro from ₹1,19,900, Pulso from ₹79,900, Onda from ₹24,900.">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/family.webp" as="image" media="(min-width: 735px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+/* ==================================================== index.html only ==
+   Every scroll-driven value reads a page variable (--p) that mirrors the
+   engine's --sc-p, so html.rm can pin it to a still frame. --e is the same
+   smoothstep the engine uses, over a window of each act.                  */
+/* Chrome, as on the product pages: the global bar is sticky at top 0. The
+   landing has no product capsule, so --chrome is just the bar (44px), and
+   the bar floats over the hero instead of pushing it down: the first screen
+   is exactly the stage. Every stage keeps --chrome clear at its top. */
+:root { --chrome: 44px; }
+.gnav { position: sticky; top: 0; margin-bottom: calc(var(--chrome) * -1); }
+section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
+
+/* Shared stage copy: name, one-liner, price, two pills. */
+.stage__copy { display: flex; flex-direction: column; gap: 14px; }
+.stage__copy .t-subtitle { color: var(--porcelain); }
+.stage__price { color: var(--ash); margin-top: 6px; }
+.stage__ctas { display: flex; gap: 14px; margin-top: 18px; }
+.stage__copy--center { align-items: center; text-align: center; }
+
+/* ------------------------------------------------------------ 1 · HERO --
+   Planes, back to front, at visibly different rates:
+     glow    (engine parallax -0.9 plus a slow swell)
+     logo    (recedes: rises 12svh, shrinks to 42%)
+     family  (rises 46svh and settles, lighten-blended so it passes
+              over the logo without a black box)
+     floor   (fixed fade to the page ground, under the copy)            */
+.hero {
+  --p: var(--sc-p, 0);
+  --t: clamp(0, calc(var(--p) / 0.9), 1);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+}
+.hero__stage { background: var(--obsidian); }
+.hero__glow-plane { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.hero__glow {
+  position: absolute; left: 50%; top: 50%;
+  width: min(120vmin, 1120px); aspect-ratio: 1; translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgba(232, 228, 244, 0.17) 0%, rgba(226, 222, 240, 0.07) 42%, rgba(220, 216, 236, 0.02) 72%, transparent 100%);
+  transform: scale(calc(0.72 + var(--e) * 0.42));
+  opacity: calc(0.6 + var(--e) * 0.4);
+}
+.hero__logo {
+  position: absolute; z-index: 2; left: 50%; top: 19svh; margin: 0;
+  height: 42svh; transform-origin: 50% 0;
+  transform: translateX(-50%) translateY(calc(var(--e) * -11svh)) scale(calc(1 - var(--e) * 0.58));
+}
+.hero__logo img { display: block; height: 100%; width: auto; }
+.hero__fam {
+  position: absolute; z-index: 3; left: 50%; top: 25svh;
+  width: min(1060px, 118svh);
+  mix-blend-mode: lighten;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%) translateY(calc((1 - var(--e)) * 46svh)) scale(calc(1.07 - var(--e) * 0.07));
+}
+.hero__fam img { display: block; width: 100%; height: auto; }
+.hero__floor {
+  position: absolute; z-index: 4; left: 0; right: 0; bottom: 0; height: 20svh; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--obsidian) 82%);
+}
+.hero__copy {
+  position: absolute; z-index: 5; left: var(--edge); right: var(--edge); bottom: 5svh;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;
+}
+.hero__links { display: flex; gap: 32px; }
+@media (max-width: 734px) {
+  .hero__logo { top: 17svh; height: 34svh; transform: translateX(-50%) translateY(calc(var(--e) * -8svh)) scale(calc(1 - var(--e) * 0.5)); }
+  /* Opens on the logo and the line alone: the family waits under the floor. */
+  .hero__fam { top: 40svh; width: 118vw; transform: translateX(-50%) translateY(calc((1 - var(--e)) * 50svh)) scale(calc(1.07 - var(--e) * 0.07)); }
+  .hero__glow { top: 48%; }
+  .hero__floor { height: 26svh; }
+  .hero__copy { flex-direction: column; align-items: flex-start; gap: 14px; bottom: 5svh; }
+  .hero__links { gap: 24px; }
+}
+
+/* ----------------------------------------------------------- 2 · FARO --
+   Flow. The lamp comes on: a dimmed plate underneath, the lit plate on top,
+   revealed by an iris that opens from the pearl, which sits dead centre.  */
+.faro { padding-top: 96px; padding-bottom: 40px; }
+.faro__fig { position: relative; height: min(80svh, 54vw); margin-top: 40px; overflow: hidden; }
+.faro__fig img {
+  position: absolute; top: 0; left: 50%; height: 100%; width: auto; max-width: none;
+  transform: translateX(-50%);
+}
+.faro__dim { filter: brightness(0.16) saturate(0.4); }
+.faro__lit { position: absolute; inset: 0; }
+@media (max-width: 734px) {
+  .faro { padding-top: 72px; padding-bottom: 24px; }
+  .faro__fig { height: 128vw; margin-top: 16px; }
+}
+
+/* ---------------------------------------------------------- 3 · PULSO --
+   Pin. The watch arrives close enough to read the dial, then pulls back
+   and steps aside while the copy lands on the left.                      */
+.pulso {
+  --p: var(--sc-p, 0);
+  --t: clamp(0, calc(var(--p) / 0.62), 1);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+}
+.pulso__stage { background: var(--obsidian); }
+/* The watch lives in a frame that starts under the bar, so the close-up
+   never bleeds up beneath it. */
+.pulso__frame { position: absolute; z-index: 1; top: var(--chrome); left: 0; right: 0; bottom: 0; overflow: clip; }
+.pulso__img {
+  position: absolute; top: 0; left: 50%;
+  height: 100%; width: auto; max-width: none;
+  transform-origin: 50% 48%;
+  transform: translateX(calc(-50% + var(--e) * 16vw)) scale(calc(1.6 - var(--e) * 0.6));
+}
+.pulso__copy {
+  position: absolute; z-index: 2; left: var(--edge); top: var(--chrome); bottom: 0;
+  width: min(34rem, 40vw);
+  justify-content: center;
+}
+@media (max-width: 734px) {
+  .pulso__img {
+    top: calc(11svh - var(--chrome)); height: auto; width: 200vw;
+    transform: translateX(-50%) scale(calc(1.55 - var(--e) * 0.55));
+  }
+  .pulso__copy { right: var(--edge); width: auto; top: auto; bottom: 6svh; }
+}
+
+/* ----------------------------------------------------------- 4 · ONDA --
+   Flow. The two buds drift in from either side and meet as the section
+   reaches the middle of the screen; the pair rides a parallax layer.    */
+.onda {
+  --p: var(--sc-p, 0);
+  --t: clamp(0, calc((var(--p) - 0.14) / 0.36), 1);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+  padding-block: 48px 120px;
+  overflow: clip;
+}
+.onda__in { position: relative; height: min(84svh, 50vw); }
+.onda__fig { position: absolute; top: 50%; left: -6vw; width: 72vw; aspect-ratio: 2400 / 1340; translate: 0 -50%; }
+.onda__plane { position: absolute; inset: 0; }
+.onda__half { position: absolute; top: 0; bottom: 0; width: 50%; overflow: hidden; }
+.onda__half img { position: absolute; top: 0; height: 100%; width: 200%; max-width: none; }
+.onda__half--l { left: 0;  transform: translateX(calc((1 - var(--e)) * -7vw)); }
+.onda__half--r { right: 0; transform: translateX(calc((1 - var(--e)) * 7vw)); }
+.onda__half--l img { left: 0; }
+.onda__half--r img { right: 0; }
+.onda__copy {
+  position: absolute; z-index: 2; left: 64vw; right: var(--edge); top: 0; bottom: 0;
+  justify-content: center;
+}
+@media (max-width: 734px) {
+  .onda { padding-block: 24px 90px; }
+  .onda__in { height: auto; }
+  .onda__fig { position: relative; top: auto; left: -25vw; width: 150vw; translate: none; }
+  .onda__half--l { transform: translateX(calc((1 - var(--e)) * -9vw)); }
+  .onda__half--r { transform: translateX(calc((1 - var(--e)) * 9vw)); }
+  .onda__copy { position: relative; left: auto; right: auto; padding-inline: var(--edge); margin-top: 8px; }
+}
+
+/* ---------------------------------------------------------- 5 · CLOSE --
+   Flow + pointer. The stacked logo brightens as the band arrives (the
+   pearl lights up, once more, quietly), and a soft white light follows the
+   pointer across the band on desktop.                                    */
+.close {
+  --p: var(--sc-p, 0);
+  --t: clamp(0, calc((var(--p) - 0.12) / 0.4), 1);
+  --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+  padding-block: 20svh 22svh;
+}
+.close[data-sc-spotlight]::after {
+  background: radial-gradient(30rem 30rem at calc(var(--sc-mx, 0.5) * 100%) calc(var(--sc-my, 0.5) * 100%),
+    rgba(236, 233, 246, 0.07), transparent 70%);
+}
+.close__in { display: flex; flex-direction: column; align-items: center; gap: 44px; text-align: center; }
+.close__logo {
+  height: clamp(150px, 28svh, 250px); width: auto;
+  filter: brightness(calc(0.3 + var(--e) * 0.7));
+}
+.close__in .t-lede { max-width: 24em; }
+@media (max-width: 734px) {
+  .close { padding-block: 14svh 16svh; }
+  .close__in { gap: 32px; padding-inline: var(--edge); }
+}
+
+/* --------------------------------------------------- MOTION OFF (html.rm) --
+   site.js has already turned the pinned acts into flow. Each stage is
+   drawn as its settled, complete frame.                                  */
+html.rm :is(.hero, .pulso, .onda, .close) { --p: 1; }
+html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; overflow: clip; }
+</style>
+</head>
+<body>
+
+<nav class="gnav" aria-label="Global"><div class="gnav__in">
+  <a class="gnav__logo" href="index.html" aria-current="page"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
+  <div class="gnav__links">
+    <a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a>
+  </div>
+  <a class="gnav__bag" href="#" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<main>
+
+  <!-- 1 · HERO · the brand moment. pin + layered planes: the logo recedes,
+       the family rises over it -->
+  <section class="hero" id="top" data-sc-act="pin" data-sc-span="1.8">
+    <div data-sc-stage class="hero__stage">
+      <div class="hero__glow-plane" data-sc-parallax="-0.9" aria-hidden="true"><div class="hero__glow"></div></div>
+      <h1 class="hero__logo"><img src="brand/nacar-logo-stacked.svg" alt="Nácar" width="141" height="172"></h1>
+      <picture class="hero__fam">
+        <source media="(max-width: 734px)" srcset="assets/family-m.webp">
+        <img src="assets/family.webp" width="2400" height="1340"
+             alt="The Nácar family: the Pulso watch, the Faro phone and the Onda earbuds in their open case, each carrying a pearl">
+      </picture>
+      <div class="hero__floor" aria-hidden="true"></div>
+      <div class="hero__copy">
+        <p class="t-subtitle">One pearl. Three ways to carry it.</p>
+        <p class="hero__links"><a class="link-more" href="#faro">Faro</a><a class="link-more" href="#pulso">Pulso</a><a class="link-more" href="#onda">Onda</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · FARO · flow + iris reveal: the lamp comes on from the pearl -->
+  <section class="faro" id="faro" data-sc-act="flow">
+    <div class="wrap stage__copy stage__copy--center" data-sc-in data-sc-stagger="70">
+      <h2 class="t-display-xl"><span class="sr-only">Nácar </span>Faro</h2>
+      <p class="t-subtitle">The light that stays on.</p>
+      <p class="t-body stage__price">From ₹1,19,900</p>
+      <p class="stage__ctas"><a class="pill pill-buy pill-lg" href="faro.html">Learn more</a><a class="pill pill-ghost pill-lg" href="faro.html#buy">Buy</a></p>
+    </div>
+    <figure class="faro__fig">
+      <picture>
+        <source media="(max-width: 734px)" srcset="assets/faro-back-m.webp">
+        <img class="faro__dim" src="assets/faro-back.webp" width="2400" height="1340" alt="" loading="lazy">
+      </picture>
+      <div class="faro__lit" data-sc-reveal="iris" data-sc-reveal-at="0.3 0.6">
+        <picture>
+          <source media="(max-width: 734px)" srcset="assets/faro-back-m.webp">
+          <img src="assets/faro-back.webp" width="2400" height="1340" loading="lazy"
+               alt="Nácar Faro from the back: a round titanium camera tower and a mother-of-pearl disc set into black ceramic">
+        </picture>
+      </div>
+    </figure>
+  </section>
+
+  <!-- 3 · PULSO · pin: close on the dial, then the watch pulls back and steps aside -->
+  <section class="pulso" id="pulso" data-sc-act="pin" data-sc-span="1.8">
+    <div data-sc-stage class="pulso__stage">
+      <div class="pulso__frame"><picture>
+        <source media="(max-width: 734px)" srcset="assets/pulso-front-m.webp">
+        <img class="pulso__img" src="assets/pulso-front.webp" width="2400" height="1340" loading="lazy"
+             alt="Nácar Pulso: a rounded octagonal titanium case reading 10:09, a pearl crown and a ribbed black band">
+      </picture></div>
+      <div class="pulso__copy stage__copy">
+        <h2 class="t-display-xl" data-sc-cue="0.24 1 0.3 0"><span class="sr-only">Nácar </span>Pulso</h2>
+        <p class="t-subtitle" data-sc-cue="0.3 1 0.3 0">Three days off the grid.</p>
+        <p class="t-body stage__price" data-sc-cue="0.38 1 0.3 0">From ₹79,900</p>
+        <p class="stage__ctas" data-sc-cue="0.38 1 0.3 0"><a class="pill pill-buy pill-lg" href="pulso.html">Learn more</a><a class="pill pill-ghost pill-lg" href="pulso.html#buy">Buy</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · ONDA · flow + parallax: the pair drifts together -->
+  <section class="onda" id="onda" data-sc-act="flow">
+    <div class="onda__in">
+      <div class="onda__fig">
+        <div class="onda__plane" data-sc-parallax="-0.8">
+          <div class="onda__half onda__half--l">
+            <picture><source media="(max-width: 734px)" srcset="assets/onda-pair-m.webp">
+            <img src="assets/onda-pair.webp" width="2400" height="1340" loading="lazy"
+                 alt="Nácar Onda: two black earbuds with ridged stems, a pearl disc on each"></picture>
+          </div>
+          <div class="onda__half onda__half--r" aria-hidden="true">
+            <picture><source media="(max-width: 734px)" srcset="assets/onda-pair-m.webp">
+            <img src="assets/onda-pair.webp" width="2400" height="1340" alt="" loading="lazy"></picture>
+          </div>
+        </div>
+      </div>
+      <div class="onda__copy stage__copy" data-sc-in data-sc-stagger="70">
+        <h2 class="t-display-xl"><span class="sr-only">Nácar </span>Onda</h2>
+        <p class="t-subtitle">The world, turned down.</p>
+        <p class="t-body stage__price">From ₹24,900</p>
+        <p class="stage__ctas"><a class="pill pill-buy pill-lg" href="onda.html">Learn more</a><a class="pill pill-ghost pill-lg" href="onda.html#buy">Buy</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CLOSE · flow + pointer: the brand band -->
+  <section class="close" id="nacar" data-sc-act="flow" data-sc-spotlight>
+    <div class="close__in" data-sc-in data-sc-stagger="80">
+      <img class="close__logo" src="brand/nacar-logo-stacked.svg" alt="nácar" width="141" height="172" loading="lazy">
+      <p class="t-lede">Real mother-of-pearl, cut from shell.<br> <strong>No two are ever quite alike.</strong></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__brand">
+      <img src="brand/nacar-logo-stacked.svg" alt="nácar" width="79" height="96">
+      <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
+    </div>
+    <div class="foot__cols">
+      <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
+      <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+    </div>
+    <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+  </div>
+</footer>
+
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

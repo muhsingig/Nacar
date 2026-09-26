@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nácar</title>
+<meta name="description" content="Nácar makes three things: Faro, a phone; Pulso, a watch; and Onda, earbuds.">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* ---------- shared stage copy block ---------- */
+  .copy{text-align:center;position:relative;z-index:2}
+  .copy h1,.copy h2{margin:0;text-wrap:balance}
+  .copy .tag,.close .line{text-wrap:balance}
+  .copy .tag{margin-top:6px}
+  .ctas{display:flex;gap:14px;justify-content:center;margin-top:24px}
+  .ctas .pill{padding:11px 22px}
+  .brandline{font-size:14px;line-height:1.43;letter-spacing:-.016em;color:var(--ash);margin-bottom:12px}
+  .brandline b{color:var(--porcelain);font-weight:600}
+  .from{margin-top:16px;font-size:14px;line-height:1.43;letter-spacing:-.016em;color:var(--ash)}
+
+  /* ---------- 1. Faro hero stage ---------- */
+  .hero{position:relative;background:var(--obsidian);height:calc(100svh - 44px);min-height:720px;max-height:1100px;overflow:hidden;display:flex;flex-direction:column;align-items:center}
+  .hero .copy{padding-top:clamp(40px,7vh,72px)}
+  .hero .media{position:relative;flex:1;width:100%;min-height:0;
+    -webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent 97%);mask-image:linear-gradient(to bottom,#000 58%,transparent 97%)}
+  .hero .media img{position:absolute;left:50%;top:0;transform:translateX(-50%);height:clamp(640px,96vh,1040px);width:auto;max-width:none;margin-top:calc(clamp(640px,96vh,1040px) * -0.045)}
+  .hero .media.reveal{transition-duration:1.2s}
+
+  /* ---------- 2. Pulso stage (split) ---------- */
+  .pulso{background:var(--obsidian);position:relative;overflow:hidden}
+  .pulso .grid{display:grid;grid-template-columns:62fr 38fr;align-items:center;min-height:900px}
+  .pulso .media{position:relative;height:900px}
+  .pulso .media img{position:absolute;inset:48px 0;width:100%;height:calc(100% - 96px);object-fit:contain;object-position:55% 50%}
+  .pulso .copy{text-align:left;padding-right:48px;margin-left:-4vw}
+  .pulso .ctas{justify-content:flex-start}
+
+  /* ---------- 3. Onda stage ---------- */
+  .onda{position:relative;background:var(--obsidian);height:900px;overflow:hidden}
+  .onda .copy{padding-top:var(--pad-section)}
+  .onda .media{position:absolute;inset:0;z-index:1}
+  .onda .media img{position:absolute;left:50%;top:200px;width:1160px;max-width:none;height:auto;transform:translateX(-50%)}
+
+  /* ---------- 4. 2-up tiles ---------- */
+  .duo{background:var(--carbon);padding:24px}
+  .duo .row{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1680px;margin-inline:auto}
+  .card{background:var(--obsidian);border-radius:var(--r-tile);overflow:hidden;position:relative;height:852px;display:flex;flex-direction:column;align-items:center}
+  .card .copy{padding:56px 28px 0}
+  .card .copy .tag{margin-top:8px}
+  .card .ctas{margin-top:20px}
+  .card .ctas .pill{padding:9px 18px}
+  .card .pic{position:relative;flex:1;width:100%;margin-top:-40px}
+  .card .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 34%);mask-image:linear-gradient(to bottom,transparent 0,#000 34%)}
+  .card.night .pic img{object-position:50% 46%}
+  .card.case .pic img{-webkit-mask-image:none;mask-image:none;inset:auto;left:50%;top:50%;width:165%;height:auto;max-width:none;transform:translate(-50.75%,-50%)}
+  .card.trade .pic img{object-position:50% 30%}
+  .card.strap .pic{margin-top:8px}
+  .card.strap .pic img{object-position:50% 42%;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 16%,#000 78%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 16%,#000 78%,transparent 100%)}
+
+  /* ---------- 5. closing brand band ---------- */
+  .close{background:linear-gradient(#1d1d1f,#000 288px);text-align:center;padding-block:var(--pad-section)}
+  .close .word{font-size:96px;line-height:1.04;font-weight:600;letter-spacing:-.02em;color:var(--porcelain)}
+  .close .line{max-width:40ch;margin:24px auto 0;color:var(--ash)}
+  .close .line b{color:var(--porcelain);font-weight:600}
+  .close .go{display:flex;justify-content:center;gap:40px;margin-top:48px;flex-wrap:wrap}
+  .close .go a{font-size:17px;line-height:1.47}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1068px){
+    .pulso .grid{grid-template-columns:1fr;min-height:0}
+    .pulso .copy{order:-1;text-align:center;padding:var(--pad-section) 22px 0;margin:0}
+    .pulso .ctas{justify-content:center}
+    .pulso .media{height:620px;margin-top:24px}
+    .pulso .media img{inset:0;height:100%;object-position:50% 50%}
+    .card{height:620px}
+  }
+  @media (max-width:734px){
+    .hero{min-height:680px;height:calc(100svh - 44px)}
+    .hero .copy{padding:48px 22px 0}
+    .hero .media img{height:600px;margin-top:-30px}
+    .ctas{gap:12px;margin-top:20px}
+    .pulso .copy{padding-top:90px}
+    .pulso .media{height:470px;margin-top:28px}
+    .pulso .media img{object-fit:cover}
+    .onda{height:620px}
+    .onda .copy{padding:90px 22px 0}
+    .onda .media img{width:500px;top:250px}
+    .duo{padding:12px}
+    .duo .row{grid-template-columns:1fr;gap:12px}
+    /* mobile type palette: 48 / 21 / 14 only */
+    .brandline .dk{display:none}
+    .card{height:680px}
+    .card .copy{padding:44px 22px 0}
+    .card h2.t-headline{font-size:48px;line-height:1.05;letter-spacing:-.015em}
+    .card .tag.t-body{font-size:21px;line-height:1.24;letter-spacing:.011em}
+    .card .pic{margin-top:-24px}
+    .card.case .pic img{width:175%}
+    .close{padding-block:90px 110px}
+    .close .word{font-size:48px;line-height:1.05}
+    .close .line.t-body{font-size:21px;line-height:1.24;letter-spacing:.011em;max-width:18em}
+    .close .go{flex-direction:column;gap:20px;margin-top:40px}
+    .close .go a{font-size:21px;line-height:1.24}
+  }
+</style>
+</head>
+<body>
+
+<nav class="gnav" aria-label="Global"><div class="in">
+  <a class="mark" href="index.html" aria-current="page">nácar</a>
+  <div class="links"><a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a></div>
+  <a href="#" aria-label="Bag"><svg viewBox="0 0 16 16"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<main>
+
+  <!-- 1 · Faro: the flagship stage -->
+  <section class="hero" aria-labelledby="faro-h">
+    <div class="copy reveal">
+      <p class="brandline"><b>Nácar</b> makes a phone, a watch and earbuds. <span class="dk">This is the phone.</span></p>
+      <h1 id="faro-h" class="t-display">Nácar Faro</h1>
+      <p class="tag t-subtitle">Sees further in the dark.</p>
+      <div class="ctas">
+        <a class="pill pill-buy" href="faro.html">Learn more</a>
+        <a class="pill pill-ghost-accent" href="faro.html#buy">Buy</a>
+      </div>
+      <p class="from">From ₹1,19,900 or ₹9,992/mo. with no-cost EMI</p>
+    </div>
+    <div class="media reveal">
+      <img src="img/nacar-phone-hero.jpg" width="1600" height="1067" alt="Nácar Faro in Silver, seen from the back, its triple camera catching the light">
+    </div>
+  </section>
+
+  <!-- 2 · Pulso -->
+  <section class="pulso" aria-labelledby="pulso-h">
+    <div class="grid">
+      <div class="media reveal">
+        <img src="img/pulso-r-hero.jpg" width="1220" height="1078" loading="lazy" alt="Nácar Pulso standing upright: an octagonal titanium case with a mother-of-pearl bezel ring, pearl crown and ribbed black band">
+      </div>
+      <div class="copy reveal">
+        <h2 id="pulso-h" class="t-display">Nácar Pulso</h2>
+        <p class="tag t-subtitle">Keeps pace for three days straight.</p>
+        <div class="ctas">
+          <a class="pill pill-buy" href="pulso.html">Learn more</a>
+          <a class="pill pill-ghost-accent" href="pulso.html#buy">Buy</a>
+        </div>
+        <p class="from">From ₹79,900</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Onda -->
+  <section class="onda" aria-labelledby="onda-h">
+    <div class="copy reveal">
+      <h2 id="onda-h" class="t-display">Nácar Onda</h2>
+      <p class="tag t-subtitle">Silence first. Then the music.</p>
+      <div class="ctas">
+        <a class="pill pill-buy" href="onda.html">Learn more</a>
+        <a class="pill pill-ghost-accent" href="onda.html#buy">Buy</a>
+      </div>
+      <p class="from">From ₹24,900</p>
+    </div>
+    <div class="media">
+      <img src="img/onda-render-pair-f.jpg" width="2000" height="1175" loading="lazy" alt="A pair of black Nácar Onda earbuds facing each other, ridged stems and mother-of-pearl discs">
+    </div>
+  </section>
+
+  <!-- 4 · two half-width tiles -->
+  <section class="duo" aria-label="More from Faro, Pulso and Onda">
+    <div class="row">
+      <article class="card night reveal">
+        <div class="copy">
+          <h2 class="t-headline">After dark.</h2>
+          <p class="tag t-body muted">Faro opens its main camera to ƒ/1.4 when the street lights come on.</p>
+          <div class="ctas">
+            <a class="pill pill-buy" href="faro.html#camera">Learn more</a>
+            <a class="pill pill-ghost-accent" href="faro.html#buy">Buy</a>
+          </div>
+        </div>
+        <div class="pic"><img src="img/nacar-phone-night.jpg" width="1280" height="1600" loading="lazy" alt="A hand holding Nácar Faro up to a lit street at night, the screen framing the scene"></div>
+      </article>
+      <article class="card strap reveal">
+        <div class="copy">
+          <h2 class="t-headline">Three finishes. One pearl.</h2>
+          <p class="tag t-body muted">Titanium, Grafito or Nácar, each ringed in real mother-of-pearl.</p>
+          <div class="ctas">
+            <a class="pill pill-buy" href="pulso.html">Learn more</a>
+            <a class="pill pill-ghost-accent" href="pulso.html#buy">Buy</a>
+          </div>
+        </div>
+        <div class="pic"><img src="img/pulso-f-nacar.jpg" width="760" height="980" loading="lazy" alt="Nácar Pulso in the pearl-toned Nácar finish with a black ribbed band"></div>
+      </article>
+      <article class="card case reveal">
+        <div class="copy">
+          <h2 class="t-headline">Forty hours to go.</h2>
+          <p class="tag t-body muted">Eight hours in the buds, 32 more in the case. Onda tops up while it waits.</p>
+          <div class="ctas">
+            <a class="pill pill-buy" href="onda.html">Learn more</a>
+            <a class="pill pill-ghost-accent" href="onda.html#buy">Buy</a>
+          </div>
+        </div>
+        <div class="pic"><img src="img/onda-r-case-k.jpg" width="2000" height="1116" loading="lazy" alt="The Nácar Onda charging case, open, with both earbuds seated inside"></div>
+      </article>
+      <article class="card trade reveal">
+        <div class="copy">
+          <h2 class="t-headline">Up to ₹42,000 back.</h2>
+          <p class="tag t-body muted">Bring an eligible phone to any Nácar store and put its value straight toward Faro.</p>
+          <div class="ctas">
+            <a class="pill pill-ghost-accent" href="#">Estimate your trade-in</a>
+          </div>
+        </div>
+        <div class="pic"><img src="img/nacar-phone-camera.jpg" width="1067" height="1600" loading="lazy" alt="Nácar Faro in Graphite, turned to show its camera module"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 5 · quiet brand close -->
+  <section class="close" aria-label="About Nácar">
+    <div class="wrap reveal">
+      <p class="word" aria-hidden="true">nácar</p>
+      <p class="line t-body"><b>Nácar</b> is Spanish for mother-of-pearl. A shell makes it slowly, one thin layer at a time. So do we.</p>
+      <div class="go">
+        <a href="#">Compare models ›</a>
+        <a href="#">Book a demo ›</a>
+        <a href="#">Find a store ›</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot"><div class="in">
+  <p>Nácar is a fictional brand created as a design study. Product photography: Unsplash contributors (free licence).</p>
+  <div class="cols">
+    <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+    <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+    <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
+    <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+  </div>
+  <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+</div></footer>
+
+<script src="site.js"></script>
+</body>
+</html>

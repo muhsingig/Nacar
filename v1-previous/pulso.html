@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nácar Pulso</title>
+<meta name="description" content="Nácar Pulso. A 49 mm titanium smartwatch with 72 hours of battery, dual-frequency GPS and 100 m water resistance. From ₹79,900.">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* no pure-white text: porcelain everywhere */
+  .pill-buy{color:var(--porcelain)}
+  .gnav a:hover,.gnav .links a[aria-current]{color:var(--porcelain)}
+
+  /* ---------- shared page layout ---------- */
+  .col{width:min(var(--w-media),100% - 44px);margin-inline:auto}
+  .stage{background:var(--obsidian)}
+  .head{padding-inline:48px;margin-bottom:72px;max-width:15ch;box-sizing:content-box;text-wrap:balance}
+  .sig{color:var(--signal)}
+  .stats.c4{grid-template-columns:repeat(4,1fr)}
+  @media (max-width:734px){
+    .head{padding-inline:0;margin-bottom:48px}
+    .stats.c4{grid-template-columns:repeat(2,1fr);gap:36px 20px}
+    .stat .num{font-size:48px}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;text-align:center;padding:40px 0 0;overflow:hidden}
+  .lockup{display:inline-flex;align-items:baseline;gap:.4em;color:var(--porcelain)}
+  .lockup .wm{font-weight:600;letter-spacing:-.02em}
+  .lockup .pr{font-weight:400;letter-spacing:.14em}
+  .hero h1{margin:10px auto 0;text-transform:uppercase;width:min(1260px,100% - 44px)}
+  .hero-media{position:relative;height:650px;margin-top:16px;display:flex;justify-content:center;overflow:hidden}
+  .fade4{-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 8%,#000 80%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 8%,#000 80%,transparent);mask-composite:intersect}
+  .hero-media img{height:720px;width:auto;max-width:none;flex:none}
+  .closer-media img{width:100%;height:auto}
+  .hero-buy{position:relative;margin-top:20px}
+  @media (max-width:734px){
+    .hero{padding:44px 0 0}
+    .hero-media{height:430px;margin-top:12px}
+    .hero-media img{height:480px}
+    .hero-buy{margin-top:18px}
+  }
+
+  /* ---------- closer look ---------- */
+  .look{height:720px;display:grid;grid-template-columns:400px 1fr}
+  .chips{position:relative;z-index:2;list-style:none;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:12px;padding:0 0 0 48px}
+  .chip{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:320px;background:rgba(66,66,69,.72);border-radius:var(--r-chip);padding:14px 24px 14px 16px;color:var(--porcelain);font-size:17px;line-height:1.3;transition:background-color .5s ease-out,padding .5s ease-out}
+  .chip:hover{background:rgba(82,82,86,.8)}
+  .chip:focus-visible{outline:2px solid var(--pearl-link);outline-offset:3px}
+  .chip .row{display:flex;align-items:center;gap:12px;font-weight:600}
+  .chip .plus{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--porcelain);position:relative;transition:transform .5s ease-out}
+  .chip .plus::before,.chip .plus::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--porcelain);transform:translate(-50%,-50%)}
+  .chip .plus::after{transform:translate(-50%,-50%) rotate(90deg)}
+  .chip .txt{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s ease-out}
+  .chip .txt>span{overflow:hidden;font-weight:400;opacity:0;transition:opacity .5s ease-out;padding-left:38px}
+  .chip[aria-selected="true"]{border-radius:28px;padding:18px 24px 22px 16px;cursor:default}
+  .chip[aria-selected="true"] .plus{transform:rotate(45deg)}
+  .chip[aria-selected="true"] .txt{grid-template-rows:1fr}
+  .chip[aria-selected="true"] .txt>span{opacity:1;padding-top:8px}
+  .look-media{position:relative;overflow:hidden;border-radius:0 var(--r-tile) var(--r-tile) 0}
+  .ph{position:absolute;inset:0}
+  .shot{position:absolute;inset:0;opacity:0;transform:scale(1.04);transition:opacity .5s ease-out,transform .8s ease-out;margin:0}
+  .shot.on{opacity:1;transform:none}
+  .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 88%,transparent),linear-gradient(transparent,#000 10%,#000 82%,transparent);-webkit-mask-composite:source-in;
+    mask-image:linear-gradient(90deg,transparent,#000 22%,#000 88%,transparent),linear-gradient(transparent,#000 10%,#000 82%,transparent);mask-composite:intersect}
+  .shot figcaption{position:absolute;left:0;right:48px;bottom:36px;text-align:right;font-size:14px;color:var(--ash)}
+  @media (max-width:900px){
+    .look{height:auto;grid-template-columns:1fr}
+    .look-media{order:-1;height:400px;border-radius:0}
+    .chips{padding:8px 16px 20px}
+    .chip{width:100%}
+    .shot figcaption{right:0;left:0;text-align:center;bottom:12px}
+    .shot img{-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+  }
+
+  /* ---------- battery ---------- */
+  .meter-tile{padding:48px 48px 52px}
+  .meter{position:relative;margin-bottom:64px}
+  .ticks{display:flex;height:64px}
+  .ticks i{flex:1;background:linear-gradient(90deg,var(--porcelain) 0 2px,transparent 2px) 0 0/calc(100% / 72) 100% repeat-x}
+  .ticks i+i{background-image:linear-gradient(90deg,var(--steel) 0 2px,transparent 2px)}
+  .days{display:grid;grid-template-columns:repeat(6,1fr);margin-top:14px;font-size:14px;color:var(--ash)}
+  .days span{border-left:1px solid var(--steel);padding-left:8px}
+  .days span.lit{color:var(--porcelain)}
+  .meter-note{display:flex;justify-content:space-between;gap:16px;font-size:14px;color:var(--ash);margin-bottom:16px}
+  .meter-note b{font-weight:400;color:var(--porcelain)}
+  @media (max-width:734px){
+    .meter-tile{padding:28px 22px 32px}
+    .ticks{height:48px}
+    .ticks i{background-size:calc(100% / 36) 100%}
+    .days{font-size:12px}
+    .days span{padding-left:4px}
+    .meter-note{flex-direction:column;gap:4px}
+  }
+
+  /* ---------- health ---------- */
+  .h-tiles{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .h-lead{grid-column:1/-1;display:grid!important;grid-template-columns:1.1fr 1fr;column-gap:48px;padding:0 48px 0 0!important;min-height:480px!important}
+  .h-lead .h-photo{grid-row:1/span 5;margin:0;height:auto}
+  .h-lead .h-photo img{-webkit-mask-image:linear-gradient(90deg,#000 65%,transparent);mask-image:linear-gradient(90deg,#000 65%,transparent);object-position:50% 50%}
+  .h-lead .eyebrow{padding-top:56px}
+  .h-lead svg{padding-bottom:48px}
+  .h-tile:not(.h-lead) svg{max-width:340px}
+  .h-lead svg{max-width:460px}
+  .h-tile{padding:40px 36px 40px;display:flex;flex-direction:column;min-height:400px}
+  .h-photo{margin:-40px -36px 28px;height:300px;position:relative}
+  .h-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-right:8px;vertical-align:1px}
+  .h-tile .eyebrow{font-size:14px;color:var(--ash)}
+  .h-tile .num{font-size:56px;line-height:1;font-weight:600;letter-spacing:-.005em;font-variant-numeric:tabular-nums;margin-top:6px}
+  .h-tile .cap{font-size:14px;line-height:1.43;color:var(--ash);margin-top:12px;max-width:26ch}
+  .h-tile svg{display:block;width:100%;margin-top:auto;padding-top:36px;overflow:visible}
+  .draw{stroke:var(--porcelain);fill:none;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+  .h-tile .draw{stroke:var(--ash);stroke-width:1.25}
+  .h-lead .draw{stroke:var(--signal)}
+  .h-tile .base{stroke:#2a2a2c}
+  .base{stroke:var(--steel);fill:none;stroke-width:1}
+  .h-tile text{fill:var(--ash);font-size:11px;font-family:var(--font)}
+  @media (max-width:990px){.h-tiles{grid-template-columns:1fr}.h-tile{min-height:0}
+    .h-lead{display:flex!important;padding:0 0 32px!important;min-height:0!important}
+    .h-lead>*:not(.h-photo){padding-inline:32px}
+    .h-lead .h-photo{height:260px}
+    .h-lead .h-photo img{-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+    .h-lead .eyebrow{padding-top:8px}
+    .h-lead svg{padding-bottom:0}}
+  @media (max-width:734px){.h-tile{padding:32px 24px 28px}.h-tile .num{font-size:48px}.h-lead>*:not(.h-photo){padding-inline:24px}.h-lead .h-photo{height:220px}}
+
+  /* ---------- trail ---------- */
+  .map{height:560px;margin-bottom:72px}
+  .map svg{position:absolute;inset:0;width:100%;height:100%}
+  .map .contours path{fill:none;stroke:var(--steel);stroke-width:1}
+  .map .route{fill:none;stroke:var(--porcelain);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+  .map .lost{fill:none;stroke:var(--ash);stroke-width:2;stroke-dasharray:2 9;stroke-linecap:round}
+  .map .pt{fill:var(--porcelain)}
+  .map .ring{fill:none;stroke:var(--porcelain);stroke-width:1.5}
+  .map .lbl{position:absolute;font-size:14px;line-height:1.43;color:var(--ash);white-space:nowrap}
+  .map .lbl b{display:block;font-weight:400;color:var(--porcelain)}
+  .trail .stats{padding-inline:48px}
+  @media (max-width:734px){
+    .map{height:380px;margin-bottom:48px}
+    .map .lbl{font-size:12px}
+    .map .l2{display:none}
+    .trail .stats{padding-inline:0}
+  }
+
+  /* ---------- closing buy ---------- */
+  .closer{text-align:center}
+  .closer .tile{padding:40px 28px 88px}
+  .closer-media{margin:-40px -28px 8px}
+    .closer h2{margin:10px auto 36px;max-width:16ch;text-wrap:balance}
+  .closer .fine{font-size:14px;color:var(--ash);margin-top:20px}
+  .closer .fine a{white-space:nowrap;color:var(--porcelain);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--slate)}
+  @media (max-width:734px){.closer .tile{padding:24px 20px 56px}.closer-media{margin:0 -20px}}
+  /* ---------- finishes ---------- */
+  .finishes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .fin{margin:0;text-align:center}
+  .fin img{width:100%;height:auto;aspect-ratio:760/980;object-fit:cover}
+  .fin figcaption{margin-top:12px;font-size:14px;color:var(--ash)}
+  .fin figcaption b{display:block;font-size:17px;font-weight:600;color:var(--porcelain);margin-bottom:2px}
+  @media (max-width:734px){.finishes{grid-template-columns:repeat(3,1fr);gap:8px}.fin figcaption{font-size:12px}.fin figcaption b{font-size:14px}}
+
+  /* ---------- specs ---------- */
+  .specs{display:grid;grid-template-columns:repeat(3,1fr);gap:0 32px;padding-inline:48px}
+  .specs div{border-top:1px solid var(--steel);padding:20px 0 28px}
+  .specs dt{font-size:14px;color:var(--ash);margin-bottom:6px}
+  .specs dd{font-size:17px;line-height:1.35;color:var(--porcelain);max-width:26ch}
+  @media (max-width:734px){.specs{grid-template-columns:1fr 1fr;gap:0 20px;padding-inline:0}}
+
+  /* sections clear the sticky local nav */
+  section[id]{scroll-margin-top:68px}
+  .hyp .fill{fill:rgba(245,245,247,.07)}
+  .gauge .arc{fill:none;stroke:var(--porcelain)}
+  .gauge .base{stroke:var(--steel)}
+</style>
+</head>
+<body>
+
+<nav class="gnav" aria-label="Global"><div class="in">
+  <a class="mark" href="index.html">nácar</a>
+  <div class="links"><a href="faro.html">Faro</a><a href="pulso.html" aria-current="page">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a></div>
+  <a href="#" aria-label="Bag"><svg viewBox="0 0 16 16"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<nav class="lnav" aria-label="Pulso">
+  <span class="name">Pulso</span>
+  <div class="right">
+    <a href="#design">Design</a><a href="#health">Health</a><a href="#specs">Specs</a>
+    <a class="pill pill-buy pill-sm" href="#buy">Buy</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 1. HERO: obsidian stage -->
+<section class="hero stage" aria-labelledby="hero-h">
+  <p class="lockup t-label reveal"><span class="wm">nácar</span><span class="pr">PULSO</span></p>
+  <h1 id="hero-h" class="t-hero reveal">Three days<br>off the grid.</h1>
+  <div class="hero-buy reveal">
+    <span class="price-capsule">From ₹79,900 <a class="pill pill-buy" href="#buy">Buy</a></span>
+  </div>
+  <div class="hero-media reveal">
+    <img src="img/pulso-r-hero.jpg" alt="Nácar Pulso in three-quarter view: rounded-octagon titanium case, mother-of-pearl bezel ring, pearl-capped crown and ribbed black band" width="1220" height="1078">
+  </div>
+</section>
+
+<!-- 2. CLOSER LOOK: carbon band -->
+<section id="design" class="section band" aria-labelledby="look-h">
+  <div class="col">
+    <h2 id="look-h" class="t-display head reveal">Every edge, earned.</h2>
+    <div class="tile look reveal">
+      <ul class="chips" role="tablist" aria-label="Pulso hardware" aria-orientation="vertical">
+        <li><button class="chip" role="tab" id="chip-0" aria-controls="shot-0" aria-selected="true">
+          <span class="row"><span class="plus" aria-hidden="true"></span>Titanium case</span>
+          <span class="txt"><span>Grade 5 titanium. Brushed flats, polished chamfers.</span></span>
+        </button></li>
+        <li><button class="chip" role="tab" id="chip-1" aria-controls="shot-1" aria-selected="false" tabindex="-1">
+          <span class="row"><span class="plus" aria-hidden="true"></span>Nácar bezel</span>
+          <span class="txt"><span>Real mother-of-pearl, the nácar we are named after.</span></span>
+        </button></li>
+        <li><button class="chip" role="tab" id="chip-2" aria-controls="shot-2" aria-selected="false" tabindex="-1">
+          <span class="row"><span class="plus" aria-hidden="true"></span>Pearl crown</span>
+          <span class="txt"><span>Knurled for gloved hands, capped with a pearl.</span></span>
+        </button></li>
+        <li><button class="chip" role="tab" id="chip-3" aria-controls="shot-3" aria-selected="false" tabindex="-1">
+          <span class="row"><span class="plus" aria-hidden="true"></span>Display</span>
+          <span class="txt"><span>Always on. 3,000 nits by day, 1 nit by night.</span></span>
+        </button></li>
+        <li><button class="chip" role="tab" id="chip-4" aria-controls="shot-4" aria-selected="false" tabindex="-1">
+          <span class="row"><span class="plus" aria-hidden="true"></span>Ribbed band</span>
+          <span class="txt"><span>Flexes, breathes and swims. Pin-and-tuck clasp.</span></span>
+        </button></li>
+      </ul>
+      <div class="look-media">
+        <figure class="shot on" id="shot-0" role="tabpanel" aria-labelledby="chip-0">
+          <img src="img/pulso-r-case.jpg" alt="Brushed flats and polished chamfers of the octagonal titanium case" style="object-position:50% 40%">
+          <figcaption>49 mm · grade 5 titanium · 52 g</figcaption>
+        </figure>
+        <figure class="shot" id="shot-1" role="tabpanel" aria-labelledby="chip-1">
+          <img src="img/pulso-r-bezel.jpg" alt="The mother-of-pearl bezel ring catching the light at the edge of the case" style="object-position:50% 40%" loading="lazy">
+          <figcaption>Mother-of-pearl inlay · sapphire cover</figcaption>
+        </figure>
+        <figure class="shot" id="shot-2" role="tabpanel" aria-labelledby="chip-2">
+          <img src="img/pulso-r-crown.jpg" alt="Macro of the knurled crown with its pearl cabochon" style="object-position:55% 55%" loading="lazy">
+          <figcaption>Knurled titanium · pearl cabochon</figcaption>
+        </figure>
+        <figure class="shot" id="shot-3" role="tabpanel" aria-labelledby="chip-3">
+          <img src="img/pulso-r-display.jpg" alt="The round display showing 10:09 inside the pearl ring" style="object-position:50% 50%" loading="lazy">
+          <figcaption>3,000 nits peak · 1 nit minimum</figcaption>
+        </figure>
+        <figure class="shot" id="shot-4" role="tabpanel" aria-labelledby="chip-4">
+          <img src="img/pulso-r-band.jpg" alt="Close-up of the ribbed black sport band" style="object-position:50% 50%" loading="lazy">
+          <figcaption>Fluoroelastomer · pin-and-tuck clasp</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. FINISHES: obsidian stage -->
+<section id="finishes" class="section stage" aria-labelledby="fin-h">
+  <div class="col">
+    <h2 id="fin-h" class="t-display head reveal">Three finishes. One pearl.</h2>
+    <div class="finishes">
+      <figure class="fin reveal">
+        <img src="img/pulso-f-titanium.jpg" alt="Pulso in natural titanium with a black ribbed band" loading="lazy" width="760" height="980">
+        <figcaption><b>Titanium</b>Natural brushed grade 5</figcaption>
+      </figure>
+      <figure class="fin reveal">
+        <img src="img/pulso-f-grafito.jpg" alt="Pulso in dark Grafito titanium with a black ribbed band" loading="lazy" width="760" height="980">
+        <figcaption><b>Grafito</b>Dark PVD over titanium</figcaption>
+      </figure>
+      <figure class="fin reveal">
+        <img src="img/pulso-f-nacar.jpg" alt="Pulso in pearl-toned Nácar titanium with a black ribbed band" loading="lazy" width="760" height="980">
+        <figcaption><b>Nácar</b>Pearl-toned titanium</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 4. BATTERY: carbon band -->
+<section id="battery" class="section band" aria-labelledby="bat-h">
+  <div class="col">
+    <h2 id="bat-h" class="t-display head reveal">Charge on Friday. Forget it till Monday.</h2>
+    <div class="tile-graphite meter-tile reveal">
+      <div class="meter" role="img" aria-label="Battery timeline: 72 hours of typical use, extended to 144 hours in low-power mode">
+        <p class="meter-note"><span><b>Typical use</b> · Friday morning to Monday morning</span><span><b>Low-power mode</b> · three more days</span></p>
+        <div class="ticks"><i></i><i></i></div>
+        <div class="days" aria-hidden="true"><span class="lit">Fri</span><span class="lit">Sat</span><span class="lit">Sun</span><span>Mon</span><span>Tue</span><span>Wed</span></div>
+      </div>
+      <div class="stats c4">
+        <div class="stat"><p class="eyebrow">Typical use</p><p class="num">72 h</p><p class="cap">With workouts, sleep and alerts.</p></div>
+        <div class="stat"><p class="eyebrow">Low-power mode</p><p class="num">144 h</p><p class="cap">Time, heart rate and steps stay on.</p></div>
+        <div class="stat"><p class="eyebrow">Dual-band GPS workout</p><p class="num">36 h</p><p class="cap">Enough for an ultra with a night stage.</p></div>
+        <div class="stat"><p class="eyebrow">Fast charge</p><p class="num">80%</p><p class="cap">From empty in 45 minutes.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. HEALTH: obsidian stage -->
+<section id="health" class="section stage" aria-labelledby="health-h">
+  <div class="col">
+    <h2 id="health-h" class="t-display head reveal">It knows how you slept before you do.</h2>
+    <div class="h-tiles">
+      <article class="tile-graphite h-tile h-lead reveal">
+        <div class="h-photo"><img src="img/pulso-r-health.jpg" alt="Pulso from the crown side, its round display showing a green activity arc" loading="lazy"></div>
+        <p class="eyebrow">Resting heart rate · bpm</p>
+        <p class="num">54</p>
+        <p class="cap" style="max-width:40ch">Rest a fingertip on the pearl crown for a rhythm check. Otherwise it listens every second in a workout.</p>
+        <svg viewBox="0 0 300 80" aria-hidden="true">
+          <line class="base" x1="0" y1="52" x2="300" y2="52"/>
+          <polyline class="draw" points="0,52 40,52 52,47 60,52 76,52 84,10 92,70 100,52 128,52 140,45 152,52 188,52 200,47 208,52 224,52 232,10 240,70 248,52 276,52 288,45 300,52"/>
+        </svg>
+      </article>
+      <article class="tile-graphite h-tile reveal">
+        <p class="eyebrow">Last night's sleep</p>
+        <p class="num">7 h 42 m</p>
+        <p class="cap">Awake, REM, core and deep, charted by the minute.</p>
+        <svg class="hyp" viewBox="0 0 320 120" aria-hidden="true">
+          <line class="base" x1="44" y1="14" x2="320" y2="14"/><line class="base" x1="44" y1="42" x2="320" y2="42"/><line class="base" x1="44" y1="70" x2="320" y2="70"/><line class="base" x1="44" y1="98" x2="320" y2="98"/>
+          <text x="0" y="18">Awake</text><text x="0" y="46">REM</text><text x="0" y="74">Core</text><text x="0" y="102">Deep</text>
+          <path class="fill" d="M44 98 V14 H54 V70 H74 V98 H112 V70 H136 V42 H152 V70 H172 V98 H194 V70 H222 V42 H242 V14 H246 V70 H268 V98 H282 V70 H298 V42 H320 V98 Z"/>
+          <polyline class="draw" points="44,14 54,14 54,70 74,70 74,98 112,98 112,70 136,70 136,42 152,42 152,70 172,70 172,98 194,98 194,70 222,70 222,42 242,42 242,14 246,14 246,70 268,70 268,98 282,98 282,70 298,70 298,42 320,42"/>
+          <text x="44" y="118">11 pm</text><text x="286" y="118">7 am</text>
+        </svg>
+      </article>
+      <article class="tile-graphite h-tile reveal">
+        <p class="eyebrow">Blood oxygen</p>
+        <p class="num">98%</p>
+        <p class="cap">A reading in 15 seconds, plus quiet checks as you sleep.</p>
+        <svg class="gauge" viewBox="0 0 320 120" aria-hidden="true">
+          <path class="base" d="M60 110 A100 100 0 0 1 260 110" stroke-width="10" stroke-linecap="round"/>
+          <path class="arc" d="M60 110 A100 100 0 0 1 260 110" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="80 100"/>
+          <text x="46" y="118" text-anchor="end">90</text><text x="160" y="28" text-anchor="middle">95</text><text x="274" y="118">100</text>
+        </svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 6. TRAIL: carbon band -->
+<section id="trail" class="section band trail" aria-labelledby="trail-h">
+  <div class="col">
+    <h2 id="trail-h" class="t-display head reveal">Signal lost. Route found.</h2>
+    <div class="tile-graphite map reveal" role="img" aria-label="A drawn trail map: the route continues through a canyon with no signal and rejoins on the far side">
+      <svg viewBox="0 0 1260 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g class="contours"><path d="M342 250 L344 253 L345 256 L344 259 L341 261 L338 263 L335 265 L332 267 L329 268 L327 270 L324 271 L321 272 L318 273 L315 273 L312 274 L309 275 L306 276 L303 277 L300 277 L297 277 L294 276 L291 275 L288 274 L285 274 L281 275 L277 275 L273 274 L269 273 L266 271 L264 269 L262 266 L261 263 L260 261 L260 258 L261 255 L264 252 L266 250 L269 248 L270 246 L270 244 L270 242 L269 239 L269 237 L270 234 L271 232 L273 230 L275 228 L277 226 L280 224 L282 222 L286 221 L289 220 L293 220 L297 220 L300 221 L304 220 L307 220 L311 220 L314 221 L317 223 L319 226 L320 229 L321 231 L323 233 L324 235 L326 236 L328 238 L330 240 L332 241 L334 243 L336 245 L339 247 L342 250Z"/>
+<path d="M393 250 L397 256 L397 263 L394 269 L388 274 L381 278 L374 282 L368 285 L362 289 L357 292 L351 295 L345 297 L338 299 L331 300 L325 301 L319 303 L313 306 L307 307 L300 308 L293 307 L287 305 L281 304 L274 303 L266 303 L258 304 L249 304 L240 303 L232 300 L226 296 L222 290 L219 284 L217 279 L216 273 L216 267 L219 261 L223 255 L229 250 L233 246 L236 242 L236 237 L234 232 L232 227 L232 221 L233 215 L237 211 L241 206 L246 202 L251 198 L256 193 L262 190 L269 187 L277 186 L285 186 L292 186 L300 186 L308 186 L315 186 L323 186 L330 189 L336 193 L340 199 L343 205 L345 210 L348 214 L352 218 L357 221 L362 224 L366 227 L370 231 L375 235 L381 239 L387 244 L393 250Z"/>
+<path d="M451 250 L457 260 L457 270 L451 280 L441 288 L428 294 L417 300 L407 306 L399 311 L391 317 L382 322 L372 326 L361 328 L351 330 L341 333 L331 336 L321 339 L311 342 L300 343 L289 342 L279 340 L268 337 L258 336 L245 337 L231 339 L216 339 L202 337 L190 332 L181 324 L175 315 L172 305 L169 295 L168 286 L169 276 L173 267 L180 258 L187 250 L194 243 L197 236 L196 229 L192 221 L189 212 L188 202 L191 193 L197 186 L204 179 L212 172 L220 166 L229 159 L239 153 L250 149 L263 147 L275 147 L288 147 L300 148 L312 147 L325 147 L337 148 L348 153 L357 160 L363 169 L367 179 L371 187 L377 193 L383 198 L392 202 L400 207 L409 213 L416 219 L424 225 L433 233 L443 241 L451 250Z"/>
+<path d="M518 250 L524 265 L522 279 L512 292 L497 303 L480 312 L463 320 L450 328 L439 336 L428 345 L416 352 L402 358 L387 362 L372 364 L358 368 L344 372 L330 377 L315 381 L300 382 L285 381 L269 378 L255 376 L239 375 L220 376 L200 379 L178 379 L158 375 L142 367 L131 355 L124 341 L120 327 L118 313 L117 299 L119 286 L124 273 L133 261 L142 250 L149 240 L152 231 L149 220 L144 208 L139 194 L138 181 L142 168 L151 157 L162 148 L174 139 L186 130 L199 121 L213 112 L229 106 L247 103 L265 103 L283 104 L300 104 L317 104 L335 104 L352 107 L367 113 L379 124 L388 137 L394 151 L400 162 L408 170 L419 176 L432 182 L445 188 L458 195 L470 204 L482 214 L494 225 L507 237 L518 250Z"/>
+<path d="M592 250 L597 269 L593 288 L579 305 L558 319 L534 331 L513 341 L496 352 L482 363 L469 375 L454 386 L436 393 L416 399 L396 402 L377 406 L359 412 L340 419 L321 424 L300 426 L279 425 L259 422 L239 419 L217 419 L192 421 L164 424 L136 424 L109 418 L89 406 L75 390 L68 370 L65 351 L63 332 L63 314 L66 296 L72 280 L82 264 L92 250 L100 237 L101 224 L96 210 L88 193 L81 175 L80 156 L87 139 L100 125 L116 114 L133 102 L149 90 L166 78 L185 67 L206 59 L229 55 L253 54 L277 55 L300 56 L323 56 L346 57 L368 62 L388 71 L403 86 L414 104 L422 121 L430 135 L442 145 L458 152 L477 158 L497 166 L516 175 L533 187 L548 201 L564 216 L580 232 L592 250Z"/>
+<path d="M673 250 L677 274 L669 298 L650 319 L622 337 L592 351 L566 364 L546 377 L530 393 L514 408 L495 422 L473 433 L447 439 L422 444 L398 449 L374 456 L351 464 L326 471 L300 474 L274 474 L247 471 L221 468 L192 469 L160 472 L124 475 L88 474 L56 466 L31 449 L16 427 L9 401 L7 375 L7 351 L7 329 L10 308 L17 287 L27 268 L38 250 L44 233 L44 217 L36 198 L25 176 L17 152 L16 129 L26 108 L43 90 L65 76 L87 62 L108 47 L130 32 L154 17 L180 7 L210 1 L241 1 L271 2 L300 4 L329 5 L358 8 L385 14 L410 27 L429 46 L442 68 L452 89 L464 105 L480 117 L502 124 L529 131 L557 140 L582 153 L604 168 L624 186 L642 205 L660 227 L673 250Z"/>
+<path d="M759 250 L762 280 L750 309 L724 334 L689 355 L653 372 L623 388 L599 405 L581 425 L563 445 L540 462 L513 475 L482 483 L450 489 L420 495 L392 503 L363 513 L332 522 L300 527 L267 528 L234 526 L201 524 L165 525 L124 529 L80 532 L36 529 L-3 517 L-31 495 L-47 466 L-53 433 L-53 401 L-52 372 L-51 345 L-48 319 L-42 295 L-33 272 L-23 250 L-18 229 L-21 208 L-32 184 L-46 157 L-56 127 L-55 98 L-42 73 L-19 52 L9 35 L37 18 L64 0 L91 -19 L120 -37 L153 -50 L189 -57 L227 -58 L264 -55 L300 -52 L335 -49 L370 -45 L403 -36 L432 -20 L455 4 L471 30 L485 55 L500 73 L522 85 L553 93 L588 100 L625 111 L657 127 L685 146 L708 169 L728 194 L747 221 L759 250Z"/>
+<path d="M852 250 L851 286 L834 320 L802 350 L760 374 L718 394 L683 414 L657 435 L636 459 L616 484 L589 506 L556 521 L519 531 L481 537 L444 544 L410 554 L375 566 L339 578 L300 586 L260 588 L220 587 L179 586 L134 588 L85 592 L32 594 L-21 589 L-65 572 L-96 544 L-112 506 L-116 466 L-114 427 L-112 392 L-111 361 L-109 331 L-105 303 L-98 276 L-90 250 L-87 225 L-94 199 L-108 169 L-125 135 L-136 100 L-133 65 L-115 35 L-85 11 L-50 -9 L-16 -29 L16 -50 L48 -73 L83 -95 L122 -112 L166 -120 L212 -121 L257 -117 L300 -112 L342 -107 L383 -100 L422 -88 L456 -68 L483 -40 L502 -10 L519 18 L540 38 L570 50 L609 58 L655 66 L702 78 L742 97 L774 122 L800 151 L822 182 L840 215 L852 250Z"/>
+<path d="M948 250 L943 292 L921 331 L882 366 L834 394 L786 418 L747 441 L718 467 L696 496 L673 526 L642 552 L603 571 L559 582 L513 589 L470 597 L430 608 L389 624 L346 639 L300 650 L252 654 L204 654 L154 654 L100 657 L41 661 L-21 662 L-81 653 L-131 631 L-164 594 L-179 548 L-181 499 L-176 454 L-173 413 L-173 377 L-174 344 L-173 312 L-169 280 L-165 250 L-165 220 L-175 188 L-193 152 L-212 112 L-223 69 L-217 29 L-193 -6 L-157 -34 L-114 -57 L-73 -79 L-35 -104 L2 -132 L43 -158 L90 -178 L142 -188 L196 -188 L249 -182 L300 -175 L349 -167 L397 -157 L442 -142 L481 -118 L512 -86 L535 -52 L557 -22 L584 -1 L623 11 L673 18 L731 26 L788 41 L836 65 L873 95 L901 131 L923 169 L939 209 L948 250Z"/>
+<path d="M971 360 L970 363 L968 365 L966 367 L964 369 L961 371 L960 373 L958 375 L957 377 L956 379 L953 381 L951 382 L948 382 L944 383 L942 384 L939 385 L936 387 L933 388 L930 390 L926 391 L923 391 L919 391 L915 390 L911 390 L908 388 L905 387 L903 384 L902 381 L902 378 L902 374 L902 372 L902 370 L900 368 L899 366 L897 364 L895 362 L895 360 L894 358 L893 355 L893 353 L892 350 L892 347 L894 344 L896 342 L899 341 L902 339 L905 338 L907 336 L909 334 L912 332 L916 331 L919 330 L923 331 L927 332 L930 333 L933 335 L936 335 L939 336 L941 337 L944 338 L946 340 L949 340 L952 341 L956 341 L960 341 L965 342 L968 344 L971 346 L972 349 L972 352 L972 355 L971 357 L971 360Z"/>
+<path d="M1016 360 L1014 365 L1011 371 L1007 375 L1002 379 L998 383 L994 387 L991 392 L989 396 L985 401 L980 405 L974 407 L968 408 L961 410 L955 411 L950 414 L944 418 L937 422 L930 426 L922 428 L914 428 L906 427 L898 426 L890 423 L883 421 L877 416 L873 411 L871 404 L871 397 L872 390 L872 385 L870 381 L866 377 L862 374 L857 370 L854 365 L852 360 L851 355 L850 350 L849 344 L848 338 L849 332 L852 327 L857 322 L863 318 L869 315 L875 311 L880 307 L886 303 L892 299 L899 297 L907 297 L915 298 L923 301 L930 304 L936 306 L942 308 L948 310 L954 311 L959 313 L965 315 L971 317 L978 318 L987 318 L997 319 L1006 321 L1014 324 L1019 329 L1020 336 L1020 342 L1019 348 L1017 354 L1016 360Z"/>
+<path d="M1066 360 L1063 369 L1059 377 L1053 384 L1046 391 L1039 398 L1033 404 L1028 411 L1024 419 L1019 426 L1011 432 L1001 435 L991 438 L980 440 L971 443 L962 448 L953 455 L942 462 L930 468 L917 471 L904 471 L891 469 L878 465 L866 461 L855 456 L846 449 L840 440 L837 429 L837 418 L838 408 L837 400 L834 393 L827 388 L818 382 L811 376 L805 368 L802 360 L800 352 L799 343 L798 334 L798 324 L799 315 L804 306 L812 299 L822 293 L832 287 L841 282 L850 275 L859 268 L869 263 L881 259 L894 259 L907 262 L919 267 L930 272 L940 276 L950 278 L959 280 L968 282 L978 284 L987 287 L997 289 L1010 290 L1024 290 L1040 292 L1055 295 L1066 302 L1073 311 L1075 321 L1073 332 L1071 342 L1068 351 L1066 360Z"/>
+<path d="M1120 360 L1117 372 L1112 384 L1104 395 L1094 404 L1085 413 L1076 423 L1070 433 L1064 443 L1056 453 L1045 462 L1031 467 L1016 471 L1002 474 L989 479 L976 487 L963 498 L947 508 L930 516 L911 520 L892 519 L874 515 L856 510 L840 503 L825 494 L813 484 L805 470 L802 455 L802 440 L802 426 L800 416 L793 407 L781 400 L768 392 L757 383 L749 372 L744 360 L743 348 L742 335 L741 322 L741 309 L744 296 L751 283 L762 273 L776 264 L790 256 L803 248 L816 239 L828 230 L843 222 L860 218 L879 219 L898 224 L915 231 L930 238 L944 242 L957 245 L971 246 L985 248 L999 250 L1013 253 L1029 256 L1047 257 L1067 258 L1089 261 L1110 267 L1125 277 L1133 290 L1135 305 L1131 320 L1127 334 L1123 347 L1120 360Z"/>
+<path d="M1179 360 L1176 376 L1170 391 L1160 406 L1148 419 L1135 431 L1125 443 L1116 457 L1108 470 L1097 484 L1083 495 L1065 502 L1045 508 L1026 513 L1009 521 L992 532 L974 547 L954 561 L930 571 L905 575 L879 573 L855 567 L833 558 L812 547 L794 535 L779 520 L769 503 L764 483 L763 464 L762 447 L758 434 L746 423 L730 414 L711 403 L695 391 L684 376 L679 360 L678 344 L678 327 L678 310 L679 292 L683 275 L692 258 L707 244 L725 233 L744 222 L761 211 L778 199 L795 187 L815 177 L838 173 L863 175 L888 182 L910 192 L930 201 L948 207 L966 209 L985 209 L1004 210 L1023 212 L1043 214 L1065 217 L1090 219 L1117 221 L1146 226 L1171 235 L1190 249 L1199 267 L1199 287 L1194 308 L1187 326 L1182 344 L1179 360Z"/>
+<path d="M1242 360 L1239 380 L1233 400 L1222 418 L1207 435 L1191 450 L1178 466 L1166 483 L1156 500 L1142 517 L1124 531 L1101 541 L1077 548 L1053 556 L1032 567 L1011 583 L988 602 L961 620 L930 632 L897 637 L865 632 L835 622 L808 609 L783 594 L761 577 L743 558 L730 536 L724 513 L722 489 L719 469 L711 454 L694 441 L671 430 L646 416 L625 400 L612 381 L607 360 L606 339 L608 318 L609 296 L610 274 L616 252 L628 231 L646 213 L669 198 L693 184 L715 171 L737 156 L759 141 L785 130 L814 125 L846 128 L877 138 L905 151 L930 162 L953 168 L975 169 L1000 168 L1025 167 L1051 167 L1078 170 L1107 173 L1138 176 L1173 180 L1208 187 L1239 200 L1261 219 L1270 243 L1268 269 L1260 295 L1251 318 L1244 340 L1242 360Z"/>
+<path d="M1309 360 L1307 384 L1302 409 L1289 431 L1272 452 L1252 471 L1235 491 L1221 511 L1207 532 L1190 553 L1168 570 L1141 583 L1112 594 L1084 604 L1057 619 L1031 640 L1002 664 L968 686 L930 700 L889 704 L850 696 L814 681 L781 662 L752 642 L727 621 L705 598 L690 572 L682 544 L677 517 L671 494 L659 476 L636 462 L605 448 L573 431 L547 410 L532 386 L526 360 L528 334 L531 308 L534 281 L536 254 L543 226 L558 201 L580 178 L608 160 L637 143 L665 126 L692 109 L721 92 L753 79 L790 74 L829 80 L866 93 L900 108 L930 121 L958 126 L986 125 L1016 121 L1049 118 L1083 117 L1118 119 L1154 123 L1193 128 L1235 134 L1277 144 L1312 162 L1336 186 L1345 217 L1341 249 L1329 281 L1318 309 L1311 335 L1309 360Z"/>
+<path d="M1381 360 L1381 389 L1376 418 L1362 446 L1342 471 L1318 494 L1297 517 L1280 541 L1263 567 L1243 592 L1217 613 L1185 630 L1151 643 L1118 658 L1086 677 L1054 703 L1019 733 L977 758 L930 774 L881 776 L834 764 L792 743 L754 718 L721 692 L692 666 L667 638 L649 608 L637 577 L629 547 L619 521 L600 501 L570 484 L531 467 L492 447 L461 421 L443 392 L439 360 L443 328 L449 297 L453 265 L457 232 L465 199 L482 168 L508 141 L541 118 L577 98 L611 79 L645 58 L680 39 L720 26 L764 22 L810 30 L855 46 L895 64 L930 77 L963 81 L997 77 L1035 69 L1076 62 L1119 60 L1162 62 L1207 67 L1254 74 L1303 84 L1351 99 L1391 121 L1416 152 L1423 190 L1416 229 L1402 266 L1388 300 L1382 331 L1381 360Z"/></g>
+        <path class="route" d="M-10 470 C 90 450, 150 400, 230 395 S 360 420, 420 360"/>
+        <path class="lost" d="M420 360 C 480 300, 540 250, 620 250 S 740 290, 790 250"/>
+        <path class="route" d="M790 250 C 850 200, 900 170, 980 175 S 1110 140, 1180 90"/>
+        <circle class="pt" cx="420" cy="360" r="5"/><circle class="ring" cx="420" cy="360" r="13"/>
+        <circle class="pt" cx="790" cy="250" r="5"/><circle class="ring" cx="790" cy="250" r="13"/>
+        <circle class="pt" cx="1180" cy="90" r="6"/>
+      </svg>
+      <p class="lbl l1" style="left:calc(420 / 1260 * 100% - 20px);top:calc(390 / 560 * 100%)"><b>Signal lost · 14:06</b>Canyon floor, 1,842 m</p>
+      <p class="lbl l2" style="left:calc(790 / 1260 * 100% + 24px);top:calc(260 / 560 * 100%)"><b>Back on route · 14:31</b>GPS track held to 3 m</p>
+    </div>
+    <div class="stats c4 reveal">
+      <div class="stat"><p class="eyebrow">GPS frequency bands</p><p class="num">2</p><p class="cap">L1 and L5 hold a line in canyons.</p></div>
+      <div class="stat"><p class="eyebrow">Water resistance</p><p class="num">100 m</p><p class="cap">Rated for dives and open water.</p></div>
+      <div class="stat"><p class="eyebrow">Peak brightness</p><p class="num">3,000</p><p class="cap">Nits, readable in overhead sun.</p></div>
+      <div class="stat"><p class="eyebrow">Tested from</p><p class="num">−20 °C</p><p class="cap">Up to 55 °C. Drop and dust tested.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. SPECS: obsidian stage -->
+<section id="specs" class="section stage" aria-labelledby="specs-h">
+  <div class="col">
+    <h2 id="specs-h" class="t-display head reveal">Tech specs.</h2>
+    <dl class="specs reveal">
+      <div><dt>Case</dt><dd>49 mm rounded octagon, grade 5 titanium, 52 g</dd></div>
+      <div><dt>Bezel</dt><dd>Mother-of-pearl inlay under sapphire</dd></div>
+      <div><dt>Display</dt><dd>Round, always on, 3,000 nits peak</dd></div>
+      <div><dt>Battery</dt><dd>72 h typical, 144 h low-power</dd></div>
+      <div><dt>Charging</dt><dd>0 to 80% in 45 minutes</dd></div>
+      <div><dt>Health</dt><dd>Heart rate, rhythm check, blood oxygen, sleep stages</dd></div>
+      <div><dt>Location</dt><dd>Dual-frequency GPS (L1 + L5)</dd></div>
+      <div><dt>Durability</dt><dd>100 m water, −20 °C to 55 °C</dd></div>
+      <div><dt>Finishes</dt><dd>Titanium, Grafito, Nácar</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- 8. BUY: carbon band -->
+<section id="buy" class="section band closer" aria-labelledby="buy-h">
+  <div class="col"><div class="tile">
+    <div class="closer-media reveal">
+      <img src="img/pulso-render-crown.jpg" alt="The pearl-capped crown and polished chamfer of Pulso, up close" loading="lazy" width="1376" height="614">
+    </div>
+    <h2 id="buy-h" class="t-hero reveal">The long way round starts here.</h2>
+    <div class="reveal">
+      <span class="price-capsule">From ₹79,900 <a class="pill pill-buy" href="#">Buy</a></span>
+      <p class="fine">Or ₹6,658/mo. for 12 months with no-cost EMI. Free engraving and delivery. <a href="#">Compare models</a></p>
+    </div>
+  </div></div>
+</section>
+
+</main>
+
+<footer class="foot"><div class="in">
+  <p>Nácar is a fictional brand created as a design study. Product photography: Unsplash contributors (free licence).</p>
+  <div class="cols">
+    <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+    <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+    <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
+    <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+  </div>
+  <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+</div></footer>
+
+<script src="site.js"></script>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.chips .chip'));
+  function pick(i,focus){
+    tabs.forEach(function(t,j){
+      var on=j===i;
+      t.setAttribute('aria-selected',on?'true':'false');
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).classList.toggle('on',on);
+    });
+    if(focus)tabs[i].focus();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){pick(i)});
+    t.addEventListener('keydown',function(e){
+      var k=e.key,n=tabs.length;
+      if(k==='ArrowDown'||k==='ArrowRight'){e.preventDefault();pick((i+1)%n,true)}
+      else if(k==='ArrowUp'||k==='ArrowLeft'){e.preventDefault();pick((i-1+n)%n,true)}
+      else if(k==='Home'){e.preventDefault();pick(0,true)}
+      else if(k==='End'){e.preventDefault();pick(n-1,true)}
+    });
+  });
+})();
+</script>
+</body>
+</html>
