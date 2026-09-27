@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nácar Support · How can we help?</title>
+<meta name="description" content="Help for Nácar Faro, Pulso and Onda: answers, repairs, the 1-year warranty and Nácar Care+ from ₹1,900.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nácar Support · How can we help?">
+<meta property="og:description" content="Help for Nácar Faro, Pulso and Onda: answers, repairs, the 1-year warranty and Nácar Care+ from ₹1,900.">
+<meta property="og:image" content="assets/og-support.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nácar Support · How can we help?">
+<meta name="twitter:description" content="Help for Nácar Faro, Pulso and Onda: answers, repairs, the 1-year warranty and Nácar Care+ from ₹1,900.">
+<meta name="twitter:image" content="assets/og-support.jpg">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+/* ================================================== support.html only == */
+:root { --chrome: 104px; }
+.gnav { position: sticky; top: 0; }
+.lnav { top: 52px; }
+section[id], details[id] { scroll-margin-top: calc(var(--chrome) + 24px); }
+
+/* Hero: the question, and a search field (styled, not wired to anything) */
+.sup-hero { padding: 112px 0 64px; text-align: center; }
+.search { position: relative; max-width: 640px; margin: 44px auto 0; }
+.search input {
+  width: 100%; box-sizing: border-box;
+  font: 400 17px/1.3 var(--font); letter-spacing: -0.022em; color: var(--porcelain);
+  background: var(--graphite); border: 1px solid var(--steel); border-radius: var(--r-pill);
+  padding: 16px 24px 16px 54px;
+  transition: border-color var(--d-ui) var(--ease);
+}
+.search input::placeholder { color: var(--ash); }
+.search input:hover { border-color: var(--slate); }
+.search input:focus-visible { outline: 2px solid var(--pearl-link); outline-offset: 3px; border-color: var(--porcelain); }
+.search input::-webkit-search-cancel-button { filter: invert(1); }
+.search__field { position: relative; }
+.search svg { position: absolute; left: 22px; top: 50%; translate: 0 -50%; width: 18px; height: 18px; stroke: var(--ash); fill: none; stroke-width: 1.6; pointer-events: none; }
+.search__msg { color: var(--ash); margin-top: 14px; min-height: 1.47em; }
+
+/* Topic tiles */
+.topics { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
+.topic {
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 14px;
+  height: 188px; padding: 18px 12px 22px; border-radius: var(--r-tile);
+  background: var(--carbon); color: var(--porcelain); text-decoration: none !important;
+  transition: background-color var(--d-ui) var(--ease), transform 160ms var(--ease);
+}
+.topic:hover { background: var(--graphite); }
+.topic:active { transform: scale(0.98); }
+.topic__art { flex: 1; min-height: 0; width: 100%; position: relative; display: grid; place-items: center; }
+.topic__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.topic__art svg { width: 44px; height: 44px; stroke: var(--porcelain); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.topic__name { font-weight: 600; }
+
+/* Sections */
+.sup { padding-top: 136px; }
+.sup__head { margin-bottom: 40px; }
+.sup__head .t-body { color: var(--ash); margin-top: 16px; max-width: 36em; }
+
+/* FAQ */
+.faq { border-top: 1px solid var(--steel); }
+.faq details { border-bottom: 1px solid var(--steel); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 24px 4px; font-weight: 600;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; flex: none; width: 12px; height: 12px;
+  border-right: 1.6px solid var(--pearl-link); border-bottom: 1.6px solid var(--pearl-link);
+  transform: translateY(-3px) rotate(45deg); transition: transform var(--d-ui) var(--ease);
+}
+.faq details[open] summary::after { transform: translateY(3px) rotate(225deg); }
+.faq summary:hover { color: #fff; }
+.faq__a { padding: 0 4px 28px; color: var(--ash); max-width: 44em; }
+.faq__a strong { color: var(--porcelain); }
+.faq__tag { color: var(--ash); font-weight: 400; margin-right: 10px; }
+
+/* Repairs: three steps */
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: step; }
+.step { padding: 32px 28px 36px; border-radius: var(--r-tile); background: var(--carbon); counter-increment: step; }
+.step::before { content: counter(step); display: block; font-weight: 600; color: var(--ash); margin-bottom: 44px; }
+.step h3 { margin-bottom: 10px; }
+.step p { color: var(--ash); }
+
+/* Warranty */
+.war { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; }
+.war__card { padding: 36px 32px 40px; border-radius: var(--r-tile); background: var(--carbon); }
+.war__card h3 { margin-bottom: 14px; }
+.war__card > p { color: var(--ash); }
+.war__list { margin-top: 20px; display: grid; gap: 10px; }
+.war__list li { padding-left: 22px; position: relative; color: var(--ash); }
+.war__list li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 7px; height: 7px; border-radius: 50%; background: var(--slate); }
+.care { margin-top: 28px; border-top: 1px solid var(--steel); }
+.care__row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--steel); }
+.care__row span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Contact */
+.contact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.way { padding: 32px 28px 36px; border-radius: var(--r-tile); background: var(--carbon); display: flex; flex-direction: column; gap: 10px; }
+.way svg { width: 32px; height: 32px; stroke: var(--porcelain); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 18px; }
+.way p { color: var(--ash); }
+.way .way__big { color: var(--porcelain); font-weight: 600; font-variant-numeric: tabular-nums; }
+.sup-foot { padding: 72px 0 120px; color: var(--ash); }
+
+@media (max-width: 1068px) {
+  .topics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 734px) {
+  .sup-hero { padding: 64px 0 40px; }
+  .search { margin-top: 32px; }
+  .topics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .topic { height: 150px; }
+  .sup { padding-top: 96px; }
+  .sup__head { margin-bottom: 28px; }
+  .steps, .war, .contact { grid-template-columns: 1fr; gap: 12px; }
+  .step::before { margin-bottom: 24px; }
+  .faq summary { padding: 20px 2px; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="gnav" aria-label="Global"><div class="gnav__in">
+  <a class="gnav__logo" href="index.html"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
+  <div class="gnav__links">
+    <a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="support.html" aria-current="page">Soporte</a>
+  </div>
+  <a class="gnav__bag" href="buy.html" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<nav class="lnav" aria-label="Support">
+  <span class="lnav__name">Support</span>
+  <div class="lnav__right">
+    <a href="#help">Help</a><a class="lnav__opt" href="#repairs">Repairs</a><a class="lnav__opt" href="#warranty">Warranty</a><a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <div class="wrap sup-hero">
+    <h1 class="t-display">How can we help?</h1>
+    <form class="search" role="search" data-search>
+      <label class="sr-only" for="q">Search Nácar Support</label>
+      <div class="search__field">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+        <input type="search" id="q" name="q" placeholder="Search Support" autocomplete="off">
+      </div>
+      <p class="search__msg" data-search-msg aria-live="polite"></p>
+    </form>
+  </div>
+
+  <nav class="wrap-wide" aria-label="Support topics">
+    <ul class="topics">
+      <li><a class="topic" href="#faq-faro"><span class="topic__art"><img src="assets/faro-back-cut-m.webp" width="320" height="630" alt="" loading="lazy" decoding="async"></span><span class="topic__name">Faro</span></a></li>
+      <li><a class="topic" href="#faq-pulso"><span class="topic__art"><img src="assets/pulso-front-cut-m.webp" width="540" height="600" alt="" loading="lazy" decoding="async"></span><span class="topic__name">Pulso</span></a></li>
+      <li><a class="topic" href="#faq-onda"><span class="topic__art"><img src="assets/onda-pair-cut-m.webp" width="660" height="535" alt="" loading="lazy" decoding="async" style="-webkit-mask-image:linear-gradient(#000 60%,transparent 90%);mask-image:linear-gradient(#000 60%,transparent 90%)"></span><span class="topic__name">Onda</span></a></li>
+      <li><a class="topic" href="#faq-billing"><span class="topic__art"><svg viewBox="0 0 44 44" aria-hidden="true"><rect x="5" y="11" width="34" height="23" rx="4"/><path d="M5 18h34M11 28h8"/></svg></span><span class="topic__name">Billing</span></a></li>
+      <li><a class="topic" href="#repairs"><span class="topic__art"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M27.5 9.5a8 8 0 00-9.8 10.2L8 29.4a3 3 0 004.2 4.2l9.7-9.7a8 8 0 0010.2-9.8l-4.8 4.8-4-1-1-4z"/></svg></span><span class="topic__name">Repairs</span></a></li>
+      <li><a class="topic" href="#warranty"><span class="topic__art"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M22 6l13 5v10c0 8.5-5.6 14.4-13 17-7.4-2.6-13-8.5-13-17V11z"/><path d="M16.5 22l4 4 7.5-8"/></svg></span><span class="topic__name">Warranty</span></a></li>
+    </ul>
+  </nav>
+
+  <section class="wrap sup" id="help" aria-labelledby="h-help">
+    <div class="sup__head">
+      <h2 class="t-headline" id="h-help">Quick answers.</h2>
+    </div>
+    <div class="faq">
+      <details id="faq-faro">
+        <summary><span><span class="faq__tag">Faro</span>How do I move everything from my old phone?</span></summary>
+        <p class="faq__a">Turn on Faro and hold your old phone next to it. Faro shows a pattern on screen; scan it with the old phone and your photos, messages and apps come across over Wi‑Fi. Keep both phones charging while it runs.</p>
+      </details>
+      <details id="faq-faro-sos">
+        <summary><span><span class="faq__tag">Faro</span>How does Beacon SOS work without a signal?</span></summary>
+        <p class="faq__a">With no mobile signal, Faro finds a satellite and sends where you are to emergency services and your emergency contacts. Stand in the open with a clear view of the sky, and <strong>follow the arrow on screen</strong> to keep the satellite in view.</p>
+      </details>
+      <details id="faq-pulso">
+        <summary><span><span class="faq__tag">Pulso</span>How long does the battery last?</span></summary>
+        <p class="faq__a">Up to <strong>72 hours</strong> with workouts, sleep and alerts, and up to 144 hours in low-power mode. A dual-band GPS workout runs for up to 36 hours. From empty, 45 minutes on the charger takes it to 80%.</p>
+      </details>
+      <details id="faq-pulso-water">
+        <summary><span><span class="faq__tag">Pulso</span>Can I swim and dive with Pulso?</span></summary>
+        <p class="faq__a">Yes. Pulso is rated to <strong>100 m</strong> for dives and open water. Rinse it in fresh water after the sea or a pool, and dry the band before you charge.</p>
+      </details>
+      <details id="faq-onda">
+        <summary><span><span class="faq__tag">Onda</span>How do I switch noise cancellation modes?</span></summary>
+        <p class="faq__a"><strong>Touch and hold the pearl disc</strong> on either bud to move between Noise Cancellation, Adaptive and Transparency. Squeeze the stem to play or pause, and slide a finger along the grooves to change the volume.</p>
+      </details>
+      <details id="faq-billing">
+        <summary><span><span class="faq__tag">Billing</span>How does no-cost EMI work?</span></summary>
+        <p class="faq__a">On select cards you can split the price into <strong>12 monthly payments with no interest</strong>: Faro from ₹9,992 a month, Pulso from ₹6,658 and Onda from ₹2,075. Your bank shows the plan at payment. Terms apply.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="wrap sup" id="repairs" aria-labelledby="h-repairs">
+    <div class="sup__head">
+      <h2 class="t-headline" id="h-repairs">Repairs, start to finish.</h2>
+      <p class="t-body">Screens, batteries, bands and buds. Most repairs are done in five working days, with genuine Nácar parts.</p>
+    </div>
+    <ol class="steps">
+      <li class="step"><h3 class="t-label">Tell us what happened.</h3><p>Start a request online, over chat or in a store. We check your warranty and give you a price before any work begins.</p></li>
+      <li class="step"><h3 class="t-label">Send it or drop it off.</h3><p>Book a free courier pickup, or bring it to a Nácar store. Back up first, and take your pearl band or case with you.</p></li>
+      <li class="step"><h3 class="t-label">Get it back.</h3><p>We track every step by message. Your repair comes home tested, cleaned and with a 90-day guarantee on the work.</p></li>
+    </ol>
+  </section>
+
+  <section class="wrap sup" id="warranty" aria-labelledby="h-warranty">
+    <div class="sup__head">
+      <h2 class="t-headline" id="h-warranty">Covered from day one.</h2>
+    </div>
+    <div class="war">
+      <div class="war__card">
+        <h3 class="t-label">1-year limited warranty</h3>
+        <p>Every Nácar comes with it, at no cost.</p>
+        <ul class="war__list">
+          <li>Manufacturing defects in the hardware</li>
+          <li>The original battery, if it holds less than 80% of its charge</li>
+          <li>Repairs at any Nácar store or by courier</li>
+          <li>Not covered: accidental damage, loss or theft</li>
+        </ul>
+      </div>
+      <div class="war__card">
+        <h3 class="t-label">Nácar Care+</h3>
+        <p>Two years of cover, including accidental damage, with a small service fee per repair. Add it within 60 days of purchase.</p>
+        <div class="care">
+          <p class="care__row"><span>Nácar Faro</span><span>₹9,900</span></p>
+          <p class="care__row"><span>Nácar Pulso</span><span>₹4,900</span></p>
+          <p class="care__row"><span>Nácar Onda</span><span>₹1,900</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sup" id="contact" aria-labelledby="h-contact">
+    <div class="sup__head">
+      <h2 class="t-headline" id="h-contact">Talk to a person.</h2>
+    </div>
+    <div class="contact">
+      <div class="way">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 7h22v14H13l-6 5v-5H5z"/></svg>
+        <h3 class="t-label">Chat</h3>
+        <p>With a Nácar specialist, every day from 9 am to 9 pm.</p>
+      </div>
+      <div class="way">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 4.5l4 5-2.5 3a15 15 0 008 8l3-2.5 5 4-2 4c-9.5 0-18.5-9-18.5-18.5z"/></svg>
+        <h3 class="t-label">Call</h3>
+        <p class="way__big">1800 000 0000</p>
+        <p>A placeholder number. Nácar is a design study, so nobody answers.</p>
+      </div>
+      <div class="way">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12h20l-1.5 15h-17z"/><path d="M11 12V9a5 5 0 0110 0v3"/></svg>
+        <h3 class="t-label">Visit a store</h3>
+        <p>Imagined Nácar stores in Mumbai, Delhi and Bengaluru, each with a repair bench at the back.</p>
+      </div>
+    </div>
+    <p class="sup-foot t-small">Nácar is a fictional brand created as a design study. Support, chat, phone numbers and stores on this page are placeholders.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__brand">
+      <img src="brand/nacar-logo-stacked.svg" alt="Nácar" width="79" height="96" loading="lazy" decoding="async">
+      <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
+    </div>
+    <div class="foot__cols">
+      <div><h2>Shop</h2><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h2>Explore</h2><a href="compare.html">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h2>Support</h2><a href="#help">Help</a><a href="#repairs">Repairs</a><a href="#warranty">Warranty</a></div>
+      <div><h2>Nácar</h2><a href="#">About</a><a href="#">Stores</a><a href="#contact">Contact</a></div>
+    </div>
+    <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+  </div>
+</footer>
+
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+<script>
+(function () {
+  /* A link to an FAQ item opens it. */
+  function openFromHash() {
+    var id = location.hash.slice(1);
+    var t = id && document.getElementById(id);
+    if (t && t.tagName === 'DETAILS') t.open = true;
+  }
+  addEventListener('hashchange', openFromHash);
+  openFromHash();
+
+  /* The search field is styled but not wired: say so, politely. */
+  var form = document.querySelector('[data-search]'), msg = document.querySelector('[data-search-msg]');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msg.textContent = 'Search isn’t available in this design study. Try the topics below.';
+  });
+})();
+</script>
+</body>
+</html>

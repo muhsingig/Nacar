@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compare Nácar · Faro, Pulso and Onda, side by side.</title>
+<meta name="description" content="Compare Nácar Faro (from ₹1,19,900), Pulso (₹79,900) and Onda (₹24,900): materials, display, battery, sensors, durability and more.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Compare Nácar · Faro, Pulso and Onda, side by side.">
+<meta property="og:description" content="Compare Nácar Faro (from ₹1,19,900), Pulso (₹79,900) and Onda (₹24,900): materials, display, battery, sensors, durability and more.">
+<meta property="og:image" content="assets/og-compare.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Compare Nácar · Faro, Pulso and Onda, side by side.">
+<meta name="twitter:description" content="Compare Nácar Faro (from ₹1,19,900), Pulso (₹79,900) and Onda (₹24,900): materials, display, battery, sensors, durability and more.">
+<meta name="twitter:image" content="assets/og-compare.jpg">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+/* ================================================== compare.html only ==
+   Two-tier chrome, as on faro.html: logo bar sticky at 0, capsule at 52px.
+   Every column cell carries data-p (faro | pulso | onda). Desktop shows all
+   three. Below 734px two pickers choose which two products fill the two
+   columns (page JS toggles .off and sets the order); without JS the phone
+   layout falls back to Faro and Pulso.                                    */
+:root { --chrome: 104px; }
+.gnav { position: sticky; top: 0; }
+.lnav { top: 52px; }
+section[id] { scroll-margin-top: calc(var(--chrome) + 64px); }
+
+.cmp-head { padding-top: 88px; text-align: center; }
+.cmp { --cols: 3; padding-bottom: 120px; }
+.cmp__grid { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: 40px; }
+
+/* Product cards */
+.cmp__cards { margin-top: 64px; }
+.card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+.card__media { width: 100%; height: 320px; margin-bottom: 20px; }
+.card__media picture { display: contents; }
+.card__media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.card__media--onda img { width: 76%; height: 96%; margin: 2% auto 0; -webkit-mask-image: linear-gradient(#000 62%, transparent 92%); mask-image: linear-gradient(#000 62%, transparent 92%); }
+.card__dots { display: flex; gap: 8px; min-height: 12px; }
+.card__dots i { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+.card__line { color: var(--ash); }
+.card__price { color: var(--porcelain); margin-top: 8px; }
+.card__ctas { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 12px; }
+
+/* Sticky header row: product names (desktop) */
+.cmp__specs { margin-top: 96px; }
+.cmp__head {
+  position: sticky; top: var(--chrome); z-index: 20;
+  padding: 16px 0 14px; margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.92);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--steel);
+}
+.cmp__head p { font-weight: 600; text-align: center; }
+
+/* Spec sections */
+.sec { padding-top: 56px; }
+.sec h2 { padding-bottom: 20px; border-bottom: 1px solid var(--steel); }
+.row { padding: 28px 0 30px; border-bottom: 1px solid var(--graphite); row-gap: 14px; }
+.row__label { grid-column: 1 / -1; color: var(--ash); }
+.cell { text-align: center; }
+.cell p + p { margin-top: 4px; }
+.cell .t-small { color: var(--ash); max-width: 30ch; margin-inline: auto; }
+.cell p.t-small + p:not(.t-small) { margin-top: 18px; }
+.cell--none { color: var(--ash); }
+
+/* Pickers (phone only) */
+.cmp__pick { display: none; }
+.cmp__pick label { display: block; }
+.pick {
+  appearance: none; -webkit-appearance: none; width: 100%;
+  font: 600 17px/1.2 var(--font); letter-spacing: -0.022em; color: var(--porcelain);
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23a99cff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 4px center / 12px 8px;
+  border: 0; border-bottom: 1px solid var(--slate); border-radius: 0;
+  padding: 10px 24px 10px 2px; cursor: pointer;
+}
+.pick option { background: #1d1d1f; color: var(--porcelain); }
+.pick:focus-visible { outline: 2px solid var(--pearl-link); outline-offset: 3px; border-radius: 6px; }
+
+.cmp__foot { margin-top: 72px; text-align: center; color: var(--ash); }
+
+@media (max-width: 734px) {
+  .cmp { --cols: 2; }
+  .cmp__grid { column-gap: 16px; }
+  .cmp-head { padding-top: 56px; }
+  .cmp__pick {
+    display: grid; position: sticky; top: var(--chrome); z-index: 20;
+    margin-top: 32px; padding: 6px 0 10px;
+    background: rgba(0, 0, 0, 0.92);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  }
+  .cmp__head { display: none; }
+  .cmp__cards { margin-top: 28px; }
+  .card__media { height: 200px; margin-bottom: 8px; }
+  .card__name { font-size: 21px; }
+  .cmp__specs { margin-top: 64px; }
+  .sec { padding-top: 40px; }
+  .row { padding: 22px 0 24px; }
+  /* no-JS fallback: Faro and Pulso */
+  .cmp:not(.is-live) [data-p="onda"] { display: none; }
+}
+.cmp .off { display: none !important; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="gnav" aria-label="Global"><div class="gnav__in">
+  <a class="gnav__logo" href="index.html"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
+  <div class="gnav__links">
+    <a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="support.html">Soporte</a>
+  </div>
+  <a class="gnav__bag" href="buy.html" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+</div></nav>
+
+<nav class="lnav" aria-label="Compare">
+  <span class="lnav__name">Compare</span>
+  <div class="lnav__right">
+    <a class="lnav__opt" href="#design">Design</a><a class="lnav__opt" href="#battery">Battery</a><a href="#together">Works together</a>
+    <a class="pill pill-buy pill-sm" href="buy.html">Buy</a>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <div class="wrap cmp-head" data-sc-in>
+    <h1 class="t-hero">Compare the family.</h1>
+  </div>
+
+  <div class="wrap-wide cmp" data-cmp>
+
+    <!-- Phone: pick any two products. Sticky under the capsule. -->
+    <div class="cmp__pick cmp__grid" role="group" aria-label="Choose two products to compare">
+      <label><span class="sr-only">First product</span>
+        <select class="pick" data-slot="a">
+          <option value="faro" selected>Nácar Faro</option><option value="pulso">Nácar Pulso</option><option value="onda">Nácar Onda</option>
+        </select></label>
+      <label><span class="sr-only">Second product</span>
+        <select class="pick" data-slot="b">
+          <option value="faro">Nácar Faro</option><option value="pulso" selected>Nácar Pulso</option><option value="onda">Nácar Onda</option>
+        </select></label>
+    </div>
+
+    <div class="cmp__cards cmp__grid">
+      <article class="card" data-p="faro" aria-labelledby="c-faro">
+        <div class="card__media">
+          <picture><source media="(max-width: 734px)" srcset="assets/faro-back-cut-m.webp">
+          <img src="assets/faro-back-cut.webp" width="640" height="1260" fetchpriority="high"
+               alt="Nácar Faro from the back: titanium camera tower and a mother-of-pearl disc on black ceramic"></picture>
+        </div>
+        <div class="card__dots" role="img" aria-label="Finishes: Titanium, Nácar, Grafito"><i style="background:#18181a"></i><i style="background:#ece8ef"></i><i style="background:#4a4a4f"></i></div>
+        <h2 class="t-subtitle card__name" id="c-faro">Nácar Faro</h2>
+        <p class="card__line">The light that stays on.</p>
+        <p class="card__price">From ₹1,19,900</p>
+        <p class="card__ctas"><a class="pill pill-buy pill-lg" href="buy.html#faro">Buy<span class="sr-only"> Nácar Faro</span></a><a class="link-more" href="faro.html">Learn more<span class="sr-only"> about Faro</span></a></p>
+      </article>
+      <article class="card" data-p="pulso" aria-labelledby="c-pulso">
+        <div class="card__media">
+          <picture><source media="(max-width: 734px)" srcset="assets/pulso-front-cut-m.webp">
+          <img src="assets/pulso-front-cut.webp" width="1080" height="1200" fetchpriority="high"
+               alt="Nácar Pulso: titanium rounded octagon case reading 10:09, pearl crown, ribbed black band"></picture>
+        </div>
+        <div class="card__dots" role="img" aria-label="Finishes: Titanium, Grafito, Nácar"><i style="background:#b8b4ad"></i><i style="background:#3c3c40"></i><i style="background:#e8ded6"></i></div>
+        <h2 class="t-subtitle card__name" id="c-pulso">Nácar Pulso</h2>
+        <p class="card__line">Three days off the grid.</p>
+        <p class="card__price">₹79,900</p>
+        <p class="card__ctas"><a class="pill pill-buy pill-lg" href="buy.html#pulso">Buy<span class="sr-only"> Nácar Pulso</span></a><a class="link-more" href="pulso.html">Learn more<span class="sr-only"> about Pulso</span></a></p>
+      </article>
+      <article class="card" data-p="onda" aria-labelledby="c-onda">
+        <div class="card__media card__media--onda">
+          <picture><source media="(max-width: 734px)" srcset="assets/onda-pair-cut-m.webp">
+          <img src="assets/onda-pair-cut.webp" width="1320" height="1070" fetchpriority="high"
+               alt="Nácar Onda: two black earbuds with ridged stems and a pearl disc on each"></picture>
+        </div>
+        <div class="card__dots" role="img" aria-label="Finish: Black with pearl"><i style="background:#141416"></i></div>
+        <h2 class="t-subtitle card__name" id="c-onda">Nácar Onda</h2>
+        <p class="card__line">The world, turned down.</p>
+        <p class="card__price">₹24,900</p>
+        <p class="card__ctas"><a class="pill pill-buy pill-lg" href="buy.html#onda">Buy<span class="sr-only"> Nácar Onda</span></a><a class="link-more" href="onda.html">Learn more<span class="sr-only"> about Onda</span></a></p>
+      </article>
+    </div>
+
+    <div class="cmp__specs">
+      <div class="cmp__head cmp__grid" aria-hidden="true">
+        <p data-p="faro">Nácar Faro</p><p data-p="pulso">Nácar Pulso</p><p data-p="onda">Nácar Onda</p>
+      </div>
+
+      <section class="sec" id="design" aria-labelledby="h-design">
+        <h2 class="t-subtitle" id="h-design">Design and materials</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Materials</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>Grade 5 titanium frame</p><p class="t-small">Black ceramic back, a mother-of-pearl disc under sapphire crystal</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Grade 5 titanium case</p><p class="t-small">Mother-of-pearl bezel under sapphire, pearl cabochon crown</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Matte black buds</p><p class="t-small">A polished mother-of-pearl disc on each bud, a pearl seam on the case</p></div>
+        </div>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Form</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>199 g</p><p class="t-small">The lightest Faro yet, milled from one billet</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>49 mm, 52 g</p><p class="t-small">Rounded octagon, brushed flats and polished chamfers</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Ridged stems</p><p class="t-small">The grooves are the remote: squeeze, slide, hold the pearl</p></div>
+        </div>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Finishes</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>Titanium, Nácar, Grafito</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Titanium, Grafito, Nácar</p><p class="t-small">Ribbed band, pin-and-tuck clasp</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Black, with pearl</p></div>
+        </div>
+      </section>
+
+      <section class="sec" id="display" aria-labelledby="h-display">
+        <h2 class="t-subtitle" id="h-display">Display</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Screen</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>6.7-inch display</p><p class="t-small">3,000 nits in midday sun, a soft glow after dark</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Round, always on</p><p class="t-small">3,000 nits peak, down to 1 nit at night</p></div>
+          <div class="cell cell--none" data-p="onda"><span class="sr-only">Onda: </span><p>No display</p></div>
+        </div>
+      </section>
+
+      <section class="sec" id="battery" aria-labelledby="h-battery">
+        <h2 class="t-subtitle" id="h-battery">Battery</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Battery life</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>Up to 48 hours</p><p class="t-small">Mixed use from one charge of the 5,100 mAh cell</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Up to 72 hours</p><p class="t-small">144 hours in low-power mode, 36 hours on a dual-band GPS workout</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Up to 8 hours</p><p class="t-small">With noise cancellation on, 40 hours in total with the case</p></div>
+        </div>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Charging</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>60% in 25 minutes</p><p class="t-small">On a 45W adapter, or 25W wireless with ring charging</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>0 to 80% in 45 minutes</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>About an hour from 5 minutes</p><p class="t-small">The case tops up by USB‑C or wireless</p></div>
+        </div>
+      </section>
+
+      <section class="sec" id="chip" aria-labelledby="h-chip">
+        <h2 class="t-subtitle" id="h-chip">Chip and sensors</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Inside</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>F3 chip</p><p class="t-small">3 nm, six CPU cores at up to 4.2 GHz</p><p>Three cameras</p><p class="t-small">50MP main from ƒ/1.4 to ƒ/4.0, 5× telephoto, 48MP ultra wide, 4K at 120 fps</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Health sensors</p><p class="t-small">Heart rate, a rhythm check at the pearl crown, blood oxygen in 15 seconds, sleep stages</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Noise cancellation</p><p class="t-small">Retunes itself 48,000 times a second, up to 3× more than our previous earbuds</p><p>Six microphones</p><p class="t-small">Beam-forming, with an 11 mm custom driver and spatial audio</p></div>
+        </div>
+      </section>
+
+      <section class="sec" id="durability" aria-labelledby="h-durability">
+        <h2 class="t-subtitle" id="h-durability">Durability</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Water, dust and wear</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>IP68</p><p class="t-small">Six metres of water for 30 minutes, a ceramic back harder than steel</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>100 m water resistance</p><p class="t-small">Rated for dives, tested from −20 °C to 55 °C, drop and dust tested</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>IP57</p><p class="t-small">Buds and case resist dust, sweat and water. Not for swimming.</p></div>
+        </div>
+      </section>
+
+      <section class="sec" id="connectivity" aria-labelledby="h-connectivity">
+        <h2 class="t-subtitle" id="h-connectivity">Connectivity</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">Signal</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>Beacon SOS</p><p class="t-small">No signal? Faro finds a satellite and sends where you are</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Dual-frequency GPS</p><p class="t-small">L1 and L5 hold the track in canyons and between tall buildings</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Lossless audio</p><p class="t-small">Up to 24-bit/96 kHz from a paired Nácar Faro</p></div>
+        </div>
+      </section>
+
+      <section class="sec" id="together" aria-labelledby="h-together">
+        <h2 class="t-subtitle" id="h-together">Works together</h2>
+        <div class="row cmp__grid">
+          <p class="row__label t-small">With the rest of the family</p>
+          <div class="cell" data-p="faro"><span class="sr-only">Faro: </span><p>Unlocks with Pulso</p><p class="t-small">Wear Pulso and Faro opens as you pick it up</p><p>Lossless to Onda</p><p class="t-small">Up to 24-bit/96 kHz, only with Faro</p></div>
+          <div class="cell" data-p="pulso"><span class="sr-only">Pulso: </span><p>Unlocks your Faro</p><p class="t-small">From the wrist, while Pulso is on and unlocked</p></div>
+          <div class="cell" data-p="onda"><span class="sr-only">Onda: </span><p>Switches between them</p><p class="t-small">Moves from Faro to Pulso on its own, whichever you are using</p></div>
+        </div>
+      </section>
+
+      <p class="cmp__foot t-small">Battery life varies with use and settings. IP ratings under IEC 60529 in lab conditions. No-cost EMI on select cards.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="foot__in">
+    <div class="foot__brand">
+      <img src="brand/nacar-logo-stacked.svg" alt="Nácar" width="79" height="96" loading="lazy" decoding="async">
+      <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
+    </div>
+    <div class="foot__cols">
+      <div><h2>Shop</h2><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h2>Explore</h2><a href="compare.html" aria-current="page">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h2>Support</h2><a href="support.html#help">Help</a><a href="support.html#repairs">Repairs</a><a href="support.html#warranty">Warranty</a></div>
+      <div><h2>Nácar</h2><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+    </div>
+    <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
+  </div>
+</footer>
+
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+<script>
+/* Phone: two pickers choose the two columns. Picking the product already in
+   the other column swaps them, so the two columns never match. */
+(function () {
+  var root = document.querySelector('[data-cmp]');
+  if (!root) return;
+  root.classList.add('is-live');
+  var picks = [].slice.call(root.querySelectorAll('.pick'));
+  var cells = [].slice.call(root.querySelectorAll('[data-p]'));
+  var small = matchMedia('(max-width: 734px)');
+  var sel = { a: 'faro', b: 'pulso' };
+  function apply() {
+    cells.forEach(function (c) {
+      var p = c.getAttribute('data-p');
+      if (!small.matches) { c.classList.remove('off'); c.style.order = ''; return; }
+      if (p === sel.a) { c.classList.remove('off'); c.style.order = 1; }
+      else if (p === sel.b) { c.classList.remove('off'); c.style.order = 2; }
+      else { c.classList.add('off'); c.style.order = ''; }
+    });
+    picks.forEach(function (s) { s.value = sel[s.getAttribute('data-slot')]; });
+  }
+  picks.forEach(function (s) {
+    s.addEventListener('change', function () {
+      var slot = s.getAttribute('data-slot'), other = slot === 'a' ? 'b' : 'a';
+      if (s.value === sel[other]) sel[other] = sel[slot];
+      sel[slot] = s.value;
+      apply();
+    });
+  });
+  (small.addEventListener ? small.addEventListener('change', apply) : small.addListener(apply));
+  apply();
+})();
+</script>
+</body>
+</html>

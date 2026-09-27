@@ -4,8 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nácar · One pearl. Three ways to carry it.</title>
-<meta name="description" content="Nácar makes a phone, a watch and a pair of earbuds, each set with a disc of real mother-of-pearl. Faro from ₹1,19,900, Pulso from ₹79,900, Onda from ₹24,900.">
+<meta name="description" content="Nácar sets real mother-of-pearl in a phone, a watch and earbuds. Faro from ₹1,19,900, Pulso from ₹79,900, Onda from ₹24,900.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nácar · One pearl. Three ways to carry it.">
+<meta property="og:description" content="Nácar sets real mother-of-pearl in a phone, a watch and earbuds. Faro from ₹1,19,900, Pulso from ₹79,900, Onda from ₹24,900.">
+<meta property="og:image" content="assets/og-index.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nácar · One pearl. Three ways to carry it.">
+<meta name="twitter:description" content="Nácar sets real mother-of-pearl in a phone, a watch and earbuds. Faro from ₹1,19,900, Pulso from ₹79,900, Onda from ₹24,900.">
+<meta name="twitter:image" content="assets/og-index.jpg">
 <link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
 <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/family.webp" as="image" media="(min-width: 735px)">
 <link rel="stylesheet" href="scrollcraft.css">
@@ -198,16 +210,17 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <nav class="gnav" aria-label="Global"><div class="gnav__in">
   <a class="gnav__logo" href="index.html" aria-current="page"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
   <div class="gnav__links">
-    <a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a>
+    <a href="faro.html">Faro</a><a href="pulso.html">Pulso</a><a href="onda.html">Onda</a><a href="support.html">Soporte</a>
   </div>
-  <a class="gnav__bag" href="#" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+  <a class="gnav__bag" href="buy.html" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
 </div></nav>
 
-<main>
+<main id="main" tabindex="-1">
 
   <!-- 1 · HERO · the brand moment. pin + layered planes: the logo recedes,
        the family rises over it -->
@@ -217,7 +230,7 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
       <h1 class="hero__logo"><img src="brand/nacar-logo-stacked.svg" alt="Nácar" width="141" height="172"></h1>
       <picture class="hero__fam">
         <source media="(max-width: 734px)" srcset="assets/family-m.webp">
-        <img src="assets/family.webp" width="2400" height="1340"
+        <img src="assets/family.webp" width="2400" height="1340" fetchpriority="high"
              alt="The Nácar family: the Pulso watch, the Faro phone and the Onda earbuds in their open case, each carrying a pearl">
       </picture>
       <div class="hero__floor" aria-hidden="true"></div>
@@ -234,17 +247,17 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
       <h2 class="t-display-xl"><span class="sr-only">Nácar </span>Faro</h2>
       <p class="t-subtitle">The light that stays on.</p>
       <p class="t-body stage__price">From ₹1,19,900</p>
-      <p class="stage__ctas"><a class="pill pill-buy pill-lg" href="faro.html">Learn more</a><a class="pill pill-ghost pill-lg" href="faro.html#buy">Buy</a></p>
+      <p class="stage__ctas"><a class="pill pill-buy pill-lg" href="faro.html">Learn more</a><a class="pill pill-ghost pill-lg" href="buy.html#faro">Buy</a></p>
     </div>
     <figure class="faro__fig">
       <picture>
         <source media="(max-width: 734px)" srcset="assets/faro-back-m.webp">
-        <img class="faro__dim" src="assets/faro-back.webp" width="2400" height="1340" alt="" loading="lazy">
+        <img class="faro__dim" src="assets/faro-back.webp" width="2400" height="1340" alt="" loading="lazy" decoding="async">
       </picture>
       <div class="faro__lit" data-sc-reveal="iris" data-sc-reveal-at="0.3 0.6">
         <picture>
           <source media="(max-width: 734px)" srcset="assets/faro-back-m.webp">
-          <img src="assets/faro-back.webp" width="2400" height="1340" loading="lazy"
+          <img src="assets/faro-back.webp" width="2400" height="1340" loading="lazy" decoding="async"
                alt="Nácar Faro from the back: a round titanium camera tower and a mother-of-pearl disc set into black ceramic">
         </picture>
       </div>
@@ -256,14 +269,14 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
     <div data-sc-stage class="pulso__stage">
       <div class="pulso__frame"><picture>
         <source media="(max-width: 734px)" srcset="assets/pulso-front-m.webp">
-        <img class="pulso__img" src="assets/pulso-front.webp" width="2400" height="1340" loading="lazy"
+        <img class="pulso__img" src="assets/pulso-front.webp" width="2400" height="1340" loading="lazy" decoding="async"
              alt="Nácar Pulso: a rounded octagonal titanium case reading 10:09, a pearl crown and a ribbed black band">
       </picture></div>
       <div class="pulso__copy stage__copy">
-        <h2 class="t-display-xl" data-sc-cue="0.24 1 0.3 0"><span class="sr-only">Nácar </span>Pulso</h2>
-        <p class="t-subtitle" data-sc-cue="0.3 1 0.3 0">Three days off the grid.</p>
-        <p class="t-body stage__price" data-sc-cue="0.38 1 0.3 0">From ₹79,900</p>
-        <p class="stage__ctas" data-sc-cue="0.38 1 0.3 0"><a class="pill pill-buy pill-lg" href="pulso.html">Learn more</a><a class="pill pill-ghost pill-lg" href="pulso.html#buy">Buy</a></p>
+        <h2 class="t-display-xl" data-sc-cue="0.24 1 0.3 0.1"><span class="sr-only">Nácar </span>Pulso</h2>
+        <p class="t-subtitle" data-sc-cue="0.3 1 0.3 0.11">Three days off the grid.</p>
+        <p class="t-body stage__price" data-sc-cue="0.38 1 0.3 0.12">From ₹79,900</p>
+        <p class="stage__ctas" data-sc-cue="0.38 1 0.3 0.12"><a class="pill pill-buy pill-lg" href="pulso.html">Learn more</a><a class="pill pill-ghost pill-lg" href="buy.html#pulso">Buy</a></p>
       </div>
     </div>
   </section>
@@ -275,12 +288,12 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
         <div class="onda__plane" data-sc-parallax="-0.8">
           <div class="onda__half onda__half--l">
             <picture><source media="(max-width: 734px)" srcset="assets/onda-pair-m.webp">
-            <img src="assets/onda-pair.webp" width="2400" height="1340" loading="lazy"
+            <img src="assets/onda-pair.webp" width="2400" height="1340" loading="lazy" decoding="async"
                  alt="Nácar Onda: two black earbuds with ridged stems, a pearl disc on each"></picture>
           </div>
           <div class="onda__half onda__half--r" aria-hidden="true">
             <picture><source media="(max-width: 734px)" srcset="assets/onda-pair-m.webp">
-            <img src="assets/onda-pair.webp" width="2400" height="1340" alt="" loading="lazy"></picture>
+            <img src="assets/onda-pair.webp" width="2400" height="1340" alt="" loading="lazy" decoding="async"></picture>
           </div>
         </div>
       </div>
@@ -288,7 +301,7 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
         <h2 class="t-display-xl"><span class="sr-only">Nácar </span>Onda</h2>
         <p class="t-subtitle">The world, turned down.</p>
         <p class="t-body stage__price">From ₹24,900</p>
-        <p class="stage__ctas"><a class="pill pill-buy pill-lg" href="onda.html">Learn more</a><a class="pill pill-ghost pill-lg" href="onda.html#buy">Buy</a></p>
+        <p class="stage__ctas"><a class="pill pill-buy pill-lg" href="onda.html">Learn more</a><a class="pill pill-ghost pill-lg" href="buy.html#onda">Buy</a></p>
       </div>
     </div>
   </section>
@@ -296,7 +309,7 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
   <!-- 5 · CLOSE · flow + pointer: the brand band -->
   <section class="close" id="nacar" data-sc-act="flow" data-sc-spotlight>
     <div class="close__in" data-sc-in data-sc-stagger="80">
-      <img class="close__logo" src="brand/nacar-logo-stacked.svg" alt="nácar" width="141" height="172" loading="lazy">
+      <img class="close__logo" src="brand/nacar-logo-stacked.svg" alt="Nácar" width="141" height="172" loading="lazy" decoding="async">
       <p class="t-lede">Real mother-of-pearl, cut from shell.<br> <strong>No two are ever quite alike.</strong></p>
     </div>
   </section>
@@ -306,14 +319,14 @@ html.rm :is(.hero__stage, .pulso__stage) { position: relative; height: 100svh; o
 <footer class="foot">
   <div class="foot__in">
     <div class="foot__brand">
-      <img src="brand/nacar-logo-stacked.svg" alt="nácar" width="79" height="96">
+      <img src="brand/nacar-logo-stacked.svg" alt="Nácar" width="79" height="96" loading="lazy" decoding="async">
       <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
     </div>
     <div class="foot__cols">
-      <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
-      <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
-      <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
-      <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+      <div><h2>Shop</h2><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h2>Explore</h2><a href="compare.html">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h2>Support</h2><a href="support.html#help">Help</a><a href="support.html#repairs">Repairs</a><a href="support.html#warranty">Warranty</a></div>
+      <div><h2>Nácar</h2><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
     </div>
     <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
   </div>

@@ -7,9 +7,12 @@ Website for **Nácar** (Spanish for "mother-of-pearl"), a fictional premium bran
 | File | Page |
 | --- | --- |
 | `index.html` | Landing page |
-| `faro.html` | Nácar Faro, phone (₹1,19,900). As you scroll, the pearl lights up. |
-| `pulso.html` | Nácar Pulso, smartwatch (₹79,900) |
-| `onda.html` | Nácar Onda, wireless earbuds (₹24,900) |
+| `faro.html` | Nácar Faro, phone (₹1,19,900). The phone turns as you scroll, then the pearl lights up. |
+| `pulso.html` | Nácar Pulso, smartwatch (₹79,900). The watch face follows the health cards. |
+| `onda.html` | Nácar Onda, wireless earbuds (₹24,900). Scroll takes the bud apart. |
+| `compare.html` | The three products side by side |
+| `buy.html` | Configurator: pick finish and options, live price and EMI (design study, no checkout) |
+| `support.html` | Help, repairs, warranty and contact |
 
 ## Run it locally
 

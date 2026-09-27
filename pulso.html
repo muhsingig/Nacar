@@ -4,10 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nácar Pulso · Three days off the grid.</title>
-<meta name="description" content="Nácar Pulso. A 49 mm titanium smartwatch with a pearl crown, 72 hours of battery, dual-frequency GPS and 100 m water resistance. From ₹79,900.">
+<meta name="description" content="Nácar Pulso: a 49 mm titanium watch with a pearl crown, 72 hours of battery and dual-frequency GPS. From ₹79,900.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nácar Pulso · Three days off the grid.">
+<meta property="og:description" content="A 49 mm titanium watch with a pearl crown, 72 hours of battery and dual-frequency GPS. From ₹79,900.">
+<meta property="og:image" content="assets/og-pulso.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nácar Pulso · Three days off the grid.">
+<meta name="twitter:description" content="A 49 mm titanium watch with a pearl crown, 72 hours of battery and dual-frequency GPS. From ₹79,900.">
+<meta name="twitter:image" content="assets/og-pulso.jpg">
 <link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
 <link rel="preload" href="fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/pulso-front-cut.webp" as="image" media="(min-width: 735px)">
+<link rel="preload" href="assets/pulso-front-cut.webp" as="image" media="(min-width: 735px)" fetchpriority="high">
+<link rel="preload" href="assets/pulso-front-cut-m.webp" as="image" media="(max-width: 734px)" fetchpriority="high">
 <link rel="stylesheet" href="scrollcraft.css">
 <link rel="stylesheet" href="site.css">
 <style>
@@ -15,13 +28,16 @@
    Same contract as faro.html: every scroll-driven value reads a page
    variable (--p) that mirrors the engine's --sc-p, so html.rm can pin it
    to a still frame.                                                       */
-/* Two-tier chrome, as on faro.html: the global bar stays on top and the
-   product capsule sticks just under it, so both are visible from scroll 0
-   onward. --chrome is the height every stage keeps clear at its top. */
+/* Two-tier chrome, identical to faro.html: the logo bar (44px, top 0) and
+   the product capsule (52px, top 52) are both always on screen, 92% opaque
+   with the shared blur from site.css. Fixed rather than sticky, so they take
+   no flow space and every pinned stage looks the same at scroll 0 as while
+   pinned. --chrome is the height every stage keeps clear at its top. */
 :root { --chrome: 104px; }
-.gnav { position: sticky; top: 0; }
-.lnav { top: 52px; }
+.gnav { position: fixed; top: 0; left: 0; right: 0; }
+.lnav { position: fixed; top: 52px; left: 0; right: 0; margin: 0 auto; }
 section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
+html { scroll-padding-top: calc(var(--chrome) + 12px); }
 
 /* ------------------------------------------------------------ 1 · HERO --
    Label, headline and price/Buy as one block under the bars; below it the
@@ -93,6 +109,7 @@ section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
 @media (max-width: 734px) {
   .hero { --wh: min(94svh, 196vw); --wt: calc(var(--chrome) + 2svh + 199px + 40px - var(--wh) * 0.16); }
   .hero__top { top: calc(var(--chrome) + 2svh); }
+  .hero__shade, .hero__sheen { -webkit-mask-image: url("assets/pulso-front-cut-m.webp"); mask-image: url("assets/pulso-front-cut-m.webp"); }
   .hero__name { font-size: 17px; }
   .hero__head { margin-top: 4px; }
   .hero__top .price-capsule { margin-top: 18px; }
@@ -187,7 +204,7 @@ section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
 .bat__dial > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
 /* the screen, straight from the render's measurements */
 .face {
-  position: absolute; left: 1.7%; top: 16.1%; width: 67.1%; height: 66.4%;
+  position: absolute; left: var(--fx, 1.7%); top: var(--fy, 16.1%); width: var(--fw, 67.1%); height: var(--fh, 66.4%);
   border-radius: 50%; overflow: hidden;
   background: radial-gradient(ellipse at 38% 30%, #0c0c0e 0%, #030304 60%, #000 100%);
   container-type: size;
@@ -198,8 +215,8 @@ section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
 }
 .face__in {                                      /* a round face, foreshortened like the render */
   position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 1;
-  translate: -50% 0; transform: scaleX(0.814);
-  opacity: calc(1 - var(--h2) * 0.5);
+  translate: -50% 0; transform: scaleX(var(--fsx, 0.814));
+  opacity: calc(1 - var(--h2, 0) * 0.5);
 }
 .face__ring { position: absolute; inset: 5%; width: 90%; height: 90%; transform: rotate(-4deg); }
 .face__ring circle { fill: none; stroke-width: 1.3; stroke-linecap: round; }
@@ -241,35 +258,54 @@ section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
   .bat__cap { margin-top: 6px; }
 }
 
-/* battery tail: flow, counted on entry */
+/* battery tail: flow, counted on entry. On phones it is cut: the same
+   figures sit in the spec table, and the page has to stay short. */
 .batx { padding-top: 64px; }
+@media (max-width: 734px) { .batx { display: none; } }
 .batx .t-lede { max-width: 30em; margin-bottom: 56px; }
 
 /* ----------------------------------------------------------- 4 · HEALTH --
-   A heading on the content column, then a lateral travel on carbon. The
-   travel is driven here (not by the engine's pan) so it can REST: the
-   first two cards fill the column from p 0 to 0.14, the rail then travels
-   one card, and the last two rest flush from 0.86. --ov (px) is the
-   rail overflow, measured by the page script. The side gutters are masked,
-   so a card crossing the viewport edge never shows a half-cut sentence.  */
+   The watch holds on the left while the cards travel on the right, one
+   card at a time, and the watch's live face follows the card in view:
+   heart rate, then sleep, then blood oxygen. k (0..2) is the rail position,
+   with rests at each card: 0 until p .14, 1 from .38 to .56, 2 from .80.
+   --cw / --step (px) are measured by the page script. The rail viewport is
+   masked soft at both ends, so a card entering or leaving never shows a
+   hard edge, and at rest only whole cards are lit.                      */
 .hl {
   --p: var(--sc-p, 0);
-  --kt: clamp(0, calc((var(--p) - 0.14) / 0.72), 1);
-  --k: calc(var(--kt) * var(--kt) * (3 - 2 * var(--kt)));
+  --ka: clamp(0, calc((var(--p) - 0.14) / 0.24), 1);
+  --kb: clamp(0, calc((var(--p) - 0.56) / 0.24), 1);
+  --k: calc(var(--ka) * var(--ka) * (3 - 2 * var(--ka)) + var(--kb) * var(--kb) * (3 - 2 * var(--kb)));
+  --hb: min(58svh, 520px);           /* body height = watch box */
 }
-.hl__track {
-  -webkit-mask-image: linear-gradient(90deg, transparent calc(var(--edge) - 18px), #000 calc(var(--edge) - 2px), #000 calc(100% - var(--edge) + 2px), transparent calc(100% - var(--edge) + 18px));
-          mask-image: linear-gradient(90deg, transparent calc(var(--edge) - 18px), #000 calc(var(--edge) - 2px), #000 calc(100% - var(--edge) + 2px), transparent calc(100% - var(--edge) + 18px));
-}
-.hl__rail { display: flex; transform: translateX(calc(var(--k) * var(--ov, 0) * -1px)); }
-.hl__stage { background: var(--carbon); display: flex; flex-direction: column; justify-content: center; gap: 48px; padding-top: var(--chrome); }
+.hl__stage { background: var(--carbon); display: flex; flex-direction: column; justify-content: center; gap: 44px; padding-top: var(--chrome); }
 .hl__head { width: min(var(--w-media), 100% - 44px); margin-inline: auto; }
-.hl__rail {
-  width: max-content; height: min(56svh, 500px);
-  gap: 24px; padding-inline: var(--edge); align-items: stretch;
+.hl__body { display: flex; align-items: stretch; height: var(--hb); padding-left: var(--edge); }
+/* the watch sits in a black tile, like the cards beside it */
+.hl__watch { position: relative; flex: 0 0 var(--hb); }
+.hl__watch > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.hl__watch .face { --fx: 13.64%; --fy: 24.77%; --fw: 40.91%; --fh: 53.19%; --fsx: 0.77; }
+.hf { position: absolute; inset: 0; opacity: clamp(0, calc(1 - max(var(--k) - var(--i), var(--i) - var(--k)) * 2.4), 1); }
+.hf:nth-child(1) { --i: 0; } .hf:nth-child(2) { --i: 1; } .hf:nth-child(3) { --i: 2; }
+.hf__lbl { position: absolute; left: 0; right: 0; top: 25%; text-align: center; font-size: 6cqh; font-weight: 600; letter-spacing: 0.08em; color: var(--ash); }
+.hf__big { position: absolute; left: 0; right: 0; top: 34%; text-align: center; font-size: 27cqh; line-height: 1; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--porcelain); }
+.hf__big small { font-size: 0.42em; font-weight: 500; margin-left: 0.06em; }
+.hf__viz { position: absolute; left: 26%; width: 48%; top: 67%; height: 12%; overflow: visible; }
+.hf__viz .tr { fill: none; stroke: var(--signal); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.hf__viz .hy { fill: none; stroke: var(--ash); stroke-width: 2; stroke-linejoin: round; }
+.hf__viz .ar0 { fill: none; stroke: #1d1d1f; stroke-width: 5; stroke-linecap: round; }
+.hf__viz .ar1 { fill: none; stroke: var(--signal); stroke-width: 5; stroke-linecap: round; }
+.hl__track {
+  position: relative; flex: 1; min-width: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - var(--edge)), transparent calc(100% - var(--edge) + 40px));
+          mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - var(--edge)), transparent calc(100% - var(--edge) + 40px));
 }
-/* two whole cards fill the content column; the third waits in the masked gutter */
-.hl__card { flex: 0 0 calc((min(var(--w-media), 100vw - 44px) - 24px) / 2); display: flex; flex-direction: column; padding: 36px 40px 38px; }
+.hl__rail {
+  display: flex; gap: 24px; height: 100%; width: max-content; padding-left: 32px;
+  transform: translateX(calc(var(--k) * var(--step, 0px) * -1));
+}
+.hl__card { flex: 0 0 var(--cw, 600px); display: flex; flex-direction: column; padding: 36px 40px 38px; }
 .hl__viz { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
 .hl__viz svg { display: block; width: 100%; max-height: 100%; overflow: visible; }
 .hl__eye { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.43; color: var(--porcelain); font-weight: 600; }
@@ -284,12 +320,22 @@ section[id] { scroll-margin-top: calc(var(--chrome) + 12px); }
 .hl__card text { fill: var(--ash); font-size: 11px; font-family: var(--font); }
 .gauge .arc { fill: none; stroke: var(--porcelain); }
 .gauge .base { stroke: var(--steel); }
-
 @media (max-width: 734px) {
-  .hl__stage { gap: 28px; }
-  .hl__rail { height: 58svh; gap: 16px; }
-  .hl__card { flex-basis: calc(100vw - 44px); padding: 26px 24px 28px; }
-  .hl__num { font-size: 40px; }
+  .hl { --hb: 26svh; }
+  .hl__stage { gap: 16px; justify-content: flex-start; padding-top: calc(var(--chrome) + 2svh); }
+  .hl__head { font-size: 32px; line-height: 1.125; }
+  .hl__body { flex-direction: column; height: auto; padding-left: 0; gap: 16px; }
+  .hl__watch { flex: none; width: var(--hb); height: var(--hb); margin-inline: auto; }
+  .hl__track {
+    height: 36svh;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--edge), #000 calc(100% - var(--edge)), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 var(--edge), #000 calc(100% - var(--edge)), transparent 100%);
+  }
+  .hl__rail { padding-left: var(--edge); gap: 16px; }
+  .hl__card { padding: 22px 22px 22px; }
+  .hl__viz { margin-bottom: 12px; }
+  .hl__num { font-size: 32px; }
+  .hl__cap { margin-top: 4px; }
 }
 
 /* ---------------------------------------------------------- 5 · OUTDOOR --
@@ -332,7 +378,7 @@ html.rm .map__edge { display: none; }
   .map { height: 280px; --s: 0.5px; }
   .map .lbl { font-size: 12px; }
   .map .l2 { display: none; }
-  .out__stats { margin-top: 88px; }
+  .out__stats { display: none; }          /* same figures lead the spec section */
 }
 
 /* -------------------------------------------------------- 6 · FINISHES --
@@ -348,8 +394,11 @@ html.rm .map__edge { display: none; }
 .fin figcaption strong { display: block; font-size: 17px; color: var(--porcelain); }
 @media (max-width: 734px) {
   .fins__h { margin-bottom: 32px; }
-  .fins { grid-template-columns: 1fr; gap: 28px; width: min(340px, 100%); margin-inline: auto; }
-  .fin figcaption { margin-top: 12px; }
+  .fins { gap: 8px; }                     /* one row of three on phones too */
+  .fin__tile { border-radius: 16px; }
+  .fin__par { inset: 3%; }
+  .fin figcaption { margin-top: 10px; font-size: 12px; }
+  .fin figcaption strong { font-size: 14px; }
 }
 
 /* ----------------------------------------------------------- 7 · SPECS -- */
@@ -405,36 +454,39 @@ html.rm .bat__reads { grid-template-columns: auto auto; gap: 48px; justify-conte
 html.rm .bat__read:nth-child(2) { grid-area: 1 / 2; }
 html.rm .hl__stage { display: block; padding-block: var(--pad-section); }
 html.rm .hl__head { margin-bottom: 48px; }
-html.rm .hl__track { -webkit-mask-image: none; mask-image: none; }
-html.rm .hl__rail { transform: none; display: grid; width: auto; height: auto; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-html.rm .hl__card { min-height: 460px; }
+html.rm .hl__body { flex-direction: column; height: auto; gap: 32px; padding-left: 0; }
+html.rm .hl__watch { flex: none; width: var(--hb); height: var(--hb); margin-inline: auto; }
+html.rm .hl__track { -webkit-mask-image: none; mask-image: none; width: min(var(--w-media), 100% - 44px); margin-inline: auto; }
+html.rm .hl__rail { transform: none; display: grid; width: auto; height: auto; padding: 0; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+html.rm .hl__card { min-height: 420px; }
 @media (max-width: 734px) {
   html.rm .bat__reads { grid-template-columns: 1fr 1fr; gap: 20px; }
   html.rm .bat__stage { height: max(100svh, 860px); }
   html.rm .hl__rail { grid-template-columns: 1fr; }
-  html.rm .hl__card { min-height: 420px; }
+  html.rm .hl__card { min-height: 360px; }
 }
 </style>
 </head>
 <body data-nacar-manual>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <nav class="gnav" aria-label="Global"><div class="gnav__in">
   <a class="gnav__logo" href="index.html"><img src="brand/nacar-logo-horizontal.svg" alt="nácar" width="81" height="22"></a>
   <div class="gnav__links">
-    <a href="faro.html">Faro</a><a href="pulso.html" aria-current="page">Pulso</a><a href="onda.html">Onda</a><a href="#">Soporte</a>
+    <a href="faro.html">Faro</a><a href="pulso.html" aria-current="page">Pulso</a><a href="onda.html">Onda</a><a href="support.html">Soporte</a>
   </div>
-  <a class="gnav__bag" href="#" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
+  <a class="gnav__bag" href="buy.html" aria-label="Bag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 5h10l-.8 9H3.8z"/><path d="M5.5 5V4a2.5 2.5 0 015 0v1"/></svg></a>
 </div></nav>
 
 <nav class="lnav lnav--overlay" aria-label="Nácar Pulso">
   <span class="lnav__name">Nácar Pulso</span>
   <div class="lnav__right">
     <a href="#design">Design</a><a class="lnav__opt" href="#health">Health</a><a class="lnav__opt" href="#specs">Specs</a>
-    <a class="pill pill-buy pill-sm" href="#buy">Buy</a>
+    <a class="pill pill-buy pill-sm" href="buy.html#pulso">Buy</a>
   </div>
 </nav>
 
-<main>
+<main id="main" tabindex="-1">
 
   <!-- 1 · HERO · stillness. pin + raking light: one block above, the watch huge below it -->
   <section class="hero" id="top" data-sc-act="pin" data-sc-span="1.6">
@@ -443,7 +495,7 @@ html.rm .hl__card { min-height: 460px; }
       <div class="hero__rig">
         <picture>
           <source media="(max-width: 734px)" srcset="assets/pulso-front-cut-m.webp">
-          <img class="hero__watch" src="assets/pulso-front-cut.webp" width="1080" height="1200"
+          <img class="hero__watch" src="assets/pulso-front-cut.webp" width="1080" height="1200" fetchpriority="high" decoding="async"
                alt="Nácar Pulso: a rounded-octagon titanium case with a mother-of-pearl bezel and a pearl-capped crown, close up">
         </picture>
         <div class="hero__shade" aria-hidden="true"></div>
@@ -452,7 +504,7 @@ html.rm .hl__card { min-height: 460px; }
       <div class="hero__top">
         <h1 class="t-label hero__name">Nácar Pulso</h1>
         <p class="t-display hero__head">Three days off the grid.</p>
-        <p class="price-capsule">From ₹79,900 <a class="pill pill-buy" href="#buy">Buy</a></p>
+        <p class="price-capsule">From ₹79,900 <a class="pill pill-buy" href="buy.html#pulso">Buy</a></p>
       </div>
     </div>
   </section>
@@ -486,23 +538,23 @@ html.rm .hl__card { min-height: 460px; }
         </div>
         <div class="look__media">
           <figure class="shot on" id="shot-0" role="tabpanel" aria-labelledby="lk-0">
-            <img src="assets/pulso-case.webp" width="720" height="434" alt="Brushed flats and polished chamfers of the octagonal titanium case" style="object-position:50% 40%">
+            <img decoding="async" loading="lazy" src="assets/pulso-case.webp" width="720" height="434" alt="Brushed flats and polished chamfers of the octagonal titanium case" style="object-position:50% 40%">
             <figcaption class="t-small"><strong>49 mm</strong> · grade 5 titanium · 52 g</figcaption>
           </figure>
           <figure class="shot" id="shot-1" role="tabpanel" aria-labelledby="lk-1">
-            <img src="assets/pulso-bezel.webp" width="700" height="570" alt="The mother-of-pearl bezel ring catching the light at the edge of the case" style="object-position:50% 40%" loading="lazy">
+            <img decoding="async" src="assets/pulso-bezel.webp" width="700" height="570" alt="The mother-of-pearl bezel ring catching the light at the edge of the case" style="object-position:50% 40%" loading="lazy">
             <figcaption class="t-small"><strong>Mother-of-pearl inlay</strong> · sapphire cover</figcaption>
           </figure>
           <figure class="shot" id="shot-2" role="tabpanel" aria-labelledby="lk-2">
-            <img src="assets/pulso-crown-zoom.webp" width="700" height="410" alt="Macro of the knurled titanium crown with its pearl cabochon" style="object-position:50% 50%" loading="lazy">
+            <img decoding="async" src="assets/pulso-crown-zoom.webp" width="700" height="410" alt="Macro of the knurled titanium crown with its pearl cabochon" style="object-position:50% 50%" loading="lazy">
             <figcaption class="t-small"><strong>Knurled titanium</strong> · pearl cabochon</figcaption>
           </figure>
           <figure class="shot" id="shot-3" role="tabpanel" aria-labelledby="lk-3">
-            <img src="assets/pulso-display.webp" width="700" height="570" alt="The round display showing 10:09 inside the pearl ring" style="object-position:50% 50%" loading="lazy">
+            <img decoding="async" src="assets/pulso-display.webp" width="700" height="570" alt="The round display showing 10:09 inside the pearl ring" style="object-position:50% 50%" loading="lazy">
             <figcaption class="t-small"><strong>3,000 nits peak</strong> · 1 nit minimum</figcaption>
           </figure>
           <figure class="shot" id="shot-4" role="tabpanel" aria-labelledby="lk-4">
-            <img src="assets/pulso-band.webp" width="700" height="420" alt="Close-up of the ribbed black sport band" style="object-position:50% 50%" loading="lazy">
+            <img decoding="async" src="assets/pulso-band.webp" width="700" height="420" alt="Close-up of the ribbed black sport band" style="object-position:50% 50%" loading="lazy">
             <figcaption class="t-small"><strong>Fluoroelastomer</strong> · pin-and-tuck clasp</figcaption>
           </figure>
         </div>
@@ -514,7 +566,7 @@ html.rm .hl__card { min-height: 460px; }
   <section class="bat" id="battery" data-sc-act="pin" data-sc-span="2.6">
     <div data-sc-stage class="bat__stage">
       <div class="bat__dial">
-        <img src="assets/pulso-dial.webp" width="580" height="720"
+        <img decoding="async" loading="lazy" src="assets/pulso-dial.webp" width="580" height="720"
              alt="The Pulso dial and pearl crown, close up">
         <div class="face" aria-hidden="true">
           <div class="face__in">
@@ -554,11 +606,35 @@ html.rm .hl__card { min-height: 460px; }
     </div>
   </section>
 
-  <!-- 4 · HEALTH · care. pan on carbon; the heading holds, the cards travel -->
-  <section class="hl" id="health" data-sc-act="pin" data-sc-span="2.3">
+  <!-- 4 · HEALTH · care. pin: the watch holds, the cards travel, the face follows -->
+  <section class="hl" id="health" data-sc-act="pin" data-sc-span="2.6">
     <div data-sc-stage class="hl__stage">
-      <h2 class="t-hero hl__head">It knows how you slept<br class="br-d"> before you do.</h2>
-      <div class="hl__track"><div class="hl__rail">
+      <h2 class="t-hero hl__head">It knows how you slept before you do.</h2>
+      <div class="hl__body">
+        <div class="hl__watch tile">
+          <img src="assets/pulso-rest.webp" width="1100" height="1098" loading="lazy" decoding="async"
+               alt="Pulso on its band, its face showing the health reading that matches the card beside it">
+          <div class="face" aria-hidden="true">
+            <div class="face__in">
+              <div class="hf">
+                <p class="hf__lbl">HEART RATE</p>
+                <p class="hf__big">54<small>bpm</small></p>
+                <svg class="hf__viz" viewBox="0 0 100 24" preserveAspectRatio="none"><polyline class="tr" points="0,16 18,16 24,14 28,16 36,16 40,2 44,22 48,16 62,16 68,13 74,16 100,16"/></svg>
+              </div>
+              <div class="hf">
+                <p class="hf__lbl">SLEEP</p>
+                <p class="hf__big">7:42</p>
+                <svg class="hf__viz" viewBox="0 0 100 24" preserveAspectRatio="none"><polyline class="hy" points="0,4 6,4 6,16 14,16 14,22 30,22 30,16 40,16 40,10 48,10 48,16 56,16 56,22 66,22 66,16 76,16 76,10 84,10 84,4 88,4 88,16 100,16"/></svg>
+              </div>
+              <div class="hf">
+                <p class="hf__lbl">BLOOD OXYGEN</p>
+                <p class="hf__big">98<small>%</small></p>
+                <svg class="hf__viz" viewBox="0 0 100 24" preserveAspectRatio="xMidYMid meet"><path class="ar0" d="M30 22 A20 20 0 0 1 70 22"/><path class="ar1" d="M30 22 A20 20 0 0 1 70 22" pathLength="100" stroke-dasharray="80 100"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hl__track"><div class="hl__rail">
         <article class="hl__card tile">
           <div class="hl__viz">
             <svg class="ecg" viewBox="0 0 300 80" aria-hidden="true">
@@ -596,7 +672,8 @@ html.rm .hl__card { min-height: 460px; }
           <p class="hl__num">98%</p>
           <p class="hl__cap">A reading in 15 seconds, plus quiet checks as you sleep.</p>
         </article>
-      </div></div>
+        </div></div>
+      </div>
     </div>
   </section>
 
@@ -658,19 +735,19 @@ html.rm .hl__card { min-height: 460px; }
         <figure class="fin">
           <div class="tile fin__tile"><div class="fin__par" data-sc-parallax="0.3">
             <picture><source media="(max-width: 734px)" srcset="assets/pulso-finish-ti-m.webp">
-            <img src="assets/pulso-finish-ti.webp" width="1000" height="1100" loading="lazy" alt="Pulso in natural titanium with a black ribbed band"></picture></div></div>
+            <img decoding="async" src="assets/pulso-finish-ti.webp" width="1000" height="1100" loading="lazy" alt="Pulso in natural titanium with a black ribbed band"></picture></div></div>
           <figcaption><strong>Titanium</strong>Natural brushed grade 5</figcaption>
         </figure>
         <figure class="fin">
           <div class="tile fin__tile"><div class="fin__par" data-sc-parallax="-0.3">
             <picture><source media="(max-width: 734px)" srcset="assets/pulso-finish-gr-m.webp">
-            <img src="assets/pulso-finish-gr.webp" width="1000" height="1100" loading="lazy" alt="Pulso in dark Grafito titanium with a black ribbed band"></picture></div></div>
+            <img decoding="async" src="assets/pulso-finish-gr.webp" width="1000" height="1100" loading="lazy" alt="Pulso in dark Grafito titanium with a black ribbed band"></picture></div></div>
           <figcaption><strong>Grafito</strong>Dark PVD over titanium</figcaption>
         </figure>
         <figure class="fin">
           <div class="tile fin__tile"><div class="fin__par" data-sc-parallax="0.3">
             <picture><source media="(max-width: 734px)" srcset="assets/pulso-finish-na-m.webp">
-            <img src="assets/pulso-finish-na.webp" width="1000" height="1100" loading="lazy" alt="Pulso in pearl-toned Nácar titanium with a black ribbed band"></picture></div></div>
+            <img decoding="async" src="assets/pulso-finish-na.webp" width="1000" height="1100" loading="lazy" alt="Pulso in pearl-toned Nácar titanium with a black ribbed band"></picture></div></div>
           <figcaption><strong>Nácar</strong>Pearl-toned titanium</figcaption>
         </figure>
       </div>
@@ -705,11 +782,11 @@ html.rm .hl__card { min-height: 460px; }
   <section class="buy" id="buy" data-sc-act="pin" data-sc-span="1.35">
     <div data-sc-stage class="buy__stage">
       <picture><source media="(max-width: 734px)" srcset="assets/pulso-crown-m.webp">
-      <img class="buy__img" src="assets/pulso-crown.webp" width="1376" height="768" alt="" loading="lazy"></picture>
+      <img decoding="async" class="buy__img" src="assets/pulso-crown.webp" width="1376" height="768" alt="" loading="lazy"></picture>
       <div class="buy__copy">
         <h2 class="t-hero" data-sc-cue="0 1 0 0">The long way round starts here.</h2>
         <p class="t-body" data-sc-cue="0 1 0 0">Nácar Pulso from ₹79,900, or ₹6,658 a month for 12 months with no-cost EMI. In Titanium, Grafito or Nácar, with free engraving and delivery.</p>
-        <div class="buy__ctas" data-sc-cue="0 1 0 0"><a class="pill pill-buy pill-lg" href="#">Buy</a><a class="pill pill-ghost pill-lg" href="#">Compare</a></div>
+        <div class="buy__ctas" data-sc-cue="0 1 0 0"><a class="pill pill-buy pill-lg" href="buy.html#pulso">Buy</a><a class="pill pill-ghost pill-lg" href="compare.html#pulso">Compare</a></div>
       </div>
     </div>
   </section>
@@ -719,14 +796,14 @@ html.rm .hl__card { min-height: 460px; }
 <footer class="foot">
   <div class="foot__in">
     <div class="foot__brand">
-      <img src="brand/nacar-logo-stacked.svg" alt="nácar" width="79" height="96">
+      <img src="brand/nacar-logo-stacked.svg" alt="Nácar" width="79" height="96" loading="lazy" decoding="async">
       <p class="foot__note">Nácar is a fictional brand created as a design study. Product images: original renders.</p>
     </div>
     <div class="foot__cols">
-      <div><h4>Shop</h4><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
-      <div><h4>Explore</h4><a href="#">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
-      <div><h4>Support</h4><a href="#">Help</a><a href="#">Repairs</a><a href="#">Warranty</a></div>
-      <div><h4>Nácar</h4><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
+      <div><h2>Shop</h2><a href="faro.html">Nácar Faro</a><a href="pulso.html">Nácar Pulso</a><a href="onda.html">Nácar Onda</a></div>
+      <div><h2>Explore</h2><a href="compare.html">Compare</a><a href="#">Accessories</a><a href="#">Trade in</a></div>
+      <div><h2>Support</h2><a href="support.html#help">Help</a><a href="support.html#repairs">Repairs</a><a href="support.html#warranty">Warranty</a></div>
+      <div><h2>Nácar</h2><a href="#">About</a><a href="#">Stores</a><a href="#">Contact</a></div>
     </div>
     <p>Copyright © 2026 Nácar. All rights reserved. · India</p>
   </div>
@@ -739,6 +816,13 @@ html.rm .hl__card { min-height: 460px; }
    scrubbed by flow progress and land mid-count. Drop them so the markup's
    final values (72, 144) stand, then mount. */
 (function () {
+  /* Phone budget (<= 11 screens at 390x844): shorter pins, same beats, the
+     battery peak still the longest. Read once at mount. */
+  if (matchMedia('(max-width: 734px)').matches) {
+    [['#top', 1.2], ['#battery', 2.0], ['#health', 1.6], ['#buy', 1.2]].forEach(function (a) {
+      var el = document.querySelector(a[0]); if (el) el.setAttribute('data-sc-span', a[1]);
+    });
+  }
   if (Nacar.reduce) {
     [].forEach.call(document.querySelectorAll('.bat [data-sc-count]'), function (c) {
       c.removeAttribute('data-sc-count'); c.removeAttribute('data-sc-count-at');
@@ -747,12 +831,20 @@ html.rm .hl__card { min-height: 460px; }
   Nacar.mount();
 })();
 
-/* Health rail: publish its overflow so the CSS travel lands the last card
-   flush with the right column edge. */
+/* Health rail: one card per view. Publish the card width (the rail viewport
+   less its left fade and the right gutter) and the step between cards. */
 (function () {
-  var sec = document.querySelector('.hl'), rail = sec && sec.querySelector('.hl__rail');
-  if (!rail) return;
-  function measure() { sec.style.setProperty('--ov', Math.max(0, rail.scrollWidth - document.documentElement.clientWidth)); }
+  var sec = document.querySelector('.hl'); if (!sec) return;
+  var track = sec.querySelector('.hl__track'), rail = sec.querySelector('.hl__rail');
+  var small = matchMedia('(max-width: 734px)');
+  function measure() {
+    var gutter = small.matches ? 22 : Math.max(22, (document.documentElement.clientWidth - 1260) / 2);
+    var padL = parseFloat(getComputedStyle(rail).paddingLeft) || 0;
+    var gap = parseFloat(getComputedStyle(rail).columnGap) || 24;
+    var cw = Math.round(track.clientWidth - padL - gutter);
+    sec.style.setProperty('--cw', cw + 'px');
+    sec.style.setProperty('--step', (cw + gap) + 'px');
+  }
   measure();
   addEventListener('resize', measure);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
