@@ -90,15 +90,22 @@ html { scroll-padding-top: calc(var(--chrome) + 12px); }  /* focused controls ne
   .hero__sub { font-size: 17px; line-height: 1.47; }
 }
 
-/* ----------------------------------------------------------- 2 · INTRO --
-   Exactly one viewport, content centred.                                 */
-.intro { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--chrome) + 24px) 72px; }
-.intro__lede { color: var(--ash); max-width: 34em; }
-.intro__lede strong { color: var(--porcelain); }
-.intro__stats { margin-top: 96px; max-width: 820px; }
+/* ------------------------------------------------------------- 2 · FIT --
+   The lifestyle beat, in place of the old text-only intro (its two stats
+   repeated the hero's 3x and the peak's 48,000). One viewport: the ear in a
+   contained tile (820px, under the 1024px render) wiped in left to right,
+   the line and the intro's remaining facts beside it.                     */
+.fit { min-height: 100svh; display: flex; align-items: center; padding-block: calc(var(--chrome) + 24px) 56px; }
+.fit__grid { display: grid; grid-template-columns: minmax(0, 820px) minmax(0, 1fr); gap: 56px; align-items: center; }
+.fit__tile { aspect-ratio: 1024 / 572; }
+.fit__tile img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.fit__copy { display: flex; flex-direction: column; gap: 20px; }
+.fit__copy .t-body { color: var(--ash); max-width: 26em; }
+.fit__copy .t-body strong { color: var(--porcelain); font-weight: 600; }
 @media (max-width: 734px) {
-  .intro { padding-block: calc(var(--chrome) + 16px) 48px; }
-  .intro__stats { margin-top: 56px; }
+  .fit { padding-block: calc(var(--chrome) + 20px) 40px; }
+  .fit__grid { grid-template-columns: 1fr; gap: 24px; }
+  .fit__copy { gap: 14px; }
 }
 
 /* ------------------------------------------------------------ 3 · PEAK --
@@ -394,11 +401,11 @@ html { scroll-padding-top: calc(var(--chrome) + 12px); }  /* focused controls ne
 .bat__head { margin-bottom: 56px; }
 .bat .stats { grid-template-columns: repeat(2, 1fr); gap: 40px 32px; }
 .bat__fig { height: min(calc(100svh - var(--chrome) - 140px), 640px); }
-/* The whole open case, drawn below native size (86% of the tile is 550px
-   of a 768px render at 1440x900), its centre on the tile's centre.      */
+/* The closed case, pearl band lit: drawn below native size (86% of the tile
+   is 550px of the 572px render at 1440x900), its body on the tile centre. */
 .bat__fig img {
   position: absolute; left: 50%; top: 50%; height: 86%; width: auto; max-width: none;
-  transform: translate(-50.65%, -54%);
+  transform: translate(-49.4%, -50%);
 }
 @media (max-width: 734px) {
   .bat__grid { grid-template-columns: 1fr; gap: 28px; }
@@ -525,13 +532,17 @@ html.lite .ctl__rail { gap: 14px; }   /* the next card peeks into the soft right
     </div>
   </section>
 
-  <!-- 2 · INTRO · curiosity. flow + entry counters -->
-  <section class="intro section band" id="overview">
-    <div class="wrap-wide">
-      <p class="t-subtitle intro__lede" data-sc-in>Meet Nácar Onda. <strong>Our most effective noise cancellation yet</strong>, run by a chip that answers every sound around you with its exact opposite. <strong>Softer, deeper-sealing tips</strong> close the gaps other earbuds leave open, and <strong>six beam-forming microphones</strong> keep your voice clear on the loudest street. On the outside, <strong>a disc of polished mother-of-pearl</strong> marks each bud. Nácar, after all, means pearl.</p>
-      <div class="stats stats--2 intro__stats" data-sc-in data-sc-stagger="80">
-        <div class="stat"><p class="eyebrow">Cancels up to</p><p class="num"><span data-sc-count="0 3">3</span>× more</p><p class="cap">low-frequency noise than our previous earbuds</p></div>
-        <div class="stat"><p class="eyebrow">Retunes itself</p><p class="num"><span data-sc-count="0 48,000">48,000</span></p><p class="cap">times a second as the world around you changes</p></div>
+  <!-- 2 · FIT · intimacy. flow + reveal: the bud, worn -->
+  <section class="fit" id="fit" data-sc-act="flow">
+    <div class="wrap-wide fit__grid">
+      <figure class="tile fit__tile" data-sc-reveal="left" data-sc-reveal-at="0.12 0.42">
+        <picture><source media="(max-width: 734px)" srcset="assets/onda-ear-m.webp">
+          <img src="assets/onda-ear.webp" width="1024" height="572" loading="lazy" decoding="async"
+               alt="Close profile of an ear wearing an Onda bud in low studio light, its mother-of-pearl disc catching the light"></picture>
+      </figure>
+      <div class="fit__copy" data-sc-in data-sc-stagger="70">
+        <h2 class="t-headline">Barely there.<br> Always on.</h2>
+        <p class="t-body"><strong>Softer, deeper-sealing tips</strong> close the gaps other earbuds leave open, so the quiet stays in and the bud stays put. Outside, <strong>a disc of polished mother-of-pearl</strong> marks each one. Nácar, after all, means pearl.</p>
       </div>
     </div>
   </section>
@@ -688,9 +699,9 @@ html.lite .ctl__rail { gap: 14px; }   /* the next card peeks into the soft right
       </div>
       </div>
       <figure class="tile bat__fig" data-sc-in>
-        <picture><source media="(max-width: 734px)" srcset="assets/onda-case-m.webp">
-        <img decoding="async" src="assets/onda-case-sharp.webp" width="1376" height="768" loading="lazy"
-             alt="The open Onda case: both buds seated, a thin line of mother-of-pearl along the seam"></picture>
+        <picture><source media="(max-width: 734px)" srcset="assets/onda-case-closed-m.webp">
+        <img decoding="async" src="assets/onda-case-closed.webp" width="1024" height="572" loading="lazy"
+             alt="The closed Onda case, a band of mother-of-pearl glowing along its seam"></picture>
       </figure>
     </div>
   </section>

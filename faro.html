@@ -327,26 +327,28 @@ html.rm .turn__rm img { width: auto; height: min(64svh, 560px); }
 }
 
 /* ---------------------------------------------------------- 5 · CAMERA --
-   One heading, one big lens image, one row of hairline stat blocks.     */
+   One heading, one real macro of the tower (a 28px tile, never wider than
+   its 840px source), one row of hairline stat blocks. Desktop: image left,
+   copy right, stats under both, all in one 1440x900 frame.              */
 .cam { padding-block: var(--pad-section); }
+.cam__row {
+  display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 56px; align-items: center;
+}
+.cam__head { order: 2; }
 .cam__head .t-label { margin-bottom: 10px; }
-.cam__head .t-lede { max-width: 46em; margin-top: 18px; }
+.cam__head .t-lede { margin-top: 18px; }
 .cam__visual {
-  position: relative; margin-top: 28px; height: clamp(300px, calc(100svh - var(--chrome) - 450px), 520px); overflow: hidden;
-  -webkit-mask-image: radial-gradient(closest-side, #000 66%, transparent 100%);
-          mask-image: radial-gradient(closest-side, #000 66%, transparent 100%);
+  order: 1; margin: 0; max-width: 840px; width: 100%; aspect-ratio: 840 / 572;
+  border-radius: var(--r-tile); overflow: hidden; background: var(--obsidian);
 }
-.cam__visual img {
-  position: absolute; max-width: none;
-  height: 540%; left: 50%; top: 50%;
-  transform: translate(-45.6%, -24.4%);
-}
-.cam__stats { margin-top: 36px; }
+.cam__visual img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cam__stats { margin-top: 44px; }
 .cam__stats .num small { font-size: 0.42em; letter-spacing: 0; }
 @media (max-width: 734px) {
-  .cam__visual { height: 96vw; margin-top: 32px; }
-  .cam__visual img { height: 420%; }
-  .cam__stats { margin-top: 44px; }
+  .cam__row { grid-template-columns: 1fr; gap: 28px; }
+  .cam__head, .cam__visual { order: 0; }
+  .cam__stats { margin-top: 36px; }
 }
 
 /* -------------------------------------------------------- 6 · FINISHES -- */
@@ -410,6 +412,21 @@ html.rm .turn__rm img { width: auto; height: min(64svh, 560px); }
   .fam__stage { width: 118%; margin-left: -9%; }
 }
 
+/* ----------------------------------------------------------- 7b · NIGHT --
+   A lifestyle breath before the buy: one line, one photograph in a 28px
+   tile (never wider than 1000px: the source is 1024px). The photo drifts
+   slowly inside its tile (engine parallax on a flow act), no pin.        */
+.night { padding-block: calc(var(--pad-section) * 0.6) var(--pad-section); }
+.night__h { text-align: center; margin-bottom: 36px; }
+.night__tile { width: min(1000px, 100% - 44px); margin: 0 auto; aspect-ratio: 1024 / 572; }
+.night__par { position: absolute; inset: -7% 0; }
+.night__par img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+@media (max-width: 734px) {
+  .night { padding-block: 40px 48px; }
+  .night__h { margin-bottom: 20px; }
+  .night__tile { aspect-ratio: 5 / 4; }
+}
+
 /* ------------------------------------------------------------- 8 · BUY --
    The page stops. Copy holds; the phone settles to rest.                 */
 .buy { --p: var(--sc-p, 0); }
@@ -434,11 +451,11 @@ html.rm .turn__rm img { width: auto; height: min(64svh, 560px); }
    Tighter section air and slightly smaller media on phones (with the shorter
    pins set in the page script) keep the page near 11 screens at 390x844. */
 @media (max-width: 734px) {
-  .cam { padding-block: 72px; }
+  .cam { padding-block: 56px; }
   .cam__visual { height: 82vw; }
-  .fin.section { padding-block: 72px; }
-  .fin__tile { height: 100vw; min-height: 0; }
-  .fam { padding-block: 72px 24px; }
+  .fin.section { padding-block: 56px; }
+  .fin__tile { height: 88vw; min-height: 0; }
+  .fam { padding-block: 56px 16px; }
 }
 
 /* --------------------------------------------------- MOTION OFF (html.rm) --
@@ -587,15 +604,18 @@ html.rm .mat__track { -webkit-mask-image: none; mask-image: none; }
 
   <!-- 5 · CAMERA · capability. heading, one lens image, hairline stat row (entry counters) -->
   <section class="cam fade-band" id="camera">
-    <div class="wrap-wide cam__head" data-sc-in data-sc-stagger="70">
-      <p class="t-label muted">Camera</p>
-      <h2 class="t-hero">A camera worth the tower.</h2>
-      <p class="t-lede">Three lenses in one titanium tower. The main camera has <strong>an aperture that opens and closes with the light</strong>, from ƒ/1.4 at night to ƒ/4.0 for a valley in focus.</p>
+    <div class="wrap-wide cam__row">
+      <div class="cam__head" data-sc-in data-sc-stagger="70">
+        <p class="t-label muted">Camera</p>
+        <h2 class="t-hero">A camera worth the tower.</h2>
+        <p class="t-lede">Three lenses in one titanium tower. The main camera has <strong>an aperture that opens and closes with the light</strong>, from ƒ/1.4 at night to ƒ/4.0 for a valley in focus.</p>
+      </div>
+      <figure class="cam__visual">
+        <picture><source media="(max-width: 734px)" srcset="assets/faro-macro-camera-m.webp">
+        <img src="assets/faro-macro-camera.webp" width="840" height="572" loading="lazy" decoding="async"
+             alt="Extreme close up of Faro's round titanium camera tower: three lenses set in brushed metal, ringed by a thin line of light"></picture>
+      </figure>
     </div>
-    <figure class="wrap-wide cam__visual">
-      <img src="assets/faro-back.webp" width="2400" height="1340" loading="lazy"
-           alt="Close up of Faro's round titanium camera tower: three lenses, a flash and a sensor ringed by machined grooves" decoding="async">
-    </figure>
     <div class="wrap-wide stats stats--4 cam__stats" data-sc-in data-sc-stagger="80">
       <div class="stat"><p class="eyebrow">Main camera</p><p class="num"><span data-sc-count="0 50" data-sc-count-ms="1200">50</span><small>MP</small></p><p class="cap">Variable aperture from ƒ/1.4 to ƒ/4.0</p></div>
       <div class="stat"><p class="eyebrow">Telephoto</p><p class="num"><span data-sc-count="0 5" data-sc-count-ms="1200">5</span><small>×</small></p><p class="cap">Optical zoom at 120 mm, sharp at night</p></div>
@@ -647,6 +667,18 @@ html.rm .mat__track { -webkit-mask-image: none; mask-image: none; }
     </div>
   </section>
 
+  <!-- 7b · NIGHT · lifestyle breath: one line, one photograph, slow drift -->
+  <section class="night" id="night" data-sc-act="flow">
+    <h2 class="t-headline night__h wrap" data-sc-in>Made for the hours after dark.</h2>
+    <figure class="tile night__tile">
+      <div class="night__par" data-sc-parallax="-0.7">
+        <picture><source media="(max-width: 734px)" srcset="assets/faro-hand-night-m.webp">
+        <img src="assets/faro-hand-night.webp" width="1024" height="572" loading="lazy" decoding="async"
+             alt="A hand holding Faro up on a city street at night, warm lights blurred behind it and the pearl disc glowing"></picture>
+      </div>
+    </figure>
+  </section>
+
   <!-- 8 · BUY · resolution. short pin, copy holds -->
   <section class="buy" id="buy" data-sc-act="pin" data-sc-span="1.35">
     <div data-sc-stage class="buy__stage">
@@ -686,7 +718,7 @@ html.rm .mat__track { -webkit-mask-image: none; mask-image: none; }
    The peak keeps the longest span on the page. */
 (function () {
   if (matchMedia('(max-width: 734px)').matches) {
-    var spans = { display: '2.2', pearl: '2.4', design: '1.5', buy: '1.2' };
+    var spans = { display: '2.1', pearl: '2.25', design: '1.4', buy: '1.2' };
     Object.keys(spans).forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.setAttribute('data-sc-span', spans[id]);
@@ -758,9 +790,9 @@ html.rm .mat__track { -webkit-mask-image: none; mask-image: none; }
     var m = small.matches;
     // phase windows, in screens of scroll
     var hand = m ? win(u, 0.02, 0.42) : win(u, 0.04, 0.55);
-    var turn = m ? win(u, 0.36, 0.98) : win(u, 0.5, 1.4);
+    var turn = m ? win(u, 0.34, 0.92) : win(u, 0.5, 1.4);
     var shift = m ? 0 : win(u, 1.2, 1.42);
-    var copy = m ? win(u, 0.96, 1.12) : win(u, 1.38, 1.56);
+    var copy = m ? win(u, 0.9, 1.04) : win(u, 1.38, 1.56);
     paint({
       s: Math.min(-rc.top, T * vh) < 0 ? 0 : Math.min(-rc.top, T * vh),
       hp: m ? win(u, 0, 0.4) : win(u, 0, 0.55),
